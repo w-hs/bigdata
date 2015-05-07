@@ -1,0 +1,6 @@
+/doku/*.aux
+/doku/*.out
+/doku/*.toc
+/doku/*.bcf
+/doku/Ausarbeitung.run.xml
+/doku/Ausarbeitung.synctex.gz
