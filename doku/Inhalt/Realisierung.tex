@@ -1,4 +1,30 @@
 \section{Implementierung}
+
+Die Implementierung erfolgt iterativ. D.h. wir entwickeln unterschiedliche ggf. aufeinander aufbauende Lösungen
+und versuchen uns mit jedem Versuch zu verbessern. Unseren Fortschritt messen wir, indem wir in jeder
+Iteration ein einreichbares Ergebnis erzeugen. Die Bewertung erfolgt somit über einen internen Algorithmus
+von Kaggle.
+
+\subsection{Iteration 0}
+
+Als Erstes wollen wir eine Grundlage zur Bewertung folgender Versuche schaffen und das Einreichen einer
+Lösung bei Kaggle üben. Dazu erzeugen wir eine Datei, die jedem Kunden die Kaufwahrscheinlichkeit 0\%
+zuordnet. Hierzu verwenden wir eine rudimentäre Hive-Abfrage.
+
+\begin{lstlisting}[language=SQL]
+SELECT DISTINCT(h.id) AS id, 
+       0.0            AS repeatProbability 
+FROM test_history h
+\end{lstlisting}
+
+Die Bewertung von Kaggle sieht wie folgt aus:
+
+\begin{tabular}{|c|c|}
+	\hline \textbf{Platzierung} & \textbf{Bewertung} \\ 
+	\hline 932 & 0.50000  \\ 
+	\hline 
+\end{tabular}
+
 \subsection{Iteration 1}
 \subsection{Amazon Web Services}
 \subsection{Iteration 2}
