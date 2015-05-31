@@ -33,7 +33,7 @@ Wiederkaufwahrscheinlichkeit 1 zu. Allen anderen Kunden wird die Wahrscheinlichk
 Wir bestimmen die Kunden mit einer Wahrscheinlichkeit von 1 über folgende Hive-Abfrage:
 \begin{lstlisting}[language=SQL]
 SELECT DISTINCT h.id, 1.0 AS repeatProbability
-  FROM test_history h INNER JOIN offers o ON (h.offer = o.offer)
+FROM test_history h INNER JOIN offers o ON (h.offer = o.offer)
 INNER JOIN transactions t ON (t.id = h.id)
 WHERE t.category = o.category
 \end{lstlisting}
@@ -62,7 +62,7 @@ eine Wahrscheinlichkeit von 0 zugeordnet.
 
 \begin{lstlisting}[language=SQL]
 SELECT DISTINCT h.id, 1.0 AS repeatProbability
-  FROM test_history h INNER JOIN offers o ON (h.offer = o.offer)
+FROM test_history h INNER JOIN offers o ON (h.offer = o.offer)
 INNER JOIN transactions t ON (t.id = h.id)
 WHERE t.category = o.category
   AND t.company = o.company
@@ -95,11 +95,11 @@ Ergänzung zu der Datei, die die Eingabe für Vorpal Wabbit erzeugt:
 \begin{lstlisting}[language=Python]
 # Negative Features erzeugen, wenn nichts gekauft wurde
 if len(row['b_tx_count']) == 0:
-output += ' b_never:1'
+	output += ' b_never:1'
 if len(row['co_tx_count']) == 0:
-output += ' co_never:1'
+	output += ' co_never:1'
 if len(row['ca_tx_count']) == 0:
-output += ' ca_never:1'
+	output += ' ca_never:1'
 \end{lstlisting}
 
 \begin{tabular}{|c|c|}

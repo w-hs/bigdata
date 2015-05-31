@@ -15,8 +15,8 @@ samplesFile = open('sampleSubmission.csv', 'r')
 samplesFile.readline()
 samples = { }
 for line in samplesFile:
-id, prob = line.split(',', 1)
-samples[id] = prob
+	id, prob = line.split(',', 1)
+	samples[id] = prob
 
 # Erste Zeile ignorieren
 sys.stdin.readline()
@@ -24,13 +24,13 @@ sys.stdin.readline()
 sys.stdout.write("id,repeatProbability\n")
 
 for line in sys.stdin:
-id, prob = line.split(',', 1)
-if (id in samples):
-del samples[id]
-sys.stdout.write(id + ',' + prob)
+	id, prob = line.split(',', 1)
+	if (id in samples):
+		del samples[id]
+	sys.stdout.write(id + ',' + prob)
 
-for id in samples:
-sys.stdout.write(id + ',' + samples[id])
+	for id in samples:
+		sys.stdout.write(id + ',' + samples[id])
 \end{lstlisting}
 
 \section{features-to-vw.py}
@@ -43,23 +43,23 @@ import csv
 
 input = csv.DictReader(sys.stdin, delimiter=',')
 for row in input:
-# Ausgabe beginnt mit der Klassifizierung:
-# hat gekauft (1), hat nicht gekauft (0) oder unbekannt (0.5)
-output = '0.5'
-if row['repeater'] == 't':
-output = '1'
-elif row['repeater'] == 'f':
-output = '0'
+	# Ausgabe beginnt mit der Klassifizierung:
+	# hat gekauft (1), hat nicht gekauft (0) oder unbekannt (0.5)
+	output = '0.5'
+	if row['repeater'] == 't':
+		output = '1'
+	elif row['repeater'] == 'f':
+		output = '0'
 
-# Customer ID eintragen und Feature-Liste beginnen
-output += ' \'' + row['id'] + ' |f'
+	# Customer ID eintragen und Feature-Liste beginnen
+	output += ' \'' + row['id'] + ' |f'
 
-# Spalten in Features übersetzen
-for key in row:
-if key != 'id' and  key != 'repeater' and len(row[key]) > 0:
-output += ' ' + key + ':' + row[key]
+	# Spalten in Features übersetzen
+	for key in row:
+		if key != 'id' and  key != 'repeater' and len(row[key]) > 0:
+			output += ' ' + key + ':' + row[key]
 
-print(output)
+	print(output)
 \end{lstlisting}
 
 \section{vw-preds-to-csv.py}
@@ -69,16 +69,17 @@ print(output)
 
 import sys
 
-# Das Ergebnis von Vorpal Wabbit gibt ein Paar aus Wahrscheinlichkeit
-# und Kunden-ID pro Zeile und durch ein Leerzeichen getrennt aus.
+# Das Ergebnis von Vorpal Wabbit gibt ein Paar aus 
+# Wahrscheinlichkeit und Kunden-ID pro Zeile und durch ein
+# Leerzeichen getrennt aus.
 # Dieses Programm konviertiert diese Format in da von Kaggle
 # geforderte CSV-Format.
 
 print('id,repeatProbability')
 
 for line in sys.stdin:
-prob, id = line.split(' ', 1)
-print(id[:-1] + ',' + prob)
+	prob, id = line.split(' ', 1)
+	print(id[:-1] + ',' + prob)
 \end{lstlisting}
 	
 	
