@@ -18,8 +18,16 @@ for row in input:
 	# Customer ID eintragen und Feature-Liste beginnen
 	output += ' \'' + row['id'] + ' |f'
 	
+	# Spalten in Features übersetzen
 	for key in row:
 		if key != 'id' and  key != 'repeater' and len(row[key]) > 0:
 			output += ' ' + key + ':' + row[key]
+			
+	if len(row['b_tx_count']) == 0:
+		output += ' b_never:1'
+	if len(row['co_tx_count']) == 0:
+		output += ' co_never:1'
+	if len(row['ca_tx_count']) == 0:
+		output += ' ca_never:1'
 		
 	print(output)
