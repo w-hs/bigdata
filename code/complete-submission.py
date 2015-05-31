@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+# Diese Skript vervollständigt eine Kaggle-Einreichung.
+# Fehlenden Kunden wird eine Wahrscheinlichkeit von 0 
+# zugeordnet.
+# Die Datei sampleSubmissions.csv muss sich im aktuellen 
+# Verzeichnis befinden
+
 import sys
 
 samplesFile = open('sampleSubmission.csv', 'r')
@@ -9,13 +15,12 @@ for line in samplesFile:
 	id, prob = line.split(',', 1)
 	samples[id] = prob
 
-# Ignore first line
+# Erste Zeile ignorieren
 sys.stdin.readline()
-# And print the desired headline
+# Und die geforderte Kopfzeile ausgeben
 sys.stdout.write("id,repeatProbability\n")
 
 for line in sys.stdin:
-	# Remove the quotes, because Kaggle does not want them
 	id, prob = line.split(',', 1)
 	if (id in samples):
 		del samples[id]
