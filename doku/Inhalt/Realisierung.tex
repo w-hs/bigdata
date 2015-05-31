@@ -81,9 +81,34 @@ Bevor wir das Ergebnis einreichen, verwenden wir das Skript zum Vervollständige
 
 Feature-Engineering: Nur positive Features
 
+\begin{tabular}{|c|c|}
+	\hline \textbf{Platzierung} & \textbf{Bewertung} \\ 
+	\hline 499 & 0.58051  \\ 
+	\hline 
+\end{tabular}
+
 \subsection{Iteration 4}
 
 Feature-Engineerung: Jetzt auch negative Features
+
+Ergänzung zu der Datei, die die Eingabe für Vorpal Wabbit erzeugt:
+\begin{lstlisting}[language=Python]
+# Negative Features erzeugen, wenn nichts gekauft wurde
+if len(row['b_tx_count']) == 0:
+output += ' b_never:1'
+if len(row['co_tx_count']) == 0:
+output += ' co_never:1'
+if len(row['ca_tx_count']) == 0:
+output += ' ca_never:1'
+\end{lstlisting}
+
+\begin{tabular}{|c|c|}
+	\hline \textbf{Platzierung} & \textbf{Bewertung} \\ 
+	\hline 344 & 0.58786  \\ 
+	\hline 
+\end{tabular}
+
+Besser als die im letzten Jahr: 452 0.58519
 
 \subsection{Amazon Web Services}
 \subsection{Iteration 2}
