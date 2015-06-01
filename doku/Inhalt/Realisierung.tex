@@ -26,7 +26,7 @@ Die Bewertung von Kaggle sieht wie folgt aus:
 
 \subsection{Iteration 1}
 
-Im nächsten Schritt wollen wir die den ersten "`Prior Category Benchmark"' von Kaggle implementieren.
+Im nächsten Schritt wollen wir den ersten "`Prior Category Benchmark"' von Kaggle implementieren.
 Dieser Benchmark ordnet Kunden, die bereits ein Produkt der Angebotskategorie gekauft haben, die
 Wiederkaufwahrscheinlichkeit 1 zu. Allen anderen Kunden wird die Wahrscheinlichkeit 0 zugeordnet.
 
@@ -41,7 +41,7 @@ WHERE t.category = o.category
 Um das Ergebnis bei Kaggle einzureichen, fehlen noch die Kunden mit einer Wahrscheinlichkeit von 0.
 Um diese hinzuzufügen wurde ein Python-Skript entwickelt, dass eine unvollständige Einreichung
 um die fehlenden Einträge erweitert. Für diese Kunden wird eine Wahrscheinlichkeit von 0 eingetragen.
-Diese Skript (s. Anhang \ref{code:complete-submission}) kann in weiteren Iterationen verwendet werden,
+Dieses Skript (s. Anhang \ref{code:complete-submission}) kann in weiteren Iterationen verwendet werden,
 um sicher zu stellen, dass das Ergebnis vollständig ist und die Überprüfung von Kaggle übersteht. 
 
 Die Bewertung von Kaggle ergibt wie erwartet:
