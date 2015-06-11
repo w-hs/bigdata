@@ -279,6 +279,25 @@ empty]{\ifthenelse{\equal{#1}{\empty}}{\citep{#2}}{\citep[#1]{#2}}}
     basicstyle=\ttfamily\small,
 }
 
+\lstdefinestyle{hive}
+{
+    language=SQL,
+    captionpos=b,
+    %numbers=left, %Nummerierung
+    %numberstyle=\tiny, % kleine Zeilennummern
+    showspaces=false,
+    showtabs=false,
+    breaklines=true,
+    showstringspaces=false,
+    breakatwhitespace=true,
+    escapeinside={(*@}{@*)},
+    commentstyle=\color{greencomments},
+    morekeywords={bigint, double, decimal, char, string, row, format, lines, location},
+    keywordstyle=\color{bluekeywords},
+    stringstyle=\color{redstrings},
+    basicstyle=\ttfamily\small,
+}
+
 \lstdefinestyle{xml}
 {
     language=XML,
