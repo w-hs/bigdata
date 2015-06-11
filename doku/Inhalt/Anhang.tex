@@ -1,3 +1,48 @@
+\section{Hive-Abfragen}
+
+\subsection{Kunden-Daten}
+\begin{lstlisting}[language=SQL]
+CREATE TABLE customers AS 
+(
+  SELECT te.id, te.offer, te.offerdate
+    FROM test_history te
+  UNION
+  SELECT tr.id, tr.offer, tr.offerdate
+    FROM train_history tr 
+)
+\end{lstlisting}
+
+\subsection{Transaktionen gefiltert nach Marke, Unternehmen oder Kategorie}
+\label{sql:filtered_tx}
+\begin{lstlisting}[language=SQL]
+-- Gefiltert nach Marke (brand)
+CREATE TABLE filtered_tx_brand AS
+  SELECT t.id, t.purchasequantity, t.purchaseamount, 
+         (c.offerdate - t.date) AS daysbefore 
+  FROM filtered_transactions t 
+  INNER JOIN customers c ON (t.id = c.id)
+  INNER JOIN offers o ON (c.offer = o.offer)
+  WHERE o.brand = t.brand
+  
+-- Gefiltert nach Unternehmen (company)
+CREATE TABLE filtered_tx_company AS
+  SELECT t.id, t.purchasequantity, t.purchaseamount, 
+         (h.offerdate - t.date) AS daysbefore 
+  FROM filtered_transactions t 
+  INNER JOIN test_history h ON (t.id = h.id)
+  INNER JOIN offers o ON (h.offer = o.offer)
+  WHERE o.company = t.company
+  
+-- Gefiltert nach Kategorie (category)
+CREATE TABLE filtered_tx_category AS
+  SELECT t.id, t.purchasequantity, t.purchaseamount, 
+         (c.offerdate - t.date) AS daysbefore 
+  FROM filtered_transactions t 
+  INNER JOIN customers c ON (t.id = c.id)
+  INNER JOIN offers o ON (c.offer = o.offer)
+  WHERE o.category = t.category
+\end{lstlisting}
+
 \section{complete-submission.py}
 \label{code:complete-submission}
 \begin{lstlisting}[language=Python]
