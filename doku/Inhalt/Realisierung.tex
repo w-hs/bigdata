@@ -85,6 +85,50 @@ Bevor wir das Ergebnis einreichen, verwenden wir das Skript zum Vervollständige
 
 \subsubsection{Iteration 3}
 
+Nachdem wir in den vorherigen Iterationen die vorgegeben Benchmarks von Kaggle implementiert haben,
+wollen wir jetzt ein richtiges Data-Mining-Verfahren verwenden. Dazu ermitteln wir im ersten Schritt
+auf Basis der Transaktionsdaten Features für jeden Kunden. Bei der Wahl der Features orientieren
+wir uns an den Ergebnissen von einem Kaggle-Nutzer (\url{http://mlwave.com/predicting-repeat-buyers-vowpal-wabbit/}).
+
+Folgende Merkmale werden jeweils für die Marke (brand), das Unternehmen (company) und die Kategorie (category)
+des angebotenen Coupons (offer) ermittelt:
+\begin{itemize}
+	\item Wie oft hat der Kunde in den letzen 30, 60, 90 und 180 Tagen gekauft? (Transaktionszahl)
+	\item Wie viel hat der Kunde in den letzen 30, 60, 90 und 180 Tagen gekauft? (Anzahl gekaufter Produkte)
+	\item Für wie viel Geld hat der Kunde in den letzen 30, 60, 90 und 180 Tagen gekauft? (Kosten)
+\end{itemize}
+
+Die Features werden über eine Reihe von Hive-Abfragen erstellt. Um die Zwischenergebnisse auch für
+weitere Iterationen nutzen zu können, legen wir Tabellen mit den Ergebnissen an. Das erlaubt zusätzlich
+einen strukturierten Aufbau der Merkmale.
+
+Da die Kunden-Daten verteilt über die \texttt{train\_history} und die \texttt{test\_history} sind, 
+bilden wir zuerst die Vereinigung der Kunden-Daten:
+\begin{lstlisting}[language=SQL]
+CREATE TABLE customers AS 
+(
+  SELECT te.id, te.offer, te.offerdate
+    FROM test_history te
+  UNION
+  SELECT tr.id, tr.offer, tr.offerdate
+    FROM train_history tr 
+)
+\end{lstlisting}
+Danach ermitteln wir die Transaktionsdaten, die sich jeweils auf die Marke, das Unternehmen oder 
+die Kategorie des Angebots für den Kunden beziehen. Dabei ermitteln wir zusätzlich, wie viele
+Tage vor dem Angebot die Transaktion durchgeführt wurde. Beispielhaft ist hier die Abfrage
+für die Marke dargestellt. Die anderen Anfragen werden analog erstellt und sind im Anhang
+\ref{sql:filtered_tx} hinterlegt.
+\begin{lstlisting}[language=SQL]
+CREATE TABLE filtered_tx_brand AS
+  SELECT t.id, t.purchasequantity, t.purchaseamount, (c.offerdate - t.date) AS daysbefore 
+  FROM transactions t 
+  INNER JOIN customers c ON (t.id = c.id)
+  INNER JOIN offers o ON (c.offer = o.offer)
+  WHERE o.brand = t.brand
+\end{lstlisting}
+
+
 Feature-Engineering: Nur positive Features
 
 \begin{tabular}{|c|c|}
