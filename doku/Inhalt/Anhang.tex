@@ -156,7 +156,8 @@ CREATE TABLE train_features AS
   LEFT JOIN category_features ca ON (h.id = ca.id)
 \end{lstlisting}
 
-\section{complete-submission.py}
+\section{Python-Skripts}
+\subsection{complete-submission.py}
 \label{code:complete-submission}
 \begin{lstlisting}[language=Python]
 #!/usr/bin/env python
@@ -191,7 +192,7 @@ for line in sys.stdin:
 		sys.stdout.write(id + ',' + samples[id])
 \end{lstlisting}
 
-\section{features-to-vw.py}
+\subsection{features-to-vw.py (Iteration 3)}
 \label{code:features-to-vw}
 \begin{lstlisting}[language=Python]
 #!/usr/bin/env python
@@ -220,7 +221,7 @@ for row in input:
 	print(output)
 \end{lstlisting}
 
-\section{vw-preds-to-csv.py}
+\subsection{vw-preds-to-csv.py}
 \label{code:vw-preds-to-csv}
 \begin{lstlisting}[language=Python]
 #!/usr/bin/env python
