@@ -5,9 +5,13 @@ und versuchen uns mit jedem Versuch zu verbessern. Unseren Fortschritt messen wi
 Iteration ein einreichbares Ergebnis erzeugen. Die Bewertung erfolgt somit über einen internen Algorithmus
 von Kaggle.
 
+Allgemein:
+- Erst lokal testen mit kleinen Daten
+- Dann auf gesamten Daten in Hive
+
 \subsection{Implementierung}
 
-\subsection{Iteration 0}
+\subsubsection{Iteration 0}
 
 Als Erstes wollen wir eine Grundlage zur Bewertung folgender Versuche schaffen und das Einreichen einer
 Lösung bei Kaggle üben. Dazu erzeugen wir eine Datei, die jedem Kunden die Kaufwahrscheinlichkeit 0\%
@@ -26,7 +30,7 @@ Die Bewertung von Kaggle sieht wie folgt aus:
 	\hline 
 \end{tabular}
 
-\subsection{Iteration 1}
+\subsubsection{Iteration 1}
 
 Im nächsten Schritt wollen wir den ersten "`Prior Category Benchmark"' von Kaggle implementieren.
 Dieser Benchmark ordnet Kunden, die bereits ein Produkt der Angebotskategorie gekauft haben, die
@@ -54,7 +58,7 @@ Die Bewertung von Kaggle ergibt wie erwartet:
 	\hline 
 \end{tabular}
 
-\subsection{Iteration 2}
+\subsubsection{Iteration 2}
 
 In Iteration 1 haben wir den Benchmark mit der niedrigsten Bewertung implementiert. Jetzt wollen wir 
 den besten Benchmark umsetzen. Der "`Prior (Brand \& Company \& Category) Benchmark"' ist sehr ähnlich
@@ -79,7 +83,7 @@ Bevor wir das Ergebnis einreichen, verwenden wir das Skript zum Vervollständige
 	\hline 
 \end{tabular}
 
-\subsection{Iteration 3}
+\subsubsection{Iteration 3}
 
 Feature-Engineering: Nur positive Features
 
@@ -89,7 +93,7 @@ Feature-Engineering: Nur positive Features
 	\hline 
 \end{tabular}
 
-\subsection{Iteration 4}
+\subsubsection{Iteration 4}
 
 Feature-Engineerung: Jetzt auch negative Features
 
@@ -112,15 +116,21 @@ if len(row['ca_tx_count']) == 0:
 
 Besser als die im letzten Jahr: 452 0.58519
 
-\subsection{Iteration 5}
+\subsubsection{Iteration 5}
 
 PLatz 240
 
-\subsection{Iteration 6}
+\subsubsection{Iteration 6}
 
 Mahout
 
 
 	
 \subsection{Amazon Web Services}
+
+\subsubsection{Tabellenanlage}
+
+\subsubsection{Anfragen ausführen}
+
+Anhang mit Skripten
 
