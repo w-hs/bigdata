@@ -91,8 +91,9 @@ auf Basis der Transaktionsdaten Features für jeden Kunden. Bei der Wahl der Fea
 wir uns an den Ergebnissen von einem Kaggle-Nutzer (\url{http://mlwave.com/predicting-repeat-buyers-vowpal-wabbit/}).
 
 Folgende Merkmale werden jeweils für die Marke (brand), das Unternehmen (company) und die Kategorie (category)
-des angebotenen Coupons (offer) ermittelt:
+des Angebots (offer) ermittelt:
 \begin{itemize}
+	\item Für wie viele Produkte mit welchem Preis gilt das Angebot?
 	\item Wie oft hat der Kunde in den letzen 30, 60, 90 und 180 Tagen gekauft? (Transaktionszahl)
 	\item Wie viel hat der Kunde in den letzen 30, 60, 90 und 180 Tagen gekauft? (Anzahl gekaufter Produkte)
 	\item Für wie viel Geld hat der Kunde in den letzen 30, 60, 90 und 180 Tagen gekauft? (Kosten)
@@ -128,6 +129,38 @@ CREATE TABLE filtered_tx_brand AS
   WHERE o.brand = t.brand
 \end{lstlisting}
 
+Anschließend werden die gefilterten Transaktionsdaten gruppiert nach
+Zeitintervallen ausgewertet. Die vollständigen Abfragen befinden sich
+in Anhang \ref{sql:features_bcc}. Hier wird ein Auszug aus der
+Abfrage für die Marken-Features dargestellt:
+\begin{lstlisting}[language=SQL]
+CREATE TABLE category_features AS
+SELECT ever.id, ever.tx_count, ever.quantity, ever.cost,
+before30.tx_count AS tx_count_30, before30.quantity AS quantity_30, before30.cost AS cost_30,
+before60.tx_count AS tx_count_60, before60.quantity AS quantity_60, before60.cost AS cost_60,
+before90.tx_count AS tx_count_90, before90.quantity AS quantity_90, before90.cost AS cost_90,
+before180.tx_count AS tx_count_180, before180.quantity AS quantity_180, before180.cost AS cost_180
+FROM 
+(SELECT id, COUNT(*) AS tx_count, SUM(purchasequantity) AS quantity, 
+SUM(purchaseamount) AS cost
+FROM filtered_tx_category
+GROUP BY id
+) ever
+LEFT JOIN
+(SELECT id, COUNT(*) AS tx_count, SUM(purchasequantity) AS quantity, 
+SUM(purchaseamount) AS cost
+FROM filtered_tx_category
+WHERE daysbefore <= 30
+GROUP BY id
+) before30
+ON (ever.id = before30.id)
+LEFT JOIN
+...
+\end{lstlisting}
+
+Jetzt müssen die unterschiedlichen Features nur noch zusammengeführt werden. Dies passiert
+in Anhang \ref{sql:features_combined_3} und umfasst einen Join zwischen den
+unterschiedlichen Features auf Basis der Kunden-ID.
 
 Feature-Engineering: Nur positive Features
 
