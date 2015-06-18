@@ -214,11 +214,32 @@ Bei Kaggle erzielen wir so ein Ergebnis, das bereits über dem des letzten Jahrg
 
 \subsubsection{Iteration 5}
 
-PLatz 240
+Jetzt erweitern wir die Features um Kombinationen. Wir führen neue Features ein, die den Wert 1 haben,
+falls der Kunde von Marke und Unternehmen, Marke und Kategorie oder allen drei Eigenschaften bereits
+gekauft hat.
+
+\begin{lstlisting}[language=SQL]
+SELECT f.*, 
+  CAST(b_tx_count > 0 AND co_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_co_ca,
+  CAST(b_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_ca,
+  CAST(b_tx_count > 0 AND co_tx_count > 0 AS INTEGER) AS any_b_co
+FROM test_features f
+
+SELECT f.*, 
+  CAST(b_tx_count > 0 AND co_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_co_ca,
+  CAST(b_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_ca,
+  CAST(b_tx_count > 0 AND co_tx_count > 0 AS INTEGER) AS any_b_co
+FROM train_features f
+\end{lstlisting}
+
+Wir verwenden wie zuvor Vorpal Wabbit, um die eine Vorhersage zu generieren:
+\begin{tabular}{|c|c|}
+	\hline \textbf{Platzierung} & \textbf{Bewertung} \\ 
+	\hline 344 & 0.58786  \\ 
+	\hline 
+\end{tabular}
 
 \subsubsection{Iteration 6}
-
-Mahout
 
 
 	
