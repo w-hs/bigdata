@@ -162,6 +162,22 @@ Jetzt müssen die unterschiedlichen Features nur noch zusammengeführt werden. D
 in Anhang \ref{sql:features_combined_3} und umfasst einen Join zwischen den
 unterschiedlichen Features auf Basis der Kunden-ID.
 
+Um das Data-Mining-Tool Vorpal Wabbit verwenden zu können, müssen die Features in ein
+passendes Format gewandelt werden. Das Ergebnis der Abfrage für die Features kann
+in Hive als CSV abgespeichert werden. Die Umwandlung in das Format von Vorpal Wabbit
+erfolgt über ein Python-Skript (s. Anhang \ref{code:features-to-vw}).
+
+Anschließend erstellen wir ein Model auf Basis der Trainingsdaten und nutzen dieses
+Model zur Voraussage der Wiederkaufwahrscheinlichkeiten für die Kunden aus den Testdaten.
+\begin{lstlisting}
+vw train.vw -c -k --passes 40 -l 0.85 -f model.vw --loss_function quantile --quantile_tau 0.6
+vw test.vw -t -i model.vw -p shop.preds.txt
+\end{lstlisting}
+Das Ergebnis von Vorpal Wabbit muss jetzt nur noch in das Format zur Einreichung bei 
+Kaggle konvertiert werden. Dies geschieht über das Python-Skript im Anhang 
+\ref{code:vw-preds-to-csv}. Im Ergebnis können wir uns mit dieser Einreichung
+schon etwas von den zuvor durchgeführten Benchmarks absetzen.
+
 \begin{tabular}{|c|c|}
 	\hline \textbf{Platzierung} & \textbf{Bewertung} \\ 
 	\hline 499 & 0.58051  \\ 
@@ -170,9 +186,14 @@ unterschiedlichen Features auf Basis der Kunden-ID.
 
 \subsubsection{Iteration 4}
 
-Feature-Engineerung: Jetzt auch negative Features
+In dieser Iteration wird das Ergebnis aus Iteration 3 geringfügig verbessert.
+Bei den Features, die wir bisher betrachtet haben, gehen wir von einer
+positiven Wirkung auf das Kaufverhalten aus. Wir ergänzen diese Features
+jetzt um negative Features.
 
-Ergänzung zu der Datei, die die Eingabe für Vorpal Wabbit erzeugt:
+Bei der Umwandlung der Features von CSV in das Format von Vorpal Wabbit 
+erzeugen wir Features für Kunden, die noch nie Produkte der Marke,
+des Unternehmens bzw. der Kategorie ihres Angebots gekauft haben.
 \begin{lstlisting}[language=Python]
 # Negative Features erzeugen, wenn nichts gekauft wurde
 if len(row['b_tx_count']) == 0:
@@ -183,13 +204,13 @@ if len(row['ca_tx_count']) == 0:
 	output += ' ca_never:1'
 \end{lstlisting}
 
+Bei Kaggle erzielen wir so ein Ergebnis, das bereits über dem des letzten Jahrgang liegt (Platz 452, Score 0.58519):
+
 \begin{tabular}{|c|c|}
 	\hline \textbf{Platzierung} & \textbf{Bewertung} \\ 
 	\hline 344 & 0.58786  \\ 
 	\hline 
 \end{tabular}
-
-Besser als die im letzten Jahr: 452 0.58519
 
 \subsubsection{Iteration 5}
 
