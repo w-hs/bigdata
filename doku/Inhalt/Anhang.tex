@@ -156,6 +156,44 @@ CREATE TABLE train_features AS
   LEFT JOIN category_features ca ON (h.id = ca.id)
 \end{lstlisting}
 
+\subsection{Kombinierte Features hinzufügen (Iteration 5)}
+
+\begin{lstlisting}[language=SQL]
+-- Test-Features um ausgewählte kombinierte Features erweitern
+SELECT f.*, 
+  CAST(b_tx_count > 0 AND co_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_co_ca,
+  CAST(b_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_ca,
+  CAST(b_tx_count > 0 AND co_tx_count > 0 AS INTEGER) AS any_b_co
+FROM test_features f
+
+-- Train-Features um ausgewählte kombinierte Features erweitern
+SELECT f.*, 
+  CAST(b_tx_count > 0 AND co_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_co_ca,
+  CAST(b_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_ca,
+  CAST(b_tx_count > 0 AND co_tx_count > 0 AS INTEGER) AS any_b_co
+FROM train_features f
+\end{lstlisting}
+
+\subsection{Globale Features (Iteration 6)}
+\label{code:totals}
+\begin{lstlisting}[language=SQL]
+-- Erstellen der Tabelle mit den globalen Features
+CREATE TABLE totals AS
+  SELECT t.id, COUNT(*) AS total_count, SUM(t.purchaseamount) AS total_spent
+  FROM transactions t
+  GROUP BY t.id
+
+-- Join der globlen Features zu den bereits bestehenden Test-Features
+SELECT f.*, t.*
+FROM test_features f
+INNER JOIN totals t ON (f.id = t.id)
+
+-- Join der globlen Features zu den bereits bestehenden Train-Features
+SELECT f.*, t.*
+FROM train_features f
+INNER JOIN totals t ON (f.id = t.id)
+\end{lstlisting}
+
 \section{Python-Skripts}
 \subsection{complete-submission.py}
 \label{code:complete-submission}
@@ -219,6 +257,43 @@ for row in input:
 			output += ' ' + key + ':' + row[key]
 
 	print(output)
+\end{lstlisting}
+
+\subsection{features-to-vw.py (Iteration 4)}
+\label{code:features-to-vw-4}
+\begin{lstlisting}[language=Python]
+#!/usr/bin/env python
+
+import sys
+import csv
+
+input = csv.DictReader(sys.stdin, delimiter=',')
+for row in input:
+    # Ausgabe beginnt mit der Klassifizierung:
+    # hat gekauft (1), hat nicht gekauft (0) oder unbekannt (0.5)
+    output = '0.5'
+    if row['repeater'] == 't':
+        output = '1'
+    elif row['repeater'] == 'f':
+        output = '0'
+
+    # Customer ID eintragen und Feature-Liste beginnen
+    output += ' \'' + row['id'] + ' |f'
+
+    # Spalten in Features übersetzen
+    for key in row:
+    if key != 'id' and  key != 'repeater' and key != 'total_count' and key != 'total_spent' and len(row[key]) > 0:
+        output += ' ' + key + ':' + row[key]
+
+    # Negative Features erzeugen, wenn nichts gekauft wurde
+    if len(row['b_tx_count']) == 0:
+        output += ' b_never:1'
+    if len(row['co_tx_count']) == 0:
+        output += ' co_never:1'
+    if len(row['ca_tx_count']) == 0:
+        output += ' ca_never:1'
+
+    print(output)
 \end{lstlisting}
 
 \subsection{vw-preds-to-csv.py}
