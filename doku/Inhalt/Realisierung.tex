@@ -303,12 +303,13 @@ Nachfolgend werden die Hive-spezifische Schlüsselwörter beschrieben:
 Anhand des SQL-Scripts aus der ersten Iteration wollen wir an dieser Stelle exemplarisch die Erstellung der entsprechenden Hive-Scripte erläutern.
 
 \begin{lstlisting}[style=hive]
-INSERT OVERWRITE DIRECTORY 's3://de.whs.fdt.kaggle.acquire-v../output_data/iteration0/'
-SELECT DISTINCT (h.id), 0.0 AS repeatProbability
-FROM test_history h;
+INSERT OVERWRITE DIRECTORY
+    's3://de.whs.fdt.kaggle.acquire-v../output_data/iteration0/'
+  SELECT DISTINCT (h.id), 0.0 AS repeatProbability
+  FROM test_history h;
 \end{lstlisting}
 
-Der Unterschied zu dem bekannten SQL-Script (Kapitel \ref{sec:iteration0}) liegt in der neu hinzugekommen ersten Zeile. Der entsprechende Befehl schreibt das Ergebnis der darauffolgenden Abfrage in das angegebene Verzeichnis, welches im S3 in unserem Bucket liegt. Analog zu diesem Beispiel haben wir ebenfalls die Hive-Scripte für alle weiteren Iterationen umgesetzt.
+Der Unterschied zu dem bekannten SQL-Script (s. Abschnitt \ref{sec:iteration0}) liegt in der neu hinzugekommen ersten Zeile. Der entsprechende Befehl schreibt das Ergebnis der darauffolgenden Abfrage in das angegebene Verzeichnis, welches im S3 in unserem Bucket liegt. Analog zu diesem Beispiel haben wir ebenfalls die Hive-Scripte für alle weiteren Iterationen umgesetzt.
 
   
 
