@@ -1,17 +1,22 @@
 \section{Schlussteil}
 
 \subsection{Ausblick}
+	Es konnte bereits während des Projektes ein gutes Ergebnis erzielt werden, dennoch wurden aufgrund der knappen Zeit nicht alle Ideen umgesetzt. Weitere Möglichkeiten sehen wir im Bereich der nicht verwendeten Daten und der Nutzung eines Offline Learning Verfahrens. Weiter besteht die Möglichkeit die verwendeten Features auf ihre Aussagekraft beziehungsweise Qualität zu untersuchen.
 
-	Ideen:
-	Ausgangssituation: Es werden bisher nur Transaktionen berücksichtigt die in Beziehung zu Angeboten stehen. Die Transaktion muss entweder eine Marke, eine Category oder eine Company haben. Es werden also noch keine Daten von Käufen berücksichtigt, für die es keine Angebote gab oder gibt. Diese Daten sollen in diesem Iterationsschritt ebenfalls verwerten werden, wozu zunächst die folgenden Ansätze zusammengetragen wurden:
+\subsubsection{Verwendung aller Daten}
+	Es werden bisher nur Transaktionen berücksichtigt die in Beziehung zu Angeboten stehen. Die Transaktion muss entweder mit einer Marke, mit einer Category oder mit einer Company eines Angebotes übereinstimmen. Es werden also noch keine Daten von Käufen berücksichtigt, für die es keine Angebote gab oder gibt. Diese Daten könnten in einem nächsten Iterationsschritt ebenfalls verwertet werden, wozu zunächst die folgenden Ansätze zusammengetragen wurden:
 	
-	- Zählen wie oft die ID eines Kunden eingekauft hat. Überschreitet der Wert einen Schwellwert ist die Wahrscheinlichkeit groß das er wiederkommt.
-	
-	- Für jeden Kunden den kompletten Umsatz pro Quartal beziehungsweise pro Jahr zu ermitteln. Es gibt also 2 Klassen - Leute die viel oder die wenig Geld ausgeben. Die Idee ist, dass Leute die viel Geld umsetzen weniger gut durch Gutscheine ansprechbar sind, als Leute die wenig zum Umsatz beitragen.  
-	
-	- Kunden die in regelmässigen Abständen einkaufen, kommen sehr wahrscheinlich wieder. Beispielsweise werden wöchentlich die Nahrungsvorräte auf dem Heimweg nach der Arbeit aufgefrischt. Das lässt sich über die ID des Kunden und über das Date Feld bestimmen.
-	
-	- Kunden die große Menge (purchasequantity) gekauft haben, kommen wahrscheinlich wieder. Sie benötigen keine Gutscheine, da der Preis so schon gut ist oder der Markt zum Einkauf gut gelegen ist. Realisierung: Was ist die Definition von viel? Erstellen eines Mittelwertes über die Spalte - jeder Wert der über dem Mittelwert liegt, gilt als viel.
+\begin{itemize}
+	\item Anzahl der Einkäufe einer Kunden über zählen der ID. Überschreitet der Wert einen Schwellwert ist die Wahrscheinlichkeit groß, dass er wiederkommt.
+	\item Für jeden Kunden den kompletten Umsatz pro Quartal beziehungsweise pro Jahr zu ermitteln. Es gibt also 2 Klassen - Leute die viel oder die wenig Geld ausgeben. Die Idee ist, dass Leute die viel Geld umsetzen, weniger gut durch Gutscheine ansprechbar sind, als Leute die wenig zum Umsatz beitragen.  
+	\item Kunden die in regelmässigen Abständen einkaufen, kommen sehr wahrscheinlich wieder. Beispielsweise werden wöchentlich die Nahrungsvorräte auf dem Heimweg nach der Arbeit aufgefrischt. Das lässt sich über die ID des Kunden und über das Date Feld bestimmen.
+	\item Kunden die große Menge (purchasequantity) gekauft haben, kommen wahrscheinlich wieder. Sie benötigen keine Gutscheine, da der Preis so schon gut ist oder der Markt zum Einkauf gut gelegen ist. Realisierung: Was ist die Definition von viel? Erstellen eines Mittelwertes über die Spalte - jeder Wert der über dem Mittelwert liegt, gilt als viel.
+\end{itemize}
+
+\subsubsection{Bewertung von Features}	
+	Sowohl bei den verwendeten Features, als auch bei den oben vorgestellten Ideen, ist bisher unklar inwiefern diese Features das Ergebnis positiv oder negativ beeinflussen. Innerhalb der Vorträge ist zur Sprache gekommen, dass statistische Auswertungsverfahren zur Verfügung stehen, welche Aufschluss über die Qualität der Features treffen können. Da schlechte Features das Ergebnis negativ verfälschen können, ist die Ansatz besonders interessant. Diese Kenntnis erlangte uns leider erst zum Ende des Projektes, so dass wir leider nicht näher darauf eingehen konnten.
+
+\subsubsection{Offline Learing Verfahren}	
 	
 
 \subsection{Fazit}
