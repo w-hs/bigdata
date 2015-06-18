@@ -202,9 +202,23 @@ Mahout
 
 	
 \subsection{Amazon Web Services}
+Im Laufe des Projekts war es für uns von großem Vorteil lokal mit den Daten zu arbeiten und SQL Scripts lokal entwickeln zu können. Auf diese Weise haben wir sowohl die Kosten, die bei der Benutzung der Amazon Web Services entstanden wären, eingespart als auch unseren Zeitaufwand minimiert. Die Ausführung der Scripte dauert in der Cloud um ein Vielfaches länger als bei einer lokalen Nutzung. Neben der eigentlichen Ausführung der Scripte im AWS ist es nötig, dass Rechencluster instantiiert, Hadoop und Hive installiert und der Cluster nach Abschluss des Jobs terminiert wird. Dieser Aufwand rechnet sich erst bei entsprechend großen Datenmengen, sodass die Laufzeit der Scripte überwiegt. Unsere Dateigröße von rund 20 GB ist noch nicht im Bereich Big-Data anzuordnen. Entsprechend lohnt auch ein Einsatz von Werkzeugen wie Hadoop in AWS nicht.
 
-\subsubsection{Tabellenanlage}
+Diese Erfahrung haben wir bei der Benutzung von AWS gesammelt. Unser Vorgang umfasst dabei immer folgende Abläufe:
+\begin{enumerate}
+\item Cluster erstellen und konfigurieren
+\subitem Servergröße auswählen
+\subitem Zu installierende Module - Hive
+\subitem Logging und Auto-Terminierung einstellen
+\item Jobs konfigurieren
+\subitem Anlegen der Tabellen auf Basis der Kaggle-Daten im S3
+\subitem Ausführen unserer Analysen und Speichern der Ergebnisse im S3
+\end{enumerate}
 
+\subsubsection{Anlegen der Tabellen}
+Zur Erstellung der Tabellen, die auf den Kaggle-Daten basieren, die im S3 liegen, nutzen wir Scripte. 
+
+Exemplarisch Erstellen der Offers-Tabelle: Rest im Anhang..
 
 \begin{lstlisting}[style=hive]
 CREATE EXTERNAL TABLE offers (offer bigint, category bigint, quantity bigint, company bigint, offervalue double, brand bigint)
@@ -214,7 +228,18 @@ STORED as TEXTFILE
 LOCATION 's3://de.whs.fdt.kaggle.acquire-valued-shoppers- challenge/input_data_orig/offers/';
 \end{lstlisting}
 
+Besonderheiten
+\begin{description}
+\item External
+\item row format
+\item lines
+\item Stored
+\item Location
+\end{description}
+
 \subsubsection{Anfragen ausführen}
 
-Anhang mit Skripten
+- Exemplarisch Iteration erklären.. Rest der Scripts ergibt sich von selbst
+- Iterationen im AWS testen.. 0-3 funktionieren wie erwartet auch im Hive.. 4-6 nicht möglich.. da kein Hive
+- Vorteil bei unseren Datenmengen nicht erkennbar..
 
