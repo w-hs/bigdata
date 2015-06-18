@@ -12,6 +12,7 @@ Allgemein:
 \subsection{Implementierung}
 
 \subsubsection{Iteration 0}
+\label{sec:iteration0}
 
 Als Erstes wollen wir eine Grundlage zur Bewertung folgender Versuche schaffen und das Einreichen einer
 Lösung bei Kaggle üben. Dazu erzeugen wir eine Datei, die jedem Kunden die Kaufwahrscheinlichkeit 0\%
@@ -275,9 +276,7 @@ Diese Erfahrung haben wir bei der Benutzung von AWS gesammelt. Unser Vorgang umf
 \end{enumerate}
 
 \subsubsection{Anlegen der Tabellen}
-Zur Erstellung der Tabellen, die auf den Kaggle-Daten basieren, die im S3 liegen, nutzen wir Scripte. 
-
-Exemplarisch Erstellen der Offers-Tabelle: Rest im Anhang..
+Zur Erstellung der Tabellen, die auf den Kaggle-Daten basieren, die im S3 liegen, nutzen wir Scripte. Im Folgenden stellen wir exemplarisch ein Script zur Erstellung der Tabelle \textit{Offers} vor. 
 
 \begin{lstlisting}[style=hive]
 CREATE EXTERNAL TABLE offers (offer bigint, category bigint, quantity bigint, company bigint, offervalue double, brand bigint)
@@ -287,18 +286,25 @@ STORED as TEXTFILE
 LOCATION 's3://de.whs.fdt.kaggle.acquire-valued-shoppers- challenge/input_data_orig/offers/';
 \end{lstlisting}
 
-Besonderheiten
+Nachfolgend werden die Hive-spezifische Schlüsselwörter beschrieben:
 \begin{description}
-\item External
-\item row format
-\item lines
-\item Stored
-\item Location
+\item[external] Ermöglicht \textit{location} zu benutzen. 
+\item[row format] Gibt das Trennzeichen in Eingabezeilen an.
+\item[lines] Gibt das Zeilenende-Zeichen der Eingabedatei an.
+\item[stored] Angabe des Formats der Eingabedatei.
+\item[location] Ermöglicht einen externen Speicherort anzugeben.
 \end{description}
 
 \subsubsection{Anfragen ausführen}
+Anhand des SQL-Scripts aus der ersten Iteration wollen wir an dieser Stelle exemplarisch die Erstellung der entsprechenden Hive-Scripte erläutern.
 
-- Exemplarisch Iteration erklären.. Rest der Scripts ergibt sich von selbst
-- Iterationen im AWS testen.. 0-3 funktionieren wie erwartet auch im Hive.. 4-6 nicht möglich.. da kein Hive
-- Vorteil bei unseren Datenmengen nicht erkennbar..
+\begin{lstlisting}[style=hive]
+INSERT OVERWRITE DIRECTORY 's3://de.whs.fdt.kaggle.acquire-v../output_data/iteration0/'
+SELECT DISTINCT (h.id), 0.0 AS repeatProbability
+FROM test_history h;
+\end{lstlisting}
+
+Der Unterschied zu dem bekannten SQL-Script (Kapitel \ref{sec:iteration0}) liegt in der neu hinzugekommen ersten Zeile. Der entsprechende Befehl schreibt das Ergebnis der darauffolgenden Abfrage in das angegebene Verzeichnis, welches im S3 in unserem Bucket liegt. Analog zu diesem Beispiel haben wir ebenfalls die Hive-Scripte für alle weiteren Iterationen umgesetzt.
+
+  
 
