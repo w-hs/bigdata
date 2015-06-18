@@ -1,8 +1,10 @@
 \section{Einarbeitung}
-In der Einarbeitungsphase haben wir uns zunächst für eine Hadoop-Arbeitsumgebung entschieden. Da die meisten Projektteilnehmer über lediglich vier Gigabyte Arbeitsspeicher verfügen, fiel unsere Wahl auf die ressourcenschonende Hortonworks Sandbox \footnote{Siehe: \url{http://hortonworks.com/products/hortonworks-sandbox/}}, die bei allen Teilnehmern problemlos ausgeführt werden konnte. Unter Verwendung der Sandbox haben wir den Umgang mit dem Hadoop-Ecosystem gelernt und erste Map/Reduce-Jobs ausgeführt. Darüber hinaus konnten wir weitere Tools wie Hive und Pig verwenden.
+In der Einarbeitungsphase haben wir uns zunächst für eine Hadoop-Arbeitsumgebung entschieden. Da die meisten Projektteilnehmer über lediglich vier Gigabyte Arbeitsspeicher verfügen, fiel unsere Wahl auf die ressourcenschonende Hortonworks Sandbox\footnote{\url{http://hortonworks.com/products/hortonworks-sandbox/}}, die bei allen Teilnehmern problemlos ausgeführt werden konnte. Unter Verwendung der Sandbox haben wir den Umgang mit dem Hadoop-Ecosystem gelernt und erste Map/Reduce-Jobs ausgeführt. Darüber hinaus konnten wir weitere Tools wie Hive und Pig verwenden.
+
+\renewcommand{\arraystretch}{1.3}
 
 \subsection{Datenmodell}
-Abbildung \ref{fig:ShoppersTables} zeigt das Datenmodell, dass aus den Entitäten transactions, history, offers, und submissions besteht. 
+Abbildung \ref{fig:ShoppersTables} zeigt das Datenmodell, dass aus den Entitäten "`transactions"', "`history"', "'offers"', und "`submissions"' besteht. 
 
 \begin{figure}[h]
 \centering
@@ -11,9 +13,18 @@ Abbildung \ref{fig:ShoppersTables} zeigt das Datenmodell, dass aus den Entitäte
 \label{fig:ShoppersTables}
 \end{figure}
 
-In der Tabelle \textbf{transactions} stehen die Einkäufe der Kunden:\\
-\begin{tabular}{|l|l|}
-	\hline \textbf{Feld} & \textbf{Bedeutung}  \\ 
+In den "`transactions"' (s. Tabelle \ref{tab:transactions}) stehen die Einkäufe der Kunden.
+Die "`offers"' (s. Tabelle \ref{tab:offers}) enthalten Gutscheine, die an den Kunden verteilt wurden.
+In der "`train\_history"' (s. Tabelle \ref{tab:trainhistory}) sind Informationen über die angebotenen Coupons enthalten.
+Die "`test\_history"' entspricht der "`train\_history"' mit dem Unterschied, dass die beiden Felder "`repeattrips"' und "`repeater"' fehlen. Diese sind absichtlich nicht enthalten, da eine Vorhersage über diese Werte getroffen werden soll.
+Die "`submissions"' (s. Tabelle \ref{tab:submissions}) enthalten die Ergebnisse, die wir bei Kaggle einreichen. Dabei wird einem Kunden eine Wiederkaufswahrscheinlichkeit zugeordnet.
+
+Ziel dieses Projekts ist es, die Daten aus den "`transactions"', "`offers"' sowie der beiden Historiendaten zur Generierung von "`submissions"' zu nutzen. Es sollen Vorhersagen für alle Kunden-IDs aus der "`test\_history"' gemacht werden.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l|l}
+	 \textbf{Feld} & \textbf{Bedeutung}  \\ 
 	\hline id & ID des Kunden \\ 
 	\hline chain & ID der Marktkette \\ 
 	\hline dept  & ID der Produktoberkategorie (z.B. Elektronikgeräte)  \\ 
@@ -23,54 +34,62 @@ In der Tabelle \textbf{transactions} stehen die Einkäufe der Kunden:\\
 	\hline date & Kaufdatum \\
 	\hline productsize & Menge die gekauft wurde (2L Wasser, 500g Mehl) \\ 	
 	\hline productmeasure & Einheit (Liter, Gramm, Stück) \\ 	
-	\hline purchasequantity & Stückzahl die gekauft wurde (Drei 2L Flaschen Wasser) \\ 
-	\hline purchaseamount & Preis in Dollar \\ 
-	\hline 
+	\hline purchasequantity & Stückzahl die gekauft wurde (Drei 2L Flaschen Wasser)
+	\vspace{0.3cm} \\ 
 \end{tabular}
+\caption{transactions}
+\label{tab:transactions}
+\end{table}
 
-Die Tabelle \textbf{offers} beschreibt Coupons, die den Kunden angeboten wurden:\\
-\begin{tabular}{|l|l|}
-	\hline \textbf{Feld} & \textbf{Bedeutung}  \\ 
+\begin{table}[h]
+\centering
+\begin{tabular}{l|l}
+	\textbf{Feld} & \textbf{Bedeutung}  \\ 
 	\hline offer & ID des Coupon \\ 
 	\hline category & ID der Produktkategorie \\ 
 	\hline quantity & Stückzahl ab der ein Coupon gilt \\ 
 	\hline company & ID der Firma die Coupons anbietet \\ 
 	\hline offervalue & Preis \\ 
-	\hline brand & ID der Marke \\ 
-	\hline 
+	\hline brand & ID der Marke
+	\vspace{0.3cm} \\ 
 \end{tabular}
+\caption{offers}
+\label{tab:offers}
+\end{table}
 
-Die Tabelle \textbf{train\_history} enthält Informationen darüber, wann den Kunden die Coupons angeboten wurden: \\
-\begin{tabular}{|l|l|}
-	\hline \textbf{Feld} & \textbf{Bedeutung}  \\ 
+\begin{table}[h]
+\centering
+\begin{tabular}{l|l}
+	\textbf{Feld} & \textbf{Bedeutung}  \\ 
 	\hline id & ID des Kunden \\ 
 	\hline chain & ID der Marktkette \\ 
 	\hline offer  & ID des Coupon  \\ 
 	\hline market & ID der Region in der sich der Markt befindet  \\ 
 	\hline repeattrips & Anzahl der Wiederholungskäufe (gleiches Produkt)  \\ 
 	\hline repeater & Gibt an, ob repeattrips größer 0 ist \\ 
-	\hline offerdate & Datum an dem der Kunde den Coupon erhalten hat \\ 
-	\hline 
+	\hline offerdate & Datum an dem der Kunde den Coupon erhalten hat 
+	\vspace{0.3cm} \\ 
 \end{tabular} 
+\caption{train\_history}
+\label{tab:trainhistory}
+\end{table}
 
-Die Tabelle \textit{test\_history} entspricht der Tabelle \textit{train\_history} mit dem Unterschied, dass die beiden Felder \textit{repeattrips} und \textit{repeater} fehlen. Diese sind absichtlich nicht enthalten, da eine Vorhersage über diese Werte getroffen werden soll.
-
-
-Die Tabelle \textbf{submissions} enthält die Ergebnisse, die wir bei Kaggle einreichen:\\
-\begin{tabular}{|l|l|}
-	\hline \textbf{Feld} & \textbf{Bedeutung}  \\ 
+\begin{table}[h]
+	\centering
+\begin{tabular}{l|l}
+	\textbf{Feld} & \textbf{Bedeutung}  \\ 
 	\hline id & ID des Kunden \\ 
-	\hline repeatProbability & Wahrscheinlichkeit das der Kunde erneut kauft \\ 
-	\hline 
+	\hline repeatProbability & Wahrscheinlichkeit das der Kunde erneut kauft 
+	\vspace{0.3cm} \\
 \end{tabular} 
-
-
-
+\caption{submissions}
+\label{tab:submissions}
+\end{table}
 
 \subsection{Technologieentscheidung}
 Zu Beginn des Projekts haben wir uns Gedanken über die Auswahl der Technologien gemacht. Zum Zeitpunkt der Einarbeitungsphase haben wir bereits Hive und Pig durch gruppenübergreifende Vorträge kennen gelernt. Darüber hinaus standen uns keine weiteren Optionen zur Verfügung, da alternative Technologien erst zu einem späteren Zeitpunkt vorgestellt worden sind.
 
-Somit beschränkte sich die Technologieentscheidung auf die Wahl zwischen Hive und Pig. Da wir in unserem Projekt ausschließlich Analysen auf strukturierte Daten durchgeführt haben, fiel unsere Entscheidung auf Hive. Der einfache Datenimport in Form von Tabellen und die einfachen Abfragemöglichkeiten in der SQL ähnlichen Abfragesprache HQL waren die ausschlaggebenden Kriterien.
+Somit beschränkte sich die Technologieentscheidung auf die Wahl zwischen Hive und Pig. Da wir in unserem Projekt ausschließlich Analysen auf strukturierte Daten durchgeführt haben, fiel unsere Entscheidung auf Hive. Der einfache Datenimport in Form von Tabellen und die einfachen Abfragemöglichkeiten in der SQL-ähnlichen Abfragesprache HQL waren die ausschlaggebenden Kriterien.
 
 Die Technologien, die wir neben Hive verwendet haben, werden im weiteren Verlauf der Dokumentation erläutert.
 
