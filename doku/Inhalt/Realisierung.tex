@@ -162,6 +162,22 @@ Jetzt müssen die unterschiedlichen Features nur noch zusammengeführt werden. D
 in Anhang \ref{sql:features_combined_3} und umfasst einen Join zwischen den
 unterschiedlichen Features auf Basis der Kunden-ID.
 
+Um das Data-Mining-Tool Vorpal Wabbit verwenden zu können, müssen die Features in ein
+passendes Format gewandelt werden. Das Ergebnis der Abfrage für die Features kann
+in Hive als CSV abgespeichert werden. Die Umwandlung in das Format von Vorpal Wabbit
+erfolgt über ein Python-Skript (s. Anhang \ref{code:features-to-vw}).
+
+Anschließend erstellen wir ein Model auf Basis der Trainingsdaten und nutzen dieses
+Model zur Voraussage der Wiederkaufwahrscheinlichkeiten für die Kunden aus den Testdaten.
+\begin{lstlisting}
+vw train.vw -c -k --passes 40 -l 0.85 -f model.vw --loss_function quantile --quantile_tau 0.6
+vw test.vw -t -i model.vw -p shop.preds.txt
+\end{lstlisting}
+Das Ergebnis von Vorpal Wabbit muss jetzt nur noch in das Format zur Einreichung bei 
+Kaggle konvertiert werden. Dies geschieht über das Python-Skript im Anhang 
+\ref{code:vw-preds-to-csv}. Im Ergebnis können wir uns mit dieser Einreichung
+schon etwas von den zuvor durchgeführten Benchmarks absetzen.
+
 \begin{tabular}{|c|c|}
 	\hline \textbf{Platzierung} & \textbf{Bewertung} \\ 
 	\hline 499 & 0.58051  \\ 
