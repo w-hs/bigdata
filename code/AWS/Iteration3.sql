@@ -1,27 +1,27 @@
 CREATE TABLE customers AS
-SELECT te.id , te.offer , te. offerdate
+SELECT te.id , te.offer , te.offerdate
 FROM test_history te
-UNION
-SELECT tr.id , tr.offer , tr. offerdate
+UNION ALL
+SELECT tr.id , tr.offer , tr.offerdate
 FROM train_history tr;
 
 CREATE TABLE filtered_tx_brand AS
 SELECT t.id, t.purchasequantity, t.purchaseamount, (c.offerdate - t.date) AS daysbefore 
- FROM filtered_transactions t 
+ FROM transactions t 
  INNER JOIN customers c ON (t.id = c.id)
  INNER JOIN offers o ON (c.offer = o.offer)
  WHERE o.brand = t.brand;
 
  CREATE TABLE filtered_tx_category AS
 SELECT t.id, t.purchasequantity, t.purchaseamount, (c.offerdate - t.date) AS daysbefore 
- FROM filtered_transactions t 
+ FROM transactions t 
  INNER JOIN customers c ON (t.id = c.id)
  INNER JOIN offers o ON (c.offer = o.offer)
  WHERE o.category = t.category;
  
  CREATE TABLE filtered_tx_company AS
 SELECT t.id, t.purchasequantity, t.purchaseamount, (h.offerdate - t.date) AS daysbefore 
- FROM filtered_transactions t 
+ FROM transactions t 
  INNER JOIN test_history h ON (t.id = h.id)
  INNER JOIN offers o ON (h.offer = o.offer)
  WHERE o.company = t.company;
