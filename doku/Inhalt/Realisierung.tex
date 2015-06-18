@@ -233,6 +233,7 @@ FROM train_features f
 \end{lstlisting}
 
 Wir verwenden wie zuvor Vorpal Wabbit, um die eine Vorhersage zu generieren:
+
 \begin{tabular}{|c|c|}
 	\hline \textbf{Platzierung} & \textbf{Bewertung} \\ 
 	\hline 241 & 0.59355  \\ 
@@ -243,7 +244,7 @@ Wir verwenden wie zuvor Vorpal Wabbit, um die eine Vorhersage zu generieren:
 Bisher haben wir nur einen kleinen Teil der Daten zu Features verarbeitet, da wir nur Transaktionen
 beachtet haben, die sich auf das entsprechende Angebot für den Kunden beziehen. Jetzt führen wir noch
 die globalen Features "`Anzahl der Transaktionen"' und "`Gesamte Umsatzsumme"' ein. Diese Features
-erzeugen wir in eignen Tabelle und joinen diese zu den bereits generierten Features.
+erzeugen wir in eignen Tabelle und joinen diese zu den bereits generierten Features (s. Anhang \ref{code:totals}).
 
 \begin{lstlisting}[language=SQL]
 CREATE TABLE totals AS
