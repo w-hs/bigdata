@@ -18,9 +18,9 @@ for row in input:
 	
 	# Spalten in Features übersetzen
 	for key in row:
-		if key != 'id' and  key != 'repeater' and len(row[key]) > 0:
+		if key != 'id' and  key != 'repeater' and key != 'total_count' and key != 'total_spent' and len(row[key]) > 0:
 			output += ' ' + key + ':' + row[key]
-		
+			
 	# Negative Features erzeugen, wenn nichts gekauft wurde
 	if len(row['b_tx_count']) == 0:
 		output += ' b_never:1'
