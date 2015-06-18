@@ -6,21 +6,21 @@ SELECT tr.id , tr.offer , tr.offerdate
 FROM train_history tr;
 
 CREATE TABLE filtered_tx_brand AS
-SELECT t.id, t.purchasequantity, t.purchaseamount, (c.offerdate - t.date) AS daysbefore 
+SELECT t.id, t.purchasequantity, t.purchaseamount, (c.offerdate - t.ddate) AS daysbefore 
  FROM transactions t 
  INNER JOIN customers c ON (t.id = c.id)
  INNER JOIN offers o ON (c.offer = o.offer)
  WHERE o.brand = t.brand;
 
  CREATE TABLE filtered_tx_category AS
-SELECT t.id, t.purchasequantity, t.purchaseamount, (c.offerdate - t.date) AS daysbefore 
+SELECT t.id, t.purchasequantity, t.purchaseamount, (c.offerdate - t.ddate) AS daysbefore 
  FROM transactions t 
  INNER JOIN customers c ON (t.id = c.id)
  INNER JOIN offers o ON (c.offer = o.offer)
  WHERE o.category = t.category;
  
  CREATE TABLE filtered_tx_company AS
-SELECT t.id, t.purchasequantity, t.purchaseamount, (h.offerdate - t.date) AS daysbefore 
+SELECT t.id, t.purchasequantity, t.purchaseamount, (h.offerdate - t.ddate) AS daysbefore 
  FROM transactions t 
  INNER JOIN test_history h ON (t.id = h.id)
  INNER JOIN offers o ON (h.offer = o.offer)
