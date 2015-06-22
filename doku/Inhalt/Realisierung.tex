@@ -1,29 +1,26 @@
 \section{Realisierung}
 
-Die Implementierung erfolgt iterativ. D.h. wir entwickeln unterschiedliche ggf. aufeinander aufbauende Lösungen
-und versuchen uns mit jedem Versuch zu verbessern. Unseren Fortschritt messen wir, indem wir in jeder
-Iteration ein einreichbares Ergebnis erzeugen. Die Bewertung erfolgt somit über einen internen Algorithmus
-von Kaggle.
+Die Implementierung erfolgt iterativ, dass heißt wir entwickeln unterschiedliche gegebenenfalls aufeinander aufbauende Lösungen
+und versuchen uns mit jedem Versuch zu verbessern. Unseren Fortschritt messen wir, indem wir in jeder Iteration ein einreichbares Ergebnis erzeugen. Die Bewertung erfolgt somit über einen internen Algorithmus von Kaggle, welches uns einen Platz in der Wettbewerbsrangliste und einen Score berechnet. 
 
-Allgemein:
-- Erst lokal testen mit kleinen Daten
-- Dann auf gesamten Daten in Hive
+Im Allgemeinen umfasst unsere Idee das Testen und Entwickeln der Scripte lokal auf dem eigenen Rechner. Anschließend werden darauf basierend Hive-Scripte erstellt und in einem Hadoop-Cluster im AWS ausgeführt.
 
 \subsection{Implementierung}
+Im Nachfolgenden werden alle Iterationen der Reihe nach vorgestellt. \todo{evtl github link als nachweis der ergebnisse aufnehmen}
 
 \subsubsection{Iteration 0}
 \label{sec:iteration0}
 
 Als Erstes wollen wir eine Grundlage zur Bewertung folgender Versuche schaffen und das Einreichen einer
 Lösung bei Kaggle üben. Dazu erzeugen wir eine Datei, die jedem Kunden die Kaufwahrscheinlichkeit 0\%
-zuordnet. Hierzu verwenden wir eine rudimentäre Hive-Abfrage.
+zuordnet. Hierzu verwenden wir eine rudimentäre SQL-Abfrage.
 
 \begin{lstlisting}[language=SQL]
 SELECT DISTINCT(h.id), 0.0 AS repeatProbability 
 FROM test_history h
 \end{lstlisting}
 
-Die Bewertung von Kaggle sieht wie folgt aus:
+Die Bewertung von Kaggle resultierte in folgender Platzierung:
 
 \begin{tabular}{|c|c|}
 	\hline \textbf{Platzierung} & \textbf{Bewertung} \\ 
@@ -31,13 +28,15 @@ Die Bewertung von Kaggle sieht wie folgt aus:
 	\hline 
 \end{tabular}
 
+Mit dieser einfachen Methode erreichen wir bereits ein durchschnittliches Ergebnis.
+
 \subsubsection{Iteration 1}
 
 Im nächsten Schritt wollen wir den ersten "`Prior Category Benchmark"' von Kaggle implementieren.
-Dieser Benchmark ordnet Kunden, die bereits ein Produkt der Angebotskategorie gekauft haben, die
+Dieser Benchmark ordnet Kunden, die bereits ein Produkt der Gutscheinkategorie gekauft haben, die
 Wiederkaufwahrscheinlichkeit 1 zu. Allen anderen Kunden wird die Wahrscheinlichkeit 0 zugeordnet.
 
-Wir bestimmen die Kunden mit einer Wahrscheinlichkeit von 1 über folgende Hive-Abfrage:
+Wir bestimmen die Kunden mit einer Wahrscheinlichkeit von 1 über folgende SQL-Abfrage:
 \begin{lstlisting}[language=SQL]
 SELECT DISTINCT h.id, 1.0 AS repeatProbability
 FROM test_history h INNER JOIN offers o ON (h.offer = o.offer)
@@ -46,7 +45,7 @@ WHERE t.category = o.category
 \end{lstlisting}
 
 Um das Ergebnis bei Kaggle einzureichen, fehlen noch die Kunden mit einer Wahrscheinlichkeit von 0.
-Um diese hinzuzufügen wurde ein Python-Skript entwickelt, dass eine unvollständige Einreichung
+Um diese hinzuzufügen wurde ein Python-Skript entwickelt, das eine unvollständige Einreichung
 um die fehlenden Einträge erweitert. Für diese Kunden wird eine Wahrscheinlichkeit von 0 eingetragen.
 Dieses Skript (s. Anhang \ref{code:complete-submission}) kann in weiteren Iterationen verwendet werden,
 um sicher zu stellen, dass das Ergebnis vollständig ist und die Überprüfung von Kaggle übersteht. 
@@ -59,24 +58,26 @@ Die Bewertung von Kaggle ergibt wie erwartet:
 	\hline 
 \end{tabular}
 
+Das eingereichte Resultat zeigt nur eine marginale Verbesserung, obwohl wir dieses Mal angegeben haben, welche Kunden noch einmal kaufen werden.
+
 \subsubsection{Iteration 2}
 
 In Iteration 1 haben wir den Benchmark mit der niedrigsten Bewertung implementiert. Jetzt wollen wir 
 den besten Benchmark umsetzen. Der "`Prior (Brand \& Company \& Category) Benchmark"' ist sehr ähnlich
-zu dem ersten Benchmark. Wir ordnen jedem Kunden, der schon einmal ein Produkt der Angebotsmarke,
-des Angebotsunternehmens und der Angebotskategorie gekauft hat, eine 1 zu. Den anderen Kunden wird
-eine Wahrscheinlichkeit von 0 zugeordnet.
+zu dem ersten Benchmark. Wir ordnen jedem Kunden, der schon einmal ein Produkt der Gutscheinmarke,
+des Gutscheinunternehmens und der Gutscheinkategorie gekauft hat, eine 1 zu. 
 
 \begin{lstlisting}[language=SQL]
 SELECT DISTINCT h.id, 1.0 AS repeatProbability
-FROM test_history h INNER JOIN offers o ON (h.offer = o.offer)
+FROM test_history h 
+INNER JOIN offers o ON (h.offer = o.offer)
 INNER JOIN transactions t ON (t.id = h.id)
 WHERE t.category = o.category
   AND t.company = o.company
   AND t.brand = o.brand
 \end{lstlisting}
 
-Bevor wir das Ergebnis einreichen, verwenden wir das Skript zum Vervollständigen aus Iteration 1.
+Bevor wir das Ergebnis einreichen, verwenden wir das Skript zum Vervollständigen aus Iteration 1, welches allen anderen Kunden eine 0 zuweist.
 
 \begin{tabular}{|c|c|}
 	\hline \textbf{Platzierung} & \textbf{Bewertung} \\ 
@@ -84,41 +85,43 @@ Bevor wir das Ergebnis einreichen, verwenden wir das Skript zum Vervollständige
 	\hline 
 \end{tabular}
 
+Mit dieser Änderung konnten wir unsere Platzierung erneut spürbar verbessern.
+
 \subsubsection{Iteration 3}
 
 Nachdem wir in den vorherigen Iterationen die vorgegeben Benchmarks von Kaggle implementiert haben,
 wollen wir jetzt ein richtiges Data-Mining-Verfahren verwenden. Dazu ermitteln wir im ersten Schritt
 auf Basis der Transaktionsdaten Features für jeden Kunden. Bei der Wahl der Features orientieren
-wir uns an den Ergebnissen von einem Kaggle-Nutzer (\url{http://mlwave.com/predicting-repeat-buyers-vowpal-wabbit/}).
+wir uns an den Ergebnissen von einem Kaggle-Nutzer\footnote{Siehe \url{http://mlwave.com/predicting-repeat-buyers-vowpal-wabbit/}}.
 
 Folgende Merkmale werden jeweils für die Marke (brand), das Unternehmen (company) und die Kategorie (category)
-des Angebots (offer) ermittelt:
+des Gutscheins (offer) ermittelt:
 \begin{itemize}
-	\item Für wie viele Produkte mit welchem Preis gilt das Angebot?
+	\item Für wie viele Produkte mit welchem Preis gilt der Gutschein?
 	\item Wie oft hat der Kunde in den letzen 30, 60, 90 und 180 Tagen gekauft? (Transaktionszahl)
 	\item Wie viel hat der Kunde in den letzen 30, 60, 90 und 180 Tagen gekauft? (Anzahl gekaufter Produkte)
 	\item Für wie viel Geld hat der Kunde in den letzen 30, 60, 90 und 180 Tagen gekauft? (Kosten)
 \end{itemize}
 
-Die Features werden über eine Reihe von Hive-Abfragen erstellt. Um die Zwischenergebnisse auch für
+Diese Features werden über eine Reihe von SQL-Abfragen erstellt. Um die Zwischenergebnisse auch für
 weitere Iterationen nutzen zu können, legen wir Tabellen mit den Ergebnissen an. Das erlaubt zusätzlich
 einen strukturierten Aufbau der Merkmale.
 
 Da die Kunden-Daten verteilt über die \texttt{train\_history} und die \texttt{test\_history} sind, 
 bilden wir zuerst die Vereinigung der Kunden-Daten:
+
 \begin{lstlisting}[language=SQL]
 CREATE TABLE customers AS 
-(
   SELECT te.id, te.offer, te.offerdate
     FROM test_history te
-  UNION
+  UNION ALL
   SELECT tr.id, tr.offer, tr.offerdate
     FROM train_history tr 
-)
 \end{lstlisting}
+
 Danach ermitteln wir die Transaktionsdaten, die sich jeweils auf die Marke, das Unternehmen oder 
-die Kategorie des Angebots für den Kunden beziehen. Dabei ermitteln wir zusätzlich, wie viele
-Tage vor dem Angebot die Transaktion durchgeführt wurde. Beispielhaft ist hier die Abfrage
+die Kategorie des Gutscheins für den Kunden beziehen. Dabei ermitteln wir zusätzlich, wie viele
+Tage vor dem Gutschein die Transaktion durchgeführt wurde. Beispielhaft ist hier die Abfrage
 für die Marke dargestellt. Die anderen Anfragen werden analog erstellt und sind im Anhang
 \ref{sql:filtered_tx} hinterlegt.
 \begin{lstlisting}[language=SQL]
@@ -163,9 +166,9 @@ Jetzt müssen die unterschiedlichen Features nur noch zusammengeführt werden. D
 in Anhang \ref{sql:features_combined_3} und umfasst einen Join zwischen den
 unterschiedlichen Features auf Basis der Kunden-ID.
 
-Um das Data-Mining-Tool Vorpal Wabbit verwenden zu können, müssen die Features in ein
+Um das Data-Mining-Tool Vowpal Wabbit verwenden zu können, müssen die Features in ein
 passendes Format gewandelt werden. Das Ergebnis der Abfrage für die Features kann
-in Hive als CSV abgespeichert werden. Die Umwandlung in das Format von Vorpal Wabbit
+als CSV abgespeichert werden. Die Umwandlung in das Format von Vowpal Wabbit
 erfolgt über ein Python-Skript (s. Anhang \ref{code:features-to-vw}).
 
 Anschließend erstellen wir ein Model auf Basis der Trainingsdaten und nutzen dieses
@@ -174,10 +177,11 @@ Model zur Voraussage der Wiederkaufwahrscheinlichkeiten für die Kunden aus den 
 vw train.vw -c -k --passes 40 -l 0.85 -f model.vw --loss_function quantile --quantile_tau 0.6
 vw test.vw -t -i model.vw -p shop.preds.txt
 \end{lstlisting}
-Das Ergebnis von Vorpal Wabbit muss jetzt nur noch in das Format zur Einreichung bei 
+\todo{evtl. eigenes Highlighting entwerfen}
+
+Das Ergebnis von Vowpal Wabbit muss anschließend in ein entsprechendes Format zur Einreichung bei 
 Kaggle konvertiert werden. Dies geschieht über das Python-Skript im Anhang 
-\ref{code:vw-preds-to-csv}. Im Ergebnis können wir uns mit dieser Einreichung
-schon etwas von den zuvor durchgeführten Benchmarks absetzen.
+\ref{code:vw-preds-to-csv}. 
 
 \begin{tabular}{|c|c|}
 	\hline \textbf{Platzierung} & \textbf{Bewertung} \\ 
@@ -185,16 +189,16 @@ schon etwas von den zuvor durchgeführten Benchmarks absetzen.
 	\hline 
 \end{tabular}
 
+Im Ergebnis können wir uns mit dieser Einreichung
+schon etwas von den zuvor durchgeführten Benchmarks absetzen.
+
 \subsubsection{Iteration 4}
-
-In dieser Iteration wird das Ergebnis aus Iteration 3 geringfügig verbessert.
 Bei den Features, die wir bisher betrachtet haben, gehen wir von einer
-positiven Wirkung auf das Kaufverhalten aus. Wir ergänzen diese Features
-jetzt um negative Features.
+positiven Wirkung auf das Kaufverhalten aus. Wir ergänzen diese um negative Features.
 
-Bei der Umwandlung der Features von CSV in das Format von Vorpal Wabbit 
+Bei der Umwandlung der Features von CSV in das Format von Vowpal Wabbit 
 erzeugen wir Features für Kunden, die noch nie Produkte der Marke,
-des Unternehmens bzw. der Kategorie ihres Angebots gekauft haben.
+des Unternehmens bzw. der Kategorie ihres Gutscheins gekauft haben.
 \begin{lstlisting}[language=Python]
 # Negative Features erzeugen, wenn nichts gekauft wurde
 if len(row['b_tx_count']) == 0:
@@ -205,13 +209,15 @@ if len(row['ca_tx_count']) == 0:
 	output += ' ca_never:1'
 \end{lstlisting}
 
-Bei Kaggle erzielen wir so ein Ergebnis, das bereits über dem des letzten Jahrgang liegt (Platz 452, Score 0.58519):
+In dieser Iteration wird das Ergebnis aus Iteration 3 geringfügig verbessert.
 
 \begin{tabular}{|c|c|}
 	\hline \textbf{Platzierung} & \textbf{Bewertung} \\ 
 	\hline 344 & 0.58786  \\ 
 	\hline 
 \end{tabular}
+
+Das Ergebnis liegt über dem besten des letzten Jahrgangs, welche den 452. Platz mit einem Score von 0.58519 belegen.
 
 \subsubsection{Iteration 5}
 
@@ -233,7 +239,7 @@ SELECT f.*,
 FROM train_features f
 \end{lstlisting}
 
-Wir verwenden wie zuvor Vorpal Wabbit, um die eine Vorhersage zu generieren:
+Wir verwenden wie zuvor Vowpal Wabbit, um die Vorhersage zu generieren:
 
 \begin{tabular}{|c|c|}
 	\hline \textbf{Platzierung} & \textbf{Bewertung} \\ 
@@ -241,11 +247,11 @@ Wir verwenden wie zuvor Vorpal Wabbit, um die eine Vorhersage zu generieren:
 	\hline 
 \end{tabular}
 
+Mit diesem Verfahren erreichen wir erneut eine Verbesserung unserer Platzierung.
+
 \subsubsection{Iteration 6}
 Bisher haben wir nur einen kleinen Teil der Daten zu Features verarbeitet, da wir nur Transaktionen
-beachtet haben, die sich auf das entsprechende Angebot für den Kunden beziehen. Jetzt führen wir noch
-die globalen Features "`Anzahl der Transaktionen"' und "`Gesamte Umsatzsumme"' ein. Diese Features
-erzeugen wir in eignen Tabelle und joinen diese zu den bereits generierten Features (s. Anhang \ref{code:totals}).
+beachtet haben, die sich auf den entsprechenden Gutschein für den Kunden beziehen. Jetzt führen wir die globalen Features "`Anzahl der Transaktionen"' und "`Gesamte Umsatzsumme"' ein. Diese Features erzeugen wir in eigenen Tabellen und führen diese mit den bereits generierten Features zusammen (s. Anhang \ref{code:totals}).
 
 \begin{lstlisting}[language=SQL]
 CREATE TABLE totals AS
@@ -260,9 +266,9 @@ Das Ergebnis fällt enttäuschend aus und liegt leicht unter der bisherigen Best
 	\hline 262 & 0.59228  \\ 
 	\hline 
 \end{tabular}
-	
-\subsection{Amazon Web Services}
-Im Laufe des Projekts war es für uns von großem Vorteil lokal mit den Daten zu arbeiten und SQL Scripts lokal entwickeln zu können. Auf diese Weise haben wir sowohl die Kosten, die bei der Benutzung der Amazon Web Services entstanden wären, eingespart als auch unseren Zeitaufwand minimiert. Die Ausführung der Scripte dauert in der Cloud um ein Vielfaches länger als bei einer lokalen Nutzung. Neben der eigentlichen Ausführung der Scripte im AWS ist es nötig, dass Rechencluster instantiiert, Hadoop und Hive installiert und der Cluster nach Abschluss des Jobs terminiert wird. Dieser Aufwand rechnet sich erst bei entsprechend großen Datenmengen, sodass die Laufzeit der Scripte überwiegt. Unsere Dateigröße von rund 20 GB ist noch nicht im Bereich Big-Data anzuordnen. Entsprechend lohnt auch ein Einsatz von Werkzeugen wie Hadoop in AWS nicht.
+
+\subsection{Amazon-Web-Services}
+Im Laufe des Projekts war es für uns von großem Vorteil, lokal mit den Daten zu arbeiten und SQL-Scripte lokal entwickeln zu können. Auf diese Weise haben wir sowohl die Kosten, die bei der Benutzung von AWS entstanden wären, eingespart als auch unseren Zeitaufwand minimiert. Die Ausführung der Scripte dauert in der Cloud um ein Vielfaches länger als bei einer lokalen Nutzung. Neben der eigentlichen Ausführung der Scripte im AWS ist es nötig, dass Rechencluster instantiiert, Hadoop und Hive installiert und der Cluster nach Abschluss des Jobs terminiert wird. Dieser Aufwand rechnet sich erst bei entsprechend großen Datenmengen, sodass die Laufzeit der Scripte überwiegt. Unsere Dateigröße von rund 20 GB ist noch nicht im Bereich Big-Data anzuordnen. Entsprechend lohnt auch ein Einsatz von Werkzeugen wie Hadoop in AWS nicht.
 
 Diese Erfahrung haben wir bei der Benutzung von AWS gesammelt. Unser Vorgang umfasst dabei immer folgende Abläufe:
 \begin{enumerate}
@@ -276,35 +282,40 @@ Diese Erfahrung haben wir bei der Benutzung von AWS gesammelt. Unser Vorgang umf
 \end{enumerate}
 
 \subsubsection{Anlegen der Tabellen}
-Zur Erstellung der Tabellen, die auf den Kaggle-Daten basieren, die im S3 liegen, nutzen wir Scripte. Im Folgenden stellen wir exemplarisch ein Script zur Erstellung der Tabelle \textit{Offers} vor. 
-
+Die von Kaggle bereitgestellten Daten befinden sich im CSV-Format im S3.
+Zur Erstellung der Hive-Datenbank nutzen wir Scripte, die Tabellen auf Basis der Dateien im S3 anlegen. Im Folgenden stellen wir exemplarisch ein Script zur Erstellung der Tabelle "`offers"' vor. 
+\\
 \begin{lstlisting}[style=hive]
-CREATE EXTERNAL TABLE offers (offer bigint, category bigint, quantity bigint, company bigint, offervalue double, brand bigint)
-row format delimited fields terminated by ','
-lines terminated by '\n'
-STORED as TEXTFILE
+CREATE EXTERNAL TABLE offers (
+   offer BIGINT, category BIGINT, 
+   quantity BIGINT, company BIGINT, 
+   offervalue DOUBLE, brand BIGINT)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE
 LOCATION 's3://de.whs.fdt.kaggle.acquire-valued-shoppers- challenge/input_data_orig/offers/';
 \end{lstlisting}
 
 Nachfolgend werden die Hive-spezifische Schlüsselwörter beschrieben:
 \begin{description}
-\item[external] Ermöglicht \textit{location} zu benutzen. 
-\item[row format] Gibt das Trennzeichen in Eingabezeilen an.
-\item[lines] Gibt das Zeilenende-Zeichen der Eingabedatei an.
-\item[stored] Angabe des Formats der Eingabedatei.
-\item[location] Ermöglicht einen externen Speicherort anzugeben.
+\item[EXTERNAL] Erlaubt die Tabelle auf Basis einer externen Datei anzulegen.
+\item[ROW FORMAT] Gibt das Trennzeichen zwischen Spaltenwerten an.
+\item[LINES] Gibt das Zeichen zur Markierung des Zeilenende an.
+\item[STORED] Gibt das Format der externen Datei an.
+\item[LOCATION] Gibt den externen Speicherort an.
 \end{description}
 
 \subsubsection{Anfragen ausführen}
 Anhand des SQL-Scripts aus der ersten Iteration wollen wir an dieser Stelle exemplarisch die Erstellung der entsprechenden Hive-Scripte erläutern.
 
 \begin{lstlisting}[style=hive]
-INSERT OVERWRITE DIRECTORY 's3://de.whs.fdt.kaggle.acquire-v../output_data/iteration0/'
-SELECT DISTINCT (h.id), 0.0 AS repeatProbability
-FROM test_history h;
+INSERT OVERWRITE DIRECTORY
+    's3://de.whs.fdt.kaggle.acquire-v../output_data/iteration0/'
+  SELECT DISTINCT (h.id), 0.0 AS repeatProbability
+  FROM test_history h;
 \end{lstlisting}
 
-Der Unterschied zu dem bekannten SQL-Script (Kapitel \ref{sec:iteration0}) liegt in der neu hinzugekommen ersten Zeile. Der entsprechende Befehl schreibt das Ergebnis der darauffolgenden Abfrage in das angegebene Verzeichnis, welches im S3 in unserem Bucket liegt. Analog zu diesem Beispiel haben wir ebenfalls die Hive-Scripte für alle weiteren Iterationen umgesetzt.
+Der Unterschied zu dem bekannten SQL-Script (s. Abschnitt \ref{sec:iteration0}) liegt in der neu hinzugekommen ersten Zeile. Der entsprechende Befehl schreibt das Ergebnis der darauffolgenden Abfrage in das angegebene Verzeichnis, welches im S3 in unserem Bucket liegt. Analog zu diesem Beispiel haben wir ebenfalls die Hive-Scripte für alle weiteren Iterationen umgesetzt.
 
   
 
