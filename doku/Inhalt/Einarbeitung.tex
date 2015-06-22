@@ -95,3 +95,89 @@ Die Technologien, die wir neben Hive verwendet haben, werden im weiteren Verlauf
 
 
 \subsection{Data-Mining-Verfahren}
+In diesem Kapitel werden wir einen Überblick über Data-Mining-Verfahren geben, die für das Kaggle-Projekt von uns genutzt wurden. Zuerst werden wir das Prinzip des Machine Learning erläutern. Anschließend werden die beiden Daten-Mining-Konzepte Regressionsanalyse und Klassifizierung vorgestellt. Zu letzt wird eine Überblick über die benutzten Werkzeuge zum Machine Learning gegeben.
+
+\subsubsection{Machine Learning}
+Die folgende Beschreibung aus Wikipedia beschreibt relativ genau welche Funktion Machine Learning hat. “Maschinelles Lernen ist ein Oberbegriff für die ‘künstliche’ Generierung von Wissen aus Erfahrung: Ein künstliches System lernt aus Beispielen und kann nach Beendigung der Lernphase verallgemeinern.”
+
+Beim Machine Learning versucht man aus vorhanden Informationen ein Modell zu generieren, das eine Aussage über neue Informationen treffen kann. Die Informationen, die zur Erstellung des Modells genutzt werden, werden Trainingsdaten genannt. Informationen, über die eine Aussage getroffen werden soll, nennt man Testdaten.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{Bilder/ShoppersTables}
+\caption{Machine Learning im Modell}
+\label{fig:MachineLearning}
+\end{figure}
+
+Beim Kaggle-Projekt setzten sich die Trainingsdaten aus den Tabellen offers, transactions, trainHistory, für die Testdaten wird die Tabelle testHistory anstatt der Tabelle trainHistory genutzt. Das Modell soll eine Aussage darüber geben, ob ein Kunde erneut kaufen wird.
+
+Es gibt 3 Kategorien beim Machine Learning, das Überwachte Lernen (supervised learning), das Unüberwachte Lernen (unsupervised learning) und das Bestärkende Lernen (reinforcement learning). Das Bestärkende Lernen ist das Lernen durch Belohnung und Bestrafung. Wir werden hier aber nicht weiter auf das Bestärkende Lernen eingehen.
+
+Beim Überwachtem Lernen übergibt man einem Algorithmus Paare aus Eingabedaten und Funktionwerten. Der Algorithmus erstellt daraus ein Modell, das zu einer neuen Eingabe eine Aussage über den Funktionswert trifft. Beispiele für das Überwachte Lernen sind Regressionsanalyse und Klassifizierung.
+
+Beim Unüberwachtem Lernen erzeugt ein Algorithmus ein Modell unter Betrachtung einer Menge von Eingabedaten. Dieses Modell soll dann eine Aussage über die Eingabedaten treffen. Das typische Beispiel für Unüberwachtes Lernen ist Clustering. Hierbei wird versucht Gruppen in der Menge der Eingabedaten zu finden.
+
+Wir werden uns für das Kaggle-Projekt vor allen Dingen mit dem Überwachten Lernen beschäftigen. Denkbar sind zum einen eine Regressionsanalyse, zum anderen eine Binäre Klassifizierung.
+
+Für das Kaggle-Projekt kann man sich eine Regressionsanalyse vereinfacht so vorstellen, dass man eine Menge von Eingabedaten hat und eine Funktion findet, die dafür einen Funktionwert zwischen 0 bis 1 generiert. Der Funktionswert soll die Wahrscheinlichkeit, dass ein Kunde erneut kauft, darstellen. Der Nachteil hierbei ist, dass bei den Trainingsdaten die Funktionswerte nur 0 oder 1 sind und keinen Wert dazwischen einnehmen kann.
+
+Daher wäre eine Binäre Klassifizierung ein anderer möglicher Ansatz. Die beiden möglichen Klassen sind hierbei 0 und 1. 0 für Kunde kauft nicht erneut und 1 für Kunde kauft erneut. Der Algorithmus soll hier ein Aussage treffen zu welcher Wahrscheinlichkeit ein Testdatensatz zur Klasse 0 oder zur Klasse 1 gehört.
+
+Bei Regressionsanalyse und Klassifizierung gibt es das Problem der Überanpassung (overfitting). Von Overfitting spricht man, wenn ein Algorithmus die Trainingsdaten auswendig gelernt hat, aber keine Funktion erstellt hat, die die Verbindungen in den Datensätzen darstellt. Zur Verhinderung von Overfitting übergibt man nur die wichtigen bzw. relevanten Daten an den Algorithmus zur Erstellung des Modells. Die Einschränkung der Daten nennt man auch feature selection.
+
+\subsubsection{Online/Offline Machine Learning}
+
+Beim Machine Learning gibt es zwei verschiedene Ansätze, zum einen das Online Machine Learning und zum anderen das Offline Machine Learning. Beim Online Machine Learning nimmt der Algorithmus schrittweise je einen Datensatz aus den Trainingsdaten. Der Algorithmus passt daraufhin das Modell an und nimmt den nächsten Datensatz. Daher ist beim Online Machine Learning das Modell erweitert werden. Dies ist zum Beispiel dann nützlich wenn man ein Modell über Trainingsdaten der letzten Jahre hat und diese um die Daten der letzten Tage erweitern will. Der Nachteil hierbei ist allerdings, dass die Reihenfolge, in der die Trainingsdaten eingelesen werden, Einfluss auf das Modell nimmt. Beim Offline Machine Learning kann man nur einmal Trainingsdaten übergeben, diese werden dann unabhängig von der Reihenfolge verarbeitet.
+
+\begin{table}[h]
+	\centering
+\begin{tabular}{l|c|c}
+	\textbf{} \textbf{Offline learning} & \textbf{Online learning}  \\ 
+	\hline id & ID des Kunden \\ 
+	\hline repeatProbability & Wahrscheinlichkeit das der Kunde erneut kauft 
+	\vspace{0.3cm} \\
+\end{tabular} 
+\caption{submissions}
+\label{tab:submissions}
+\end{table}
+
+ 
+Implementierungen
+
+In diesem Kapitel werden wir verschiedene Implementierungen für Machine Learning, die für das Kaggle-Projekt in Frage kommen, vorstellen.
+
+Vowpal Wabbit
+
+Vowpal Wabbit ist ein Open-Source Programm für Online Machine Learning. Es wurde ursprünglich bei Yahoo! Research und zur zeit wird es bei Microsoft Research entwickelt. Es bietet die Möglichkeit Klassifizierung und Regressions Algorithmen zu nutzen. Die typische Nutzung von Vowpal Wabbit ist über die Kommandozeile.
+
+Mahout
+
+Apache Mahout ist eine Projekt zur Implementierung von Machine Learning, das vor allen Dingen auf Collaborative Filtering, Clustering und Klassifikation fokussiert ist. Die meisten Implementierungen in Mahout setzten auf Hadoop auf und nutzen das Map/Reduce-Verfahren. Außerdem ist eine Einbindung von Mahout in AWS relative einfach.
+
+Glmnet
+
+Glmnet ist ein R-Package das Lineare und Logistische Regression implementiert.
+
+
+In der folgenden Tabelle sollen die möglichen Anwendungsumgebungen der Implementierungen dargestellt werden.
+
+
+
+HDFS (Hortonworks)
+AWS
+Lokal
+Vowpal Wabbit
+
+
+
+
+✔
+Apache Mahout
+✔
+✔
+✔
+Glmnet
+✔
+✔
+✔
+
