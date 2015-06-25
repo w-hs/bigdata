@@ -157,6 +157,9 @@ Anschließend werden die gefilterten Transaktionsdaten gruppiert nach
 Zeitintervallen ausgewertet. Die vollständigen Abfragen befinden sich
 in Anhang \ref{sql:features_bcc}. Hier wird ein Auszug aus der
 Abfrage für die Marken-Features dargestellt:
+
+\newpage
+
 \begin{lstlisting}[language=SQL]
 CREATE TABLE category_features AS
 SELECT ever.id, ever.tx_count, ever.quantity, ever.cost,
@@ -288,6 +291,8 @@ da wir nur Transaktionen beachtet haben, die sich auf den entsprechenden Gutsche
 den Kunden beziehen. 
 Jetzt führen wir die globalen Features "`Anzahl der Transaktionen"' und "`Gesamte Umsatzsumme"' ein. Diese Features erzeugen wir in einer eigenen Tabelle und führen diese mit den bereits generierten Features zusammen (s. Anhang \ref{code:totals}).
 
+\newpage
+
 \begin{lstlisting}[language=SQL]
 CREATE TABLE totals AS
   SELECT t.id, COUNT(*) AS total_count, 
@@ -324,8 +329,7 @@ Unser Vorgehen zur Ausführung von Skripten umfasst immer folgende Schritte:
 
 \subsubsection{Anlegen der Tabellen}
 Die von Kaggle bereitgestellten Daten befinden sich im CSV-Format im S3.
-Zur Erstellung der Hive-Datenbank nutzen wir Skripte, die Tabellen auf Basis der Dateien im S3 anlegen. Im Folgenden stellen wir exemplarisch ein Skript zur Erstellung der Tabelle "`offers"' vor. 
-\\
+Zur Erstellung der Hive-Datenbank nutzen wir Skripte, die Tabellen auf Basis der Dateien im S3 anlegen. Im Folgenden stellen wir exemplarisch ein Skript zur Erstellung der Tabelle "`offers"' vor.
 \begin{lstlisting}[style=hive]
 CREATE EXTERNAL TABLE offers (
    offer BIGINT, category BIGINT, 
