@@ -1,12 +1,12 @@
 \section{Realisierung}
 
 Die Implementierung erfolgt iterativ, dass heißt wir entwickeln unterschiedliche gegebenenfalls aufeinander aufbauende Lösungen
-und versuchen uns mit jedem Versuch zu verbessern. Unseren Fortschritt messen wir, indem wir in jeder Iteration ein einreichbares Ergebnis erzeugen. Die Bewertung erfolgt somit über einen internen Algorithmus von Kaggle, welches uns einen Platz in der Wettbewerbsrangliste und einen Score berechnet. 
+und versuchen uns mit jedem Versuch zu verbessern. Unseren Fortschritt messen wir, indem wir in jeder Iteration ein einreichbares Ergebnis erzeugen. Die Bewertung erfolgt somit über einen internen Algorithmus von Kaggle, welches uns einen Platz in der Wettbewerbsrangliste und einen Score berechnet.
 
 Im Allgemeinen umfasst unsere Idee das Testen und Entwickeln der Scripte lokal auf dem eigenen Rechner. Anschließend werden darauf basierend Hive-Scripte erstellt und in einem Hadoop-Cluster im AWS ausgeführt.
 
 \subsection{Implementierung}
-Im Nachfolgenden werden alle Iterationen der Reihe nach vorgestellt. \todo{evtl github link als nachweis der ergebnisse aufnehmen}
+Im Nachfolgenden werden alle Iterationen der Reihe nach vorgestellt. Die Ergebnisse, die wir nach jeder Iteration bei Kaggle eingereicht haben, sind im Github-Repository\footnote{\url{https://github.com/w-hs/bigdata/tree/master/submissions}} abgelegt und können dort zur nachträglichen Überprüfung eingesehen werden.
 
 \subsubsection{Iteration 0}
 \label{sec:iteration0}
@@ -177,7 +177,6 @@ Model zur Voraussage der Wiederkaufwahrscheinlichkeiten für die Kunden aus den 
 vw train.vw -c -k --passes 40 -l 0.85 -f model.vw --loss_function quantile --quantile_tau 0.6
 vw test.vw -t -i model.vw -p shop.preds.txt
 \end{lstlisting}
-\todo{evtl. eigenes Highlighting entwerfen}
 
 Das Ergebnis von Vowpal Wabbit muss anschließend in ein entsprechendes Format zur Einreichung bei 
 Kaggle konvertiert werden. Dies geschieht über das Python-Skript im Anhang 
