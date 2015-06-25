@@ -334,7 +334,7 @@ import csv
 
 input = csv.DictReader(sys.stdin, delimiter=',')
 for row in input:
-	# Ausgabe beginnt mit der Klassifizierung:
+	# Die Ausgabe beginnt mit der Klassifizierung:
 	# hat gekauft (1), hat nicht gekauft (0) oder unbekannt (0.5)
 	output = '0.5'
 	if row['repeater'] == 't':
@@ -363,7 +363,7 @@ import csv
 
 input = csv.DictReader(sys.stdin, delimiter=',')
 for row in input:
-    # Ausgabe beginnt mit der Klassifizierung:
+    # Die Ausgabe beginnt mit der Klassifizierung:
     # hat gekauft (1), hat nicht gekauft (0) oder unbekannt (0.5)
     output = '0.5'
     if row['repeater'] == 't':
@@ -397,7 +397,7 @@ for row in input:
 
 import sys
 
-# Das Ergebnis von Vorpal Wabbit gibt ein Paar aus 
+# Das Ergebnis von Vowpal Wabbit gibt ein Paar aus 
 # Wahrscheinlichkeit und Kunden-ID pro Zeile und durch ein
 # Leerzeichen getrennt aus.
 # Dieses Programm konvertiert dieses Format in das von Kaggle

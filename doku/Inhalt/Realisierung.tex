@@ -3,7 +3,7 @@
 Die Implementierung erfolgt iterativ, dass heißt wir entwickeln unterschiedliche gegebenenfalls aufeinander aufbauende Lösungen
 und versuchen uns mit jedem Versuch zu verbessern. Unseren Fortschritt messen wir, indem wir in jeder Iteration ein einreichbares Ergebnis erzeugen. Die Bewertung erfolgt somit über einen internen Algorithmus von Kaggle, welches uns einen Platz in der Wettbewerbsrangliste und einen Score berechnet.
 
-Im Allgemeinen umfasst unsere Idee das Testen und Entwickeln der Scripte lokal auf dem eigenen Rechner. Anschließend werden darauf basierend Hive-Scripte erstellt und in einem Hadoop-Cluster im AWS ausgeführt.
+Im Allgemeinen umfasst unsere Idee das Testen und Entwickeln der Skripte lokal auf dem eigenen Rechner. Anschließend werden darauf basierend Hive-Skripte erstellt und in einem Hadoop-Cluster im AWS ausgeführt.
 
 \subsection{Implementierung}
 Im Nachfolgenden werden alle Iterationen der Reihe nach vorgestellt. Die Ergebnisse, die wir nach jeder Iteration bei Kaggle eingereicht haben, sind im Github-Repository\footnote{\url{https://github.com/w-hs/bigdata/tree/master/submissions}} abgelegt und können dort zur nachträglichen Überprüfung eingesehen werden.
@@ -267,7 +267,7 @@ Das Ergebnis fällt enttäuschend aus und liegt leicht unter der bisherigen Best
 \end{tabular}
 
 \subsection{Amazon-Web-Services}
-Im Laufe des Projekts war es für uns von großem Vorteil, lokal mit den Daten zu arbeiten und SQL-Scripte lokal entwickeln zu können. Auf diese Weise haben wir sowohl die Kosten, die bei der Benutzung von AWS entstanden wären, eingespart als auch unseren Zeitaufwand minimiert. Die Ausführung der Scripte dauert in der Cloud um ein Vielfaches länger als bei einer lokalen Nutzung. Neben der eigentlichen Ausführung der Scripte im AWS ist es nötig, dass Rechencluster instantiiert, Hadoop und Hive installiert und der Cluster nach Abschluss des Jobs terminiert wird. Dieser Aufwand rechnet sich erst bei entsprechend großen Datenmengen, sodass die Laufzeit der Scripte überwiegt. Unsere Dateigröße von rund 20 GB ist noch nicht im Bereich Big-Data anzuordnen. Entsprechend lohnt auch ein Einsatz von Werkzeugen wie Hadoop in AWS nicht.
+Im Laufe des Projekts war es für uns von großem Vorteil, lokal mit den Daten zu arbeiten und SQL-Skripte lokal entwickeln zu können. Auf diese Weise haben wir sowohl die Kosten, die bei der Benutzung von AWS entstanden wären, eingespart als auch unseren Zeitaufwand minimiert. Die Ausführung der Skripte dauert in der Cloud um ein Vielfaches länger als bei einer lokalen Nutzung. Neben der eigentlichen Ausführung der Skripte im AWS ist es nötig, dass Rechencluster instantiiert, Hadoop und Hive installiert und der Cluster nach Abschluss des Jobs terminiert wird. Dieser Aufwand rechnet sich erst bei entsprechend großen Datenmengen, sodass die Laufzeit der Skripte überwiegt. Unsere Dateigröße von rund 20 GB ist noch nicht im Bereich Big-Data anzuordnen. Entsprechend lohnt auch ein Einsatz von Werkzeugen wie Hadoop in AWS nicht.
 
 Diese Erfahrung haben wir bei der Benutzung von AWS gesammelt. Unser Vorgang umfasst dabei immer folgende Abläufe:
 \begin{enumerate}
@@ -282,7 +282,7 @@ Diese Erfahrung haben wir bei der Benutzung von AWS gesammelt. Unser Vorgang umf
 
 \subsubsection{Anlegen der Tabellen}
 Die von Kaggle bereitgestellten Daten befinden sich im CSV-Format im S3.
-Zur Erstellung der Hive-Datenbank nutzen wir Scripte, die Tabellen auf Basis der Dateien im S3 anlegen. Im Folgenden stellen wir exemplarisch ein Script zur Erstellung der Tabelle "`offers"' vor. 
+Zur Erstellung der Hive-Datenbank nutzen wir Skripte, die Tabellen auf Basis der Dateien im S3 anlegen. Im Folgenden stellen wir exemplarisch ein Skript zur Erstellung der Tabelle "`offers"' vor. 
 \\
 \begin{lstlisting}[style=hive]
 CREATE EXTERNAL TABLE offers (
@@ -305,7 +305,7 @@ Nachfolgend werden die Hive-spezifische Schlüsselwörter beschrieben:
 \end{description}
 
 \subsubsection{Anfragen ausführen}
-Anhand des SQL-Scripts aus der ersten Iteration wollen wir an dieser Stelle exemplarisch die Erstellung der entsprechenden Hive-Scripte erläutern.
+Anhand des SQL-Skripts aus der ersten Iteration wollen wir an dieser Stelle exemplarisch die Erstellung der entsprechenden Hive-Skripte erläutern.
 
 \begin{lstlisting}[style=hive]
 INSERT OVERWRITE DIRECTORY
@@ -314,7 +314,7 @@ INSERT OVERWRITE DIRECTORY
   FROM test_history h;
 \end{lstlisting}
 
-Der Unterschied zu dem bekannten SQL-Script (s. Abschnitt \ref{sec:iteration0}) liegt in der neu hinzugekommen ersten Zeile. Der entsprechende Befehl schreibt das Ergebnis der darauffolgenden Abfrage in das angegebene Verzeichnis, welches im S3 in unserem Bucket liegt. Analog zu diesem Beispiel haben wir ebenfalls die Hive-Scripte für alle weiteren Iterationen umgesetzt.
+Der Unterschied zu dem bekannten SQL-Skript (s. Abschnitt \ref{sec:iteration0}) liegt in der neu hinzugekommen ersten Zeile. Der entsprechende Befehl schreibt das Ergebnis der darauffolgenden Abfrage in das angegebene Verzeichnis, welches im S3 in unserem Bucket liegt. Analog zu diesem Beispiel haben wir ebenfalls die Hive-Skripte für alle weiteren Iterationen umgesetzt.
 
   
 
