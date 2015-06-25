@@ -1,6 +1,7 @@
-\section{Hive-Abfragen}
+\section{Anhang}
+\subsection{Hive-Abfragen}
 
-\subsection{Kunden-Daten}
+\subsubsection{Kunden-Daten}
 \begin{lstlisting}[language=SQL]
 CREATE TABLE customers AS 
 (
@@ -12,7 +13,7 @@ CREATE TABLE customers AS
 )
 \end{lstlisting}
 
-\subsection{Transaktionen gefiltert nach Marke, Unternehmen oder Kategorie}
+\subsubsection{Transaktionen gefiltert nach Marke, Unternehmen oder Kategorie}
 \label{sql:filtered_tx}
 \begin{lstlisting}[language=SQL]
 -- Gefiltert nach Marke (brand)
@@ -43,7 +44,7 @@ CREATE TABLE filtered_tx_category AS
   WHERE o.category = t.category
 \end{lstlisting}
 
-\subsection{Features bezogen auf Marke, Unternehmen oder Kategorie}
+\subsubsection{Features bezogen auf Marke, Unternehmen oder Kategorie}
 \label{sql:features_bcc}
 \begin{lstlisting}[language=SQL]
 -- Marken-Features
@@ -185,7 +186,7 @@ LEFT JOIN
 ON (ever.id = before180.id)
 \end{lstlisting}
 
-\subsection{Features kombinieren (Iteration 3)}
+\subsubsection{Features kombinieren (Iteration 3)}
 \label{sql:features_combined_3}
 \begin{lstlisting}[language=SQL]
 -- Features der Kunden, für die Vorhersagen gemacht werden sollen
@@ -249,7 +250,7 @@ CREATE TABLE train_features AS
   LEFT JOIN category_features ca ON (h.id = ca.id)
 \end{lstlisting}
 
-\subsection{Kombinierte Features hinzufügen (Iteration 5)}
+\subsubsection{Kombinierte Features hinzufügen (Iteration 5)}
 
 \begin{lstlisting}[language=SQL]
 -- Test-Features um ausgewählte kombinierte Features erweitern
@@ -267,7 +268,7 @@ SELECT f.*,
 FROM train_features f
 \end{lstlisting}
 
-\subsection{Globale Features (Iteration 6)}
+\subsubsection{Globale Features (Iteration 6)}
 \label{code:totals}
 \begin{lstlisting}[language=SQL]
 -- Erstellen der Tabelle mit den globalen Features
@@ -287,8 +288,8 @@ FROM train_features f
 INNER JOIN totals t ON (f.id = t.id)
 \end{lstlisting}
 
-\section{Python-Skripts}
-\subsection{complete-submission.py}
+\subsection{Python-Skripts}
+\subsubsection{complete-submission.py}
 \label{code:complete-submission}
 \begin{lstlisting}[language=Python]
 #!/usr/bin/env python
@@ -323,7 +324,7 @@ for line in sys.stdin:
 		sys.stdout.write(id + ',' + samples[id])
 \end{lstlisting}
 
-\subsection{features-to-vw.py (Iteration 3)}
+\subsubsection{features-to-vw.py (Iteration 3)}
 \label{code:features-to-vw}
 \begin{lstlisting}[language=Python]
 #!/usr/bin/env python
@@ -352,7 +353,7 @@ for row in input:
 	print(output)
 \end{lstlisting}
 
-\subsection{features-to-vw.py (Iteration 4)}
+\subsubsection{features-to-vw.py (Iteration 4)}
 \label{code:features-to-vw-4}
 \begin{lstlisting}[language=Python]
 #!/usr/bin/env python
@@ -389,7 +390,7 @@ for row in input:
     print(output)
 \end{lstlisting}
 
-\subsection{vw-preds-to-csv.py}
+\subsubsection{vw-preds-to-csv.py}
 \label{code:vw-preds-to-csv}
 \begin{lstlisting}[language=Python]
 #!/usr/bin/env python
