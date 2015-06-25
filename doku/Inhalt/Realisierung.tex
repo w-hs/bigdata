@@ -9,23 +9,22 @@ Anschließend werden darauf basierend Hive-Skripte erstellt und in einem Hadoop-
 im AWS ausgeführt.
 
 \subsection{Projektstruktur}
-TODO: Marvin und Jogi
-- Link zum Git-Repository
-- Allgemeiner Aufbau
-- Ordnerstruktur
-- code
-- - Iterationen (Code spezifisch für eine Iteration)
-- - AWS (Hive-Skripte für AWS)
-- - triskellion (Umsetzung von dem Kaggle-Nutzer http://mlwave.com/predicting-repeat-buyers-vowpal-wabbit/)
-- doku
-- grafiken
-- submissions
+Für das Projekt wurde Git als verteilte Versionsverwaltung eingesetzt. Das Repository\footnote{\url{https://github.com/w-hs/bigdata/tree/master/submissions}} wird durch die Plattform GitHub bereitgestellt und darf für quelloffene Projekte kostenlos genutzt werden. Auf oberer Ebene sind die Ordner code, doku, grafiken und submissions zu finden, deren Inhalt in den folgenden Abschnitten detaillierter vorgestellt wird.
+
+\subsubsection{code}
+In diesem Ordner befinden sich die innerhalb des Projektes erstellten SQL und Python Skripte. Um eine möglichst hohe Übersichtlichkeit zu erreichen, wurde für jede Iteration ein separater Unterordner angelegt, der auch nur die zu dieser Iteration zugehörigen Skripte enthält. In dem Unterordner AWS befinden sich die Skripte zur Generierung der Tabellen für den Amazon-Webservice und entsprechende Skripte für jede Iteration. Der letzte Unterordner triskellion beinhaltet die Umsetzung eines Kaggle-Nutzers \footnote{\url{http://mlwave.com/predicting-repeat-buyers-vowpal-wabbit/}} der eine Implementierung unter Verwendung von Vowpal Wabbit veröffentlichte.
+
+\subsubsection{doku}
+In diesem Ordner befinden sich die LEX-Dateien dieser Dokumentation.
+
+\subsubsection{grafiken}
+Dieser Ordner enthält die innerhalb der Präsentation und Dokumentation verwendeten Grafiken.
+
+\subsubsection{submissions}
+Die nach jeder Iteration entstanden Ergebnisdateien sind in diesem Ordner abgelegt worden.
 
 \subsection{Implementierung}
-Im Nachfolgenden werden alle Iterationen der Reihe nach vorgestellt. Die Ergebnisse, 
-die wir nach jeder Iteration bei Kaggle eingereicht haben, sind im
-Github-Repository\footnote{\url{https://github.com/w-hs/bigdata/tree/master/submissions}}
-abgelegt und können dort zur nachträglichen Überprüfung eingesehen werden.
+Im Nachfolgenden werden alle Iterationen der Reihe nach vorgestellt.
 
 \subsubsection{Iteration 0}
 \label{sec:iteration0}
