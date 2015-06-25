@@ -95,7 +95,7 @@ Die Technologien, die wir neben Hive verwendet haben, werden im weiteren Verlauf
 
 
 \subsection{Data-Mining-Verfahren}
-In diesem Kapitel werden wir einen Überblick über Data-Mining-Verfahren geben, die für den Einsatz im Projekt in Betracht kommen. Nach einer Erläuterung des grundlegenden Prinzips des Machine-Learning werden zwei Daten-Mining-Konzepte, Regressionsanalyse und Klassifizierung, vorgestellt. Im Anschluss werden mögliche Werkzeuge zum Machine-Learning erläutert.
+In diesem Kapitel werden wir einen Überblick über Data-Mining-Verfahren geben, die für den Einsatz im Projekt in Betracht kommen. Nach einer Erläuterung des grundlegenden Prinzips des Machine-Learning werden zwei Data-Mining-Konzepte, Regressionsanalyse und Klassifizierung, vorgestellt. Im Anschluss werden mögliche Werkzeuge zum Machine-Learning erläutert.
 
 \subsubsection{Machine-Learning}
 \label{subsubSec:MachineLearning}
@@ -104,11 +104,11 @@ Beim Machine-Learning wird versucht aus vorhanden Informationen ein Modell zu ge
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.7\linewidth]{Bilder/DataMining}
-\caption{Machine Learning im Modell}
+\caption{Machine-Learning im Modell}
 \label{fig:MachineLearning}
 \end{figure}
 
-In dem Kaggle-Projekts setzen sich die Trainingsdaten in der Tabelle "`train\_history"' und die Testdaten in der Tabelle "`test\_history"'. Die Tabellen "`offers"' und "`transactions"' enthalten sowohl Trainings- als auch Testdaten. Das zu erzeugende Modell soll eine Aussage darüber treffen, ob ein Kunde erneut kaufen wird.
+In dem Kaggle-Projekt befinden sich die Trainingsdaten in der Tabelle "`train\_history"' und die Testdaten in der Tabelle "`test\_history"'. Die Tabellen "`offers"' und "`transactions"' enthalten sowohl Trainings- als auch Testdaten. Das zu erzeugende Modell soll eine Aussage darüber treffen, ob ein Kunde erneut kaufen wird.
 
 Das Problem lässt sich in die Kategorie des überwachten Lernens einordnen. Bei diesem werden 
 einem Algorithmus Paare aus Eingabedaten und Funktionswerten übergeben. Der Algorithmus erstellt
@@ -118,16 +118,18 @@ das überwachte Lernen sind Regressionsanalyse und Klassifizierung.
 Im Rahmen dieses Projekts werden wir uns deshalb vorrangig mit dem überwachten Lernen beschäftigen. 
 Denkbar sind zum einen eine Regressionsanalyse und zum anderen eine binäre Klassifizierung.
 Für dieses Projekt kann man sich eine Regressionsanalyse vereinfacht so vorstellen, dass man eine Menge
-von Eingabedaten hat und eine Funktion findet, die dafür einen Funktionswert zwischen 0 bis 1 generiert. Dieser Wert stellt die Wahrscheinlichkeit dar, dass ein Kunde erneut kauft.
-Da ein Kunde entweder erneut oder nicht kauft, kann eine binären Klassifizierung eingesetzt werden.
-Es gibt dabei die folgenden Klassen:
+von Eingabedaten hat und eine Funktion findet, die dafür einen Funktionswert zwischen 0 und 1 generiert. 
+Dieser Wert stellt die Wahrscheinlichkeit dar, dass ein Kunde erneut kauft. Da der Kunde insgesamt nur 
+zwei Möglichkeiten hat, kann eine binäre Klassifizierung eingesetzt werden, bei denen folgende Klassen 
+unterschieden werden:
+
 \begin{description}
 	\item[0:] Der Kunde kauft nicht erneut
 	\item[1:] Der Kunde kauft erneut
 \end{description}
 Die Klassifizierung soll eine Aussage treffen, mit welcher Wahrscheinlichkeit ein Testdatensatz zur Klasse 0 bzw. 1 gehört.
 
-Bei der Regressionsanalyse und Klassifizierung gibt es das Problem der Überanpassung (auch Overfitting genannt). Von Overfitting spricht man, wenn ein Algorithmus die Trainingsdaten auswendig gelernt hat.
+Sowohl bei der Regressionsanalyse, als auch bei der Klassifizierung gibt es das Problem der Überanpassung (auch Overfitting genannt). Von Overfitting spricht man, wenn ein Algorithmus die Trainingsdaten auswendig gelernt hat.
 Die erzeugte Funktion passt damit nur auf die Trainingsdaten und kann nicht auf weitere
 Testdaten verallgemeinert werden. Zur Verhinderung von Overfitting übergibt man nur die wichtigen bzw. relevanten Daten an den Algorithmus zur Erstellung des Modells. Diese Einschränkung der Daten nennt man Feature-Selection.
 
@@ -160,12 +162,12 @@ In diesem Kapitel stellen wir Werkzeuge für Machine-Learning vor, die für dies
 \begin{description}
 \item[Vowpal Wabbit] Vowpal Wabbit\footnote{\url{https://github.com/JohnLangford/vowpal_wabbit/wiki}} ist ein Open-Source-Programm für Online-Machine-Learning. Es wurde ursprünglich bei Yahoo! Research entwickelt und wird heute von Microsoft Research unterhalten. Es bietet die Möglichkeit Klassifizierungs- und Regressionsalgorithmen zu verwenden.
 
-\item[Apache Mahout] Apache Mahout\footnote{\url{http://mahout.apache.org/}} ist eine Projekt zur Implementierung von Machine-Learning, das in erster Linie auf Collaborative-Filtering, Clustering und Klassifikation fokussiert ist. Die bekanntesten Implementierungen von Mahout setzen auf Hadoop auf und nutzen das Map/Reduce-Verfahren. Eine Einbindung von Mahout in AWS ist relativ einfach zu bewerkstelligen.
+\item[Apache Mahout] Apache Mahout\footnote{\url{http://mahout.apache.org/}} ist ein Projekt zur Implementierung von Machine-Learning, das in erster Linie auf Collaborative-Filtering, Clustering und Klassifikation fokussiert ist. Die bekanntesten Implementierungen von Mahout setzen auf Hadoop auf und nutzen das Map/Reduce-Verfahren. Eine Einbindung von Mahout in AWS ist relativ einfach zu bewerkstelligen.
 
 \item[Glmnet] Glmnet\footnote{\url{http://cran.r-project.org/web/packages/glmnet/index.html}} ist ein R-Package, das lineare und logistische Regression implementiert.
 \end{description}
 
-Die Tabelle \ref{tab:MachineLearningTools} stellt die möglichen Anwendungsumgebungen der Implementierungen dar.
+Die Tabelle \ref{tab:MachineLearningTools} stellt die möglichen Anwendungsumgebungen der Implementierungen dar:
 
 \begin{table}[H]
 	\centering
@@ -176,7 +178,7 @@ Die Tabelle \ref{tab:MachineLearningTools} stellt die möglichen Anwendungsumgeb
 	\hline \textbf{Glmnet} & x & x & x 
 	\vspace{0.3cm} 
 \end{tabular} 
-\caption{Anwendungsumgebungen der Machine Learning Werkzeuge}
+\caption{Anwendungsumgebungen der Machine-Learning-Werkzeuge}
 \label{tab:MachineLearningTools}
 \end{table}
 
