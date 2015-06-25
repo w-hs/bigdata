@@ -14,32 +14,34 @@ Bei diesen Transaktionen muss die Marke, die Kategorie oder das Unternehmen mit 
 Diese Daten könnten in einem nächsten Iterationsschritt ebenfalls verwertet werden, wozu zunächst die folgenden Ansätze zusammengetragen wurden:
 	
 \begin{itemize}
-\item Für jeden Kunden soll der komplette Umsatz pro Quartal bzw. pro Jahr ermittelt werden. Die Idee ist, dass Kunden, die viel Geld umsetzen, weniger gut durch Gutscheine ansprechbar sind, als die Kunden, die wenig zum Umsatz beitragen. 
+\item Für jeden Kunden soll der komplette Umsatz pro Quartal bzw. pro Jahr ermittelt werden. Die Idee ist, dass der Umsatz das Kaufverhalten der Kunden beeinflusst.
  
 \item Kunden, die in regelmäßigen Abständen einkaufen, kommen sehr wahrscheinlich wieder.
 Beispielsweise werden wöchentlich die Nahrungsvorräte auf dem Heimweg von der Arbeit aufgefüllt.
 Die Frequenz des Einkaufens kann über die Auswertung der Zeitangaben der Transaktionen ermittelt werden.
 
-\item Clustering von oft zusammen gekauften Marken, Kategorien und Unternehmen. Auf dieser Basis können Features für die Kunden definiert werden.
-	
-\item Kunden, die große Mengen gekauft haben, kommen wahrscheinlich wieder. Sie benötigen allerdings keine Gutscheine, da der Preis für sie bereits in Ordnung ist oder der Markt beispielsweise zum Einkauf gut gelegen ist. Für eine Umsetzung gilt es eine Definition für "große Menge" zu finden.  Denkbar wäre große Menge als überdurchschnittlich zu definieren, was sich einfach implementieren ließe.
+\item Clustering von oft zusammengekauften Marken, Kategorien und Unternehmen
+ermöglicht weitere Features für die Kunden zu definieren.
+Dies erfordert allerdings die Implementierung eines Clustering-Algorithmus
+auf den Daten.
 \end{itemize}
 
 \subsubsection{Bewertung von Features}	
 Sowohl bei den verwendeten Features als auch bei den oben vorgestellten Ideen ist bisher unklar, inwiefern diese Features das Kaufverhalten positiv, negativ oder überhaupt beeinflussen.
-In unseren Vorträge zur Veranstaltung ist zur Sprache gekommen, dass statistische Auswertungsverfahren zur Verfügung stehen, welche Aufschluss über die Qualität der Features treffen können. Da schlechte Features das Ergebnis negativ verfälschen können, ist dieser Ansatz besonders interessant.
+In unseren Vorträgen zur Veranstaltung ist zur Sprache gekommen, dass statistische Auswertungsverfahren zur Verfügung stehen, welche Aufschluss über die Qualität der Features treffen können. Da schlechte Features das Ergebnis negativ verfälschen können, ist dieser Ansatz besonders interessant.
 Zur Umsetzung müsste die Korrelation zwischen den einzelnen Features und dem Wiederkaufverhalten gemessen werden. Auf dieser Basis kann ein Grenzwert festgelegt werden, ab dem ein Feature
 zur Voraussage genutzt wird.
 
 \subsubsection{Offline-Learning-Verfahren}	
 Die Trainingsdaten, die von Kaggle für die Aufgabenstellung bereitgestellt werden, sind konstant und werden 
-nicht um neue Trainingsdaten erweitert. Daher ist es nicht zwingend notwendig, dass diese inkrementell gelernt
-werden. Zurzeit nutzen wir allerdings ein Online-Learning-Verfahren zur Erstellung des Modells. Wie im Kapitel
-\nameref{subsubSec:MachineLearning} beschrieben, hat dies zum Nachteil, dass die Reihenfolge, in der die Trainingsdaten
-eingelesen werden, Einfluss auf die Generierung des Modells haben. Daher wäre es wünschenswert ein Offline-Learning-Verfahren
-anstelle des von uns benutzten Online-Learning-Verfahrens zu nutzen. Aufgrund der begrenzten Zeit, die uns zur 
-Lösung des Problems zur Verfügung stand, haben wir keine Implementierung eines Offline-Learning-Verfahrens vollständig 
-ausprobieren können. Dies wäre somit ein Punkt bei dem wir uns noch Verbesserungspotenzial erhoffen.
+nicht um neue Trainingsdaten erweitert.
+Daher ist es nicht zwingend notwendig, dass diese inkrementell gelernt werden.
+Zurzeit nutzen wir allerdings ein Online-Learning-Verfahren zur Erstellung des Modells.
+Wie im Abschnitt \ref{subsubSec:MachineLearning} beschrieben, hat dies zum Nachteil,
+dass die Reihenfolge der Trainingsdaten Einfluss auf die Generierung des Modells hat. 
+Daher wäre es wünschenswert ein Offline-Learning-Verfahren anstelle des von uns benutzten Online-Learning-Verfahrens zu nutzen.
+Aufgrund der begrenzten Zeit, die uns zur Lösung des Problems zur Verfügung stand, haben wir keine Implementierung eines Offline-Learning-Verfahrens vollständig ausprobieren können.
+Dies wäre somit ein Punkt, bei dem wir uns noch Verbesserungspotenzial erhoffen.
 
 \subsection{Fazit}
 Insgesamt verschafften uns die Veranstaltung und das Projekt einen guten Gesamtüberblick über das Themengebiet Big-Data.
