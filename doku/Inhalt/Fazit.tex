@@ -55,7 +55,16 @@ Der allgemeine Eindruck des AWS ist ein eher Positiver. Nachteilig sind die lang
 Insgesamt konnten wir durch den Einsatz verschiedener Technologien wie MapReduce oder Hive und Data-Mining-Verfahren ein deutlich besseres Ergebnis als die Gruppe im Vorjahr erreichen. Den Fortschritt über die Iterationen zeigt das folgende Diagramm.
 \todo[inline]{Fabian, Lutz: Hier wäre ein kurzes Fazit der Data-Mining-Verfahren sinnvoll.}
 
-Neben dem im Implementationskapitel vorgestellten Regression-Verfahren haben wir auch ein Klassifizierungs-Verfahren benutzt, desen Implementierung wir nicht weiter vorgestellt haben. In den durchgeführten Tests erzielt das Klassifizierungs-Verfahren aber in Kaggle eine geringere Punktzahl, daher können wir abschließend sagen, dass das gewählte Regressions-Verfahren in Anbetracht der erzielten Punktzahl eine gute Wahl war.
+Neben dem im Implementationskapitel vorgestellten Regression-Verfahren haben wir auch ein Klassifizierungs-Verfahren benutzt,
+desen Implementierung wir nicht weiter vorgestellt haben. In den durchgeführten Tests erzielt das Klassifizierungs-Verfahren
+aber in Kaggle eine geringere Punktzahl, daher können wir abschließend sagen, dass das gewählte Regressions-Verfahren in
+Anbetracht der erzielten Punktzahl eine gute Wahl war.
+
+Für die Implementierung der Data-Mining-Verfahren haben wir Vowpal Wabbit genutzt. Mit Vowpal Wabbit liesen sich die
+gewählten Data-Mining-Verfahren - ohne großen Aufwand zur Einarbeitung - nutzen. Als Negativpunkt ist uns aufgefallen, dass
+sich Vowpal Wabbit nicht einfach in Hadoop oder in AWS nutzen lässt. Daher können wir abschließend sagen, dass Vowpal Wabbit
+zur Einarbeitung in das Thema Data-Mining sicher ein gutes Werkzeug ist, aber für das Arbeiten mit Big Data eigentlich nicht
+geeignet ist.
 
 Das nachfolgende Diagramm zeigt, wie sich unsere Platzierung innerhalb der einzelnen Iterationen verändert hat:
 
