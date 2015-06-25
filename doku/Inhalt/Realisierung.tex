@@ -63,10 +63,10 @@ WHERE t.category = o.category
 \end{lstlisting}
 
 Um das Ergebnis bei Kaggle einzureichen, fehlen noch die Kunden mit einer Wahrscheinlichkeit von 0.
-Um diese hinzuzufügen wurde ein Python-Skript entwickelt, das eine unvollständige Einreichung
+Um diese hinzuzufügen, wurde ein Python-Skript entwickelt, das eine unvollständige Einreichung
 um die fehlenden Einträge erweitert. Für die Kunden ohne Einträge wird eine Wahrscheinlichkeit von 0 eingetragen.
 Dieses Skript (s. Anhang \ref{code:complete-submission}) kann in weiteren Iterationen verwendet werden,
-um sicher zu stellen, dass das Ergebnis vollständig ist und die Überprüfung von Kaggle übersteht. 
+um sicherzustellen, dass das Ergebnis vollständig ist und die Überprüfung von Kaggle übersteht. 
 
 Die Bewertung von Kaggle ergibt wie erwartet:
 
@@ -116,9 +116,9 @@ Folgende Merkmale werden jeweils für die Marke (brand), das Unternehmen (compan
 des Gutscheins (offer) ermittelt:
 \begin{itemize}
 	\item Für wie viele Produkte mit welchem Preis gilt der Gutschein?
-	\item Wie oft hat der Kunde in den letzen 30, 60, 90 und 180 Tagen gekauft? (Transaktionszahl)
-	\item Wie viel hat der Kunde in den letzen 30, 60, 90 und 180 Tagen gekauft? (Anzahl gekaufter Produkte)
-	\item Für wie viel Geld hat der Kunde in den letzen 30, 60, 90 und 180 Tagen gekauft? (Kosten)
+	\item Wie oft hat der Kunde in den letzten 30, 60, 90 und 180 Tagen gekauft? (Transaktionszahl)
+	\item Wie viel hat der Kunde in den letzten 30, 60, 90 und 180 Tagen gekauft? (Anzahl gekaufter Produkte)
+	\item Für wie viel Geld hat der Kunde in den letzten 30, 60, 90 und 180 Tagen gekauft? (Kosten)
 \end{itemize}
 
 Diese Features werden über eine Reihe von SQL-Abfragen erstellt. Um die Zwischenergebnisse auch für
