@@ -17,7 +17,7 @@ abgelegt und können dort zur nachträglichen Überprüfung eingesehen werden.
 \subsubsection{Iteration 0}
 \label{sec:iteration0}
 
-Als Erstes wollen wir eine Grundlage zur Bewertung folgender Versuche schaffen und das Einreichen einer
+Als Erstes wollen wir eine Grundlage zur Bewertung nachfolgender Versuche schaffen und das Einreichen einer
 Lösung bei Kaggle üben. Dazu erzeugen wir eine Datei, die jedem Kunden die Kaufwahrscheinlichkeit 0
 zuordnet. Hierzu verwenden wir eine rudimentäre SQL-Abfrage:
 
@@ -129,7 +129,7 @@ CREATE TABLE customers AS
 Danach ermitteln wir die Transaktionsdaten, die sich jeweils auf die Marke, das Unternehmen oder 
 die Kategorie des Gutscheins für den Kunden beziehen. Dabei bestimmen wir zusätzlich, wie viele
 Tage vor dem Gutschein die Transaktion durchgeführt wurde. Beispielhaft ist hier die Abfrage
-für die Marke dargestellt. Die anderen Anfragen werden analog erstellt und sind im Anhang
+für die Marke dargestellt. Die anderen Abfragen werden analog erstellt und sind im Anhang
 \ref{sql:filtered_tx} hinterlegt.
 \begin{lstlisting}[language=SQL]
 CREATE TABLE filtered_tx_brand AS
@@ -189,8 +189,8 @@ passendes Format gewandelt werden. Das Ergebnis der Abfrage für die Features ka
 als CSV abgespeichert werden. Die Umwandlung in das Format von Vowpal Wabbit
 erfolgt über ein Python-Skript (s. Anhang \ref{code:features-to-vw}).
 
-Anschließend erstellen wir ein Model auf Basis der Trainingsdaten und nutzen dieses
-Model zur Voraussage der Wiederkaufwahrscheinlichkeiten für die Kunden aus den Testdaten.
+Anschließend erstellen wir ein Modell auf Basis der Trainingsdaten und nutzen dieses
+zur Voraussage der Wiederkaufwahrscheinlichkeiten für die Kunden aus den Testdaten.
 \begin{lstlisting}
 vw train.vw -c -k --passes 40 -l 0.85 -f model.vw --loss_function quantile --quantile_tau 0.6
 vw test.vw -t -i model.vw -p shop.preds.txt
@@ -216,7 +216,7 @@ positiven Wirkung auf das Kaufverhalten aus. Wir ergänzen diese um negative Fea
 Bei der Umwandlung der Features von CSV in das Format von Vowpal Wabbit 
 erzeugen wir Features für Kunden, die noch nie Produkte der Marke,
 des Unternehmens bzw. der Kategorie ihres Gutscheins gekauft haben.
-Dazu wird das zuständige Python-Skript erweitert (die angepasste Version ist in Anhang 
+Dazu wird das zuständige Python-Skript erweitert (die angepasste Version befindet sich in Anhang 
 \ref{code:features-to-vw-4}).
 \begin{lstlisting}[language=Python]
 # Negative Features erzeugen, wenn nichts gekauft wurde
@@ -240,7 +240,7 @@ Das Ergebnis liegt über dem besten des letzten Jahrgangs, welche den 452. Platz
 
 \subsubsection{Iteration 5}
 
-Jetzt erweitern wir die Features um Kombinationen. Wir führen neue Features ein, die den Wert 1 haben,
+In dieser Iteration erweitern wir die Features um Kombinationen. Wir führen neue Features ein, die den Wert 1 haben,
 falls der Kunde von Marke und Unternehmen, Marke und Kategorie oder allen drei Eigenschaften bereits
 gekauft hat.
 
@@ -293,17 +293,21 @@ Das Ergebnis fällt enttäuschend aus und liegt leicht unter der bisherigen Best
 \end{tabular}
 
 \subsection{Amazon-Web-Services}
-Im Laufe des Projekts war es für uns von großem Vorteil, lokal mit den Daten zu arbeiten und SQL-Skripte lokal entwickeln zu können. Auf diese Weise haben wir sowohl die Kosten, die bei der Benutzung von AWS entstanden wären, eingespart als auch unseren Zeitaufwand minimiert. Die Ausführung der Skripte dauert in der Cloud um ein Vielfaches länger als bei einer lokalen Nutzung. Neben der eigentlichen Ausführung der Skripte im AWS ist es nötig, dass Rechencluster instantiiert, Hadoop und Hive installiert und der Cluster nach Abschluss des Jobs terminiert wird. Dieser Aufwand rechnet sich erst bei entsprechend großen Datenmengen, sodass die Laufzeit der Skripte überwiegt. Unsere Dateigröße von rund 20 GB ist noch nicht im Bereich Big-Data anzuordnen. Entsprechend lohnt auch ein Einsatz von Werkzeugen wie Hadoop in AWS nicht.
+Im Laufe des Projekts war es für uns von großem Vorteil, mit den Daten lokal zu arbeiten und SQL-Skripte lokal entwickeln zu können. Auf diese Weise haben wir sowohl die Kosten, die bei der Benutzung von AWS entstanden wären, eingespart als auch unseren Zeitaufwand minimiert. Die Ausführung der Skripte dauert in der Cloud um ein Vielfaches länger als bei einer lokalen Nutzung. Neben der eigentlichen Ausführung der Skripte im AWS ist es nötig, dass das Rechencluster instantiiert, Hadoop und Hive installiert und der Cluster nach Abschluss des Jobs terminiert wird. Dieser Aufwand rechnet sich erst bei entsprechend großen Datenmengen, sodass die Laufzeit der Skripte überwiegt. Unsere Dateigröße von rund 20 GB ist noch nicht im Bereich Big-Data einzuordnen. Entsprechend ist der ein Einsatz von Werkzeugen wie Hadoop innerhalb der AWS etwas überdimensioniert.
 
-Diese Erfahrung haben wir bei der Benutzung von AWS gesammelt. Unser Vorgang umfasst dabei immer folgende Abläufe:
+Unser Vorgehen zur Ausführung von Skripten umfasst immer folgende Schritte:
 \begin{enumerate}
 \item Cluster erstellen und konfigurieren
-\subitem Servergröße auswählen
-\subitem Zu installierende Module - Hive
-\subitem Logging und Auto-Terminierung einstellen
+	\begin{itemize}
+	\item Servergröße auswählen
+	\item Benötigte Module auswählen (Hive)
+	\item Logging und Auto-Terminierung einstellen
+	\end{itemize}
 \item Jobs konfigurieren
-\subitem Anlegen der Tabellen auf Basis der Kaggle-Daten im S3
-\subitem Ausführen unserer Analysen und Speichern der Ergebnisse im S3
+	\begin{itemize}
+	\item Anlegen der Tabellen auf Basis der Kaggle-Daten im S3
+	\item Ausführen unserer Analysen und Speichern der Ergebnisse im S3
+	\end{itemize}
 \end{enumerate}
 
 \subsubsection{Anlegen der Tabellen}
@@ -340,7 +344,7 @@ INSERT OVERWRITE DIRECTORY
   FROM test_history h;
 \end{lstlisting}
 
-Der Unterschied zu dem bekannten SQL-Skript (s. Abschnitt \ref{sec:iteration0}) liegt in der neu hinzugekommen ersten Zeile. Der entsprechende Befehl schreibt das Ergebnis der darauffolgenden Abfrage in das angegebene Verzeichnis, welches im S3 in unserem Bucket liegt. Analog zu diesem Beispiel haben wir ebenfalls die Hive-Skripte für alle weiteren Iterationen umgesetzt.
+Der Unterschied zu dem bekannten SQL-Skript (s. Abschnitt \ref{sec:iteration0}) liegt in der neu hinzugekommen ersten Zeile. Der entsprechende Befehl schreibt das Ergebnis der darauf folgenden Abfrage in das angegebene Verzeichnis, welches im S3 in unserem Bucket liegt. Analog zu diesem Beispiel haben wir ebenfalls die Hive-Skripte für alle weiteren Iterationen umgesetzt.
 
   
 
