@@ -20,9 +20,10 @@ Diese Daten könnten in einem nächsten Iterationsschritt ebenfalls verwertet we
 Beispielsweise werden wöchentlich die Nahrungsvorräte auf dem Heimweg von der Arbeit aufgefüllt.
 Die Frequenz des Einkaufens kann über die Auswertung der Zeitangaben der Transaktionen ermittelt werden.
 
-\item Clustering von oft zusammen gekauften Marken, Kategorien und Unternehmen. Auf dieser Basis können Features für die Kunden definiert werden.
-	
-\item Kunden, die große Mengen gekauft haben, kommen wahrscheinlich wieder. Sie benötigen allerdings keine Gutscheine, da der Preis für sie bereits in Ordnung ist oder der Markt beispielsweise zum Einkauf gut gelegen ist. Für eine Umsetzung gilt es eine Definition für "große Menge" zu finden.  Denkbar wäre große Menge als überdurchschnittlich zu definieren, was sich einfach implementieren ließe.
+\item Clustering von oft zusammen gekauften Marken, Kategorien und Unternehmen
+ermöglicht weitere Features für die Kunden zu definieren.
+Dies erfordert allerdings die Implementierung eines Clustering-Algorithmus
+auf den Daten.
 \end{itemize}
 
 \subsubsection{Bewertung von Features}	
@@ -33,13 +34,14 @@ zur Voraussage genutzt wird.
 
 \subsubsection{Offline-Learning-Verfahren}	
 Die Trainingsdaten, die von Kaggle für die Aufgabenstellung bereitgestellt werden, sind konstant und werden 
-nicht um neue Trainingsdaten erweitert. Daher ist es nicht zwingend notwendig, dass diese inkrementell gelernt
-werden. Zurzeit nutzen wir allerdings ein Online-Learning-Verfahren zur Erstellung des Modells. Wie im Kapitel
-\nameref{subsubSec:MachineLearning} beschrieben, hat dies zum Nachteil, dass die Reihenfolge, in der die Trainingsdaten
-eingelesen werden, Einfluss auf die Generierung des Modells haben. Daher wäre es wünschenswert ein Offline-Learning-Verfahren
-anstelle des von uns benutzten Online-Learning-Verfahrens zu nutzen. Aufgrund der begrenzten Zeit, die uns zur 
-Lösung des Problems zur Verfügung stand, haben wir keine Implementierung eines Offline-Learning-Verfahrens vollständig 
-ausprobieren können. Dies wäre somit ein Punkt bei dem wir uns noch Verbesserungspotenzial erhoffen.
+nicht um neue Trainingsdaten erweitert.
+Daher ist es nicht zwingend notwendig, dass diese inkrementell gelernt werden.
+Zurzeit nutzen wir allerdings ein Online-Learning-Verfahren zur Erstellung des Modells.
+Wie im Abschnitt \ref{subsubSec:MachineLearning} beschrieben, hat dies zum Nachteil,
+dass die Reihenfolge der Trainingsdaten Einfluss auf die Generierung des Modells hat. 
+Daher wäre es wünschenswert ein Offline-Learning-Verfahren anstelle des von uns benutzten Online-Learning-Verfahrens zu nutzen.
+Aufgrund der begrenzten Zeit, die uns zur Lösung des Problems zur Verfügung stand, haben wir keine Implementierung eines Offline-Learning-Verfahrens vollständig ausprobieren können.
+Dies wäre somit ein Punkt, bei dem wir uns noch Verbesserungspotenzial erhoffen.
 
 \subsection{Fazit}
 Insgesamt verschafften uns die Veranstaltung und das Projekt einen guten Gesamtüberblick über das Themengebiet Big-Data.
@@ -47,7 +49,6 @@ Dabei mussten wir vor allem zu Beginn des Projekts viel Aufwand in das Grundvers
 Die Seminarvorträge im Laufe des Semesters waren dabei sehr hilfreich und passten gut zu dem von uns gewählten iterativen Vorgehen.
 Sofern im Rahmen eines Vortrags eine neue und für uns relevante Technologie vorgestellt wurde, haben wir diese in der nächsten Iteration berücksichtigt.  
 
-Positiv aufgefallen ist die Arbeit mit den Amazon-Web-Services.
 Bei den Web-Services können wir in der Cloud von Amazon Jobs auf großen Datenmengen ausführen, was mit unseren normalen Maschinen nicht möglich gewesen wäre.
 Diese Möglichkeit wird auch von vielen Unternehmen genutzt, sodass ein Einblick in die Praxis für uns sehr interessant war.
 Durch unsere Nachlässigkeit wurde auch das von Amazon gesponsorte Kapital dezimiert,
