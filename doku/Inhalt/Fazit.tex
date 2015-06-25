@@ -43,46 +43,13 @@ ausprobieren können. Dies wäre somit ein Punkt bei dem wir uns noch Verbesseru
 
 \subsection{Fazit}
 Insgesamt verschafften uns die Veranstaltung und das Projekt einen guten Gesamtüberblick über das Themengebiet Big-Data.
-Dabei mussten wir vor allem zu Beginn des Projekts viel Aufwand in das Grundverständnis investieren, da wir das Thema zuvor noch nicht behandelt hatten.
-Die Seminarvorträge im Laufe des Semesters waren dabei sehr hilfreich und passten gut zu dem von uns gewählten iterativen Vorgehen.
-Sofern im Rahmen eines Vortrags eine neue und für uns relevante Technologie vorgestellt wurde, haben wir diese in der nächsten Iteration berücksichtigt.  
+Dabei mussten wir vor allem zu Beginn des Projekts viel Aufwand in das Grundverständnis investieren, da wir das Thema zuvor noch nicht behandelt hatten. Die Seminarvorträge im Laufe des Semesters waren dabei sehr hilfreich und passten gut zu dem von uns gewählten iterativen Vorgehen. Sofern im Rahmen eines Vortrags eine neue und für uns relevante Technologie vorgestellt wurde, haben wir diese in der nächsten Iteration berücksichtigt.  
 
-Positiv aufgefallen ist die Arbeit mit den Amazon-Web-Services.
-Bei den Web-Services können wir in der Cloud von Amazon Jobs auf großen Datenmengen ausführen, was mit unseren normalen Maschinen nicht möglich gewesen wäre.
-Diese Möglichkeit wird auch von vielen Unternehmen genutzt, sodass ein Einblick in die Praxis für uns sehr interessant war.
-Durch unsere Nachlässigkeit wurde auch das von Amazon gesponsorte Kapital dezimiert,
-nachdem der Cluster mehrere Tage nicht terminiert wurde.
+Im Laufe der Iterationen sind somit immer komplexere Data-Mining-Verfahren zum Einsatz gekommen. Angefangen mit vorgegebenen Benchmarks von Kaggle sind wir zügig zu aufwändigeren Verfahren wie Regressionsanalysen und Klassifizierungen übergegangen. Unser Ansatz mit Vowpal Wabbit die Verfahren umzusetzen, war aufgrund des geringen Einarbeitungsaufwands und der schnellen Ergebnisse eine gute Wahl. Kritikpunkte an Vowpal Wabbit sind hingegen, dass eine Nutzung in Hadoop und AWS nur schwer zu erreichen ist, weshalb wir zu dem Schluss kommen, dass es als Werkzeug im Bereich Big-Data nur begrenzt geeignet ist.
 
-Der allgemeine Eindruck von AWS ist gemischt. 
-Nachteilig sind die langen Wartezeiten bis Probleme mithilfe von Log-Meldung
-analysiert werden können. 
-Bei Laufzeiten von mehreren Stunden stören kleine Verzögerungen nicht.
-Allerdings sind die langen Wartezeiten beim Testen von kurzen Skripts
-ziemlich hinderlich. 
-Des Weiteren ist der Einstieg schwer, weil eine genaue Dokumentation der Amazon-Hive-Befehle nicht vorhanden ist.
-Ebenso haben wir eine intuitive Benutzeroberfläche vermisst.
-Uns gelang es dennoch, durch Recherchen alle nötige Skripte zu erstellen und abzuändern, um Tabellen zu generieren und die Anfragen fehlerfrei auszuführen.
-Der große Vorteil von AWS liegt in der Möglichkeit, sehr große Datenmengen zu verarbeiten.
-Außerdem kann die Performance der genutzten Systeme dem 
-Anwendungsfall angepasst werden, was eine einfache Skalierungsmöglichkeit bietet.
-Diese Vorteile konnten wir aufgrund der beschränkten Datenmenge in unserem
-Projekt nicht ausnutzen
+Unsere Erfahrung mit AWS ist gemischt. Amazon richtet sich mit Ihrem Angebot an Anwender, die Big-Data in großem Umfang professionell betreiben. Aufgrund unseres Datenumfangs sind daher einige Punkte eher negativ besetzt. So stand die Wartezeit auf Log-Dateien nicht im Verhältnis zur Laufzeit unserer Jobs und waren darüber hinaus nicht sonderlich leserlich. Ebenso haben wir eine intuitive Benutzeroberfläche und eine ausführliche Dokumentation vermisst. Nach einer verlängerten Einarbeitungsphase sind wir dennoch zu ordentlichen Erfolgen gelangt und können uns vorstellen, dass die Nutzung bei riesigen Datenmengen und vielen Clustern äußerst vorteilhaft, performant und somit vergleichsweise komfortabel ist.
 
-Insgesamt konnten wir durch den Einsatz verschiedener Technologien wie MapReduce oder Hive und Data-Mining-Verfahren ein deutlich besseres Ergebnis als die Gruppe im Vorjahr erreichen. Den Fortschritt über die Iterationen zeigt das folgende Diagramm.
-\todo[inline]{Fabian, Lutz: Hier wäre ein kurzes Fazit der Data-Mining-Verfahren sinnvoll.}
-
-Neben dem im Implementationskapitel vorgestellten Regression-Verfahren haben wir auch ein Klassifizierungs-Verfahren benutzt,
-desen Implementierung wir nicht weiter vorgestellt haben. In den durchgeführten Tests erzielt das Klassifizierungs-Verfahren
-aber in Kaggle eine geringere Punktzahl, daher können wir abschließend sagen, dass das gewählte Regressions-Verfahren in
-Anbetracht der erzielten Punktzahl eine gute Wahl war.
-
-Für die Implementierung der Data-Mining-Verfahren haben wir Vowpal Wabbit genutzt. Mit Vowpal Wabbit liesen sich die
-gewählten Data-Mining-Verfahren - ohne großen Aufwand zur Einarbeitung - nutzen. Als Negativpunkt ist uns aufgefallen, dass
-sich Vowpal Wabbit nicht einfach in Hadoop oder in AWS nutzen lässt. Daher können wir abschließend sagen, dass Vowpal Wabbit
-zur Einarbeitung in das Thema Data-Mining sicher ein gutes Werkzeug ist, aber für das Arbeiten mit Big Data eigentlich nicht
-geeignet ist.
-
-Das nachfolgende Diagramm zeigt, wie sich unsere Platzierung innerhalb der einzelnen Iterationen verändert hat:
+Insgesamt konnten wir durch den Einsatz verschiedener Technologien wie MapReduce oder Hive und Data-Mining-Verfahren ein deutlich besseres Ergebnis als die Gruppe im Vorjahr erreichen. Den Fortschritt über die Iterationen hinweg zeigt das folgende Diagramm.
 
 \begin{figure}[H]
 \centering
@@ -91,8 +58,8 @@ Das nachfolgende Diagramm zeigt, wie sich unsere Platzierung innerhalb der einze
 \label{fig:Trenddiagramm_Platzierungen}
 \end{figure}
 
-Wie im Diagramm zu sehen, konnte mit jeder der 5 ersten Iterationen die Qualität der Vorhersage verbessert werden. In Iteration 4 konnten wir die Ergebnisse der Gruppe aus dem Vorjahr schlagen und haben letztendlich mit Iteration 5 unsere bisher beste Platzierung erreicht.
+Wie im Diagramm zu sehen, konnte mit den ersten fünf Iterationen die Qualität der Vorhersage verbessert werden. In Iteration 4 konnten wir das Ergebnis der Gruppe aus dem Vorjahr übertreffen und haben letztendlich mit Iteration 5 unsere bisher beste Platzierung erreicht.
 
-Die Auswahl eines Projektes auf der Plattform Kaggle.com, hatte für uns den besonderen Vorteil, dass wir unsere Ergebnisse direkt bewerten lassen konnten, auch wenn der Wettbewerb bereits beendet war. So konnte nach jeder Änderung geprüft werden, ob die Vorhersage verbessert wurde oder nicht. Zudem Bestand hier die Möglichkeit, sich mit Data-Mining Experten zu messen.
+Die Auswahl eines Projektes auf der Plattform Kaggle.com hatte für uns den besonderen Vorteil, dass wir unsere Ergebnisse direkt bewerten lassen konnten, auch wenn der Wettbewerb bereits beendet war. So konnte nach jeder Änderung geprüft werden, ob die Vorhersage verbessert wurde oder nicht. Zudem bestand die Möglichkeit, sich mit Data-Mining-Experten zu messen.
 
-Generell gab die Veranstaltung einen guten Einstieg in die Verarbeitung großer Datenmengen und die dafür nötigen Werkzeuge. Es bleibt die Erkenntnis das es ein sehr umfassendes Gebiet ist, so dass für ein erfolgreiches Arbeiten in dem Bereich mehr als eine Veranstaltung nötig ist, um einen wirklichen Einstieg zu schaffen.
+Generell gibt die Veranstaltung einen guten Einstieg in Big-Data und die vorhandenen Werkzeuge. Wir als Gruppe sind mit unserem Ergebnis sehr zufrieden, aber es bleibt die Erkenntnis, dass es ein sehr umfassendes Gebiet ist, so dass für ein erfolgreiches Arbeiten in dem Bereich mehr als eine Veranstaltung notwendig ist.
