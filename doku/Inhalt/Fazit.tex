@@ -31,7 +31,14 @@ In unseren Vorträge zur Veranstaltung ist zur Sprache gekommen, dass statistisc
 Zur Umsetzung müsste die Korrelation zwischen den einzelnen Features und dem Wiederkaufverhalten gemessen werden. Auf dieser Basis kann ein Grenzwert festgelegt werden, ab dem ein Feature
 zur Voraussage genutzt wird.
 
-\subsubsection{Offline Learning Verfahren}	
-	
+\subsubsection{Offline-Learning-Verfahren}	
+Die Trainingsdaten, die von Kaggle für die Aufgabenstellung bereitgestellt werden, sind konstant und werden 
+nicht um neue Trainingsdaten erweitert. Daher ist es nicht zwingend notwendig, dass diese inkrementell gelernt
+werden. Zur Zeit nutzen wir allerdings ein Online-Learning-Verfahren zur Erstellung des Modells. Wie im Kapitel
+\nameref{subsubSec:MachineLearning} beschrieben, hat dies zum Nachteil, dass die Reihenfolge, in der die Trainingsdaten
+eingelesen werden, Einfluss auf die Generierung des Modells haben. Daher wäre es wünschenswert ein Offline-Learning-Verfahren
+anstelle des von uns benutzten Online-Learning-Verfahrens zu nutzen. Auf Grund der begrenzten Zeit, die uns zur 
+Lösung des Problems zur Verfügung stand, haben wir keine Implementierung eines Offline-Learning-Verfahrens vollständig 
+ausprobieren können. Dies wäre somit ein Punkt bei dem wir uns noch Verbesserungspotential erhoffen.
 
 \subsection{Fazit}
