@@ -42,15 +42,45 @@ Lösung des Problems zur Verfügung stand, haben wir keine Implementierung eines
 ausprobieren können. Dies wäre somit ein Punkt bei dem wir uns noch Verbesserungspotenzial erhoffen.
 
 \subsection{Fazit}
-Insgesamt verschafften uns die Veranstaltung und das Projekt einen guten Gesamtüberblick über das Themengebiet Big-Data. Dabei mussten wir vor allem zu Beginn des Projekts viel Aufwand in das Grundverständnis investieren, da wir das Thema zuvor noch nicht behandelt hatten. Die Seminarvorträge im Laufe des Semesters waren dabei sehr hilfreich und passten gut zu dem von uns gewählten iterativen Vorgehen. Sofern im Rahmen eines Vortrags eine neue (für uns relevante) Technologie vorgestellt wurde, haben wir diese in der nächsten Iteration berücksichtigt.  
+Insgesamt verschafften uns die Veranstaltung und das Projekt einen guten Gesamtüberblick über das Themengebiet Big-Data.
+Dabei mussten wir vor allem zu Beginn des Projekts viel Aufwand in das Grundverständnis investieren, da wir das Thema zuvor noch nicht behandelt hatten.
+Die Seminarvorträge im Laufe des Semesters waren dabei sehr hilfreich und passten gut zu dem von uns gewählten iterativen Vorgehen.
+Sofern im Rahmen eines Vortrags eine neue und für uns relevante Technologie vorgestellt wurde, haben wir diese in der nächsten Iteration berücksichtigt.  
 
-Positiv aufgefallen die Arbeit mit dem Amazon-Webservice. Bei den Webservices können wir in der Cloud bei Amazon direkt Jobs auf großen Datenmengen ausführen, was mit unseren normalen Maschinen nicht möglich gewesen wäre. Diese Möglichkeit wird auch von vielen Unternehmen genutzt, sodass ein Einblick in Praxis für uns sehr interessant war. Durch unsere Nachlässigkeit wurde auch das von Amazon gesponsorte Kapital dezimiert, nachdem vergessen wurde den Cluster zu terminieren - und damit wirkliches Geld verloren ist.
-\todo[inline]{Dennis, Daniel: Eure Eindrücke mit AWS?}
+Positiv aufgefallen ist die Arbeit mit den Amazon-Web-Services.
+Bei den Web-Services können wir in der Cloud von Amazon Jobs auf großen Datenmengen ausführen, was mit unseren normalen Maschinen nicht möglich gewesen wäre.
+Diese Möglichkeit wird auch von vielen Unternehmen genutzt, sodass ein Einblick in die Praxis für uns sehr interessant war.
+Durch unsere Nachlässigkeit wurde auch das von Amazon gesponsorte Kapital dezimiert,
+nachdem der Cluster mehrere Tage nicht terminiert wurde.
+
+Der allgemeine Eindruck von AWS ist gemischt. 
+Nachteilig sind die langen Wartezeiten bis Probleme mithilfe von Log-Meldung
+analysiert werden können. 
+Bei Laufzeiten von mehreren Stunden stören kleine Verzögerungen nicht.
+Allerdings sind die langen Wartezeiten beim Testen von kurzen Skripts
+ziemlich hinderlich. 
+Des Weiteren ist der Einstieg schwer, weil eine genaue Dokumentation der Amazon-Hive-Befehle nicht vorhanden ist.
+Ebenso haben wir eine intuitive Benutzeroberfläche vermisst.
+Uns gelang es dennoch, durch Recherchen alle nötige Skripte zu erstellen und abzuändern, um Tabellen zu generieren und die Anfragen fehlerfrei auszuführen.
+Der große Vorteil von AWS liegt in der Möglichkeit, sehr große Datenmengen zu verarbeiten.
+Außerdem kann die Performance der genutzten Systeme dem 
+Anwendungsfall angepasst werden, was eine einfache Skalierungsmöglichkeit bietet.
+Diese Vorteile konnten wir aufgrund der beschränkten Datenmenge in unserem
+Projekt nicht ausnutzen
 
 Insgesamt konnten wir durch den Einsatz verschiedener Technologien wie MapReduce oder Hive und Data-Mining-Verfahren ein deutlich besseres Ergebnis als die Gruppe im Vorjahr erreichen. Den Fortschritt über die Iterationen zeigt das folgende Diagramm.
 \todo[inline]{Fabian, Lutz: Hier wäre ein kurzes Fazit der Data-Mining-Verfahren sinnvoll.}
 
-Neben dem im Implementationskapitel vorgestellten Regression-Verfahren haben wir auch ein Klassifizierungs-Verfahren benutzt, desen Implementierung wir nicht weiter vorgestellt haben. In den durchgeführten Tests erzielt das Klassifizierungs-Verfahren aber in Kaggle eine geringere Punktzahl, daher können wir abschließend sagen, dass das gewählte Regressions-Verfahren in Anbetracht der erzielten Punktzahl eine gute Wahl war.
+Neben dem im Implementationskapitel vorgestellten Regression-Verfahren haben wir auch ein Klassifizierungs-Verfahren benutzt,
+desen Implementierung wir nicht weiter vorgestellt haben. In den durchgeführten Tests erzielt das Klassifizierungs-Verfahren
+aber in Kaggle eine geringere Punktzahl, daher können wir abschließend sagen, dass das gewählte Regressions-Verfahren in
+Anbetracht der erzielten Punktzahl eine gute Wahl war.
+
+Für die Implementierung der Data-Mining-Verfahren haben wir Vowpal Wabbit genutzt. Mit Vowpal Wabbit liesen sich die
+gewählten Data-Mining-Verfahren - ohne großen Aufwand zur Einarbeitung - nutzen. Als Negativpunkt ist uns aufgefallen, dass
+sich Vowpal Wabbit nicht einfach in Hadoop oder in AWS nutzen lässt. Daher können wir abschließend sagen, dass Vowpal Wabbit
+zur Einarbeitung in das Thema Data-Mining sicher ein gutes Werkzeug ist, aber für das Arbeiten mit Big Data eigentlich nicht
+geeignet ist.
 
 Das nachfolgende Diagramm zeigt, wie sich unsere Platzierung innerhalb der einzelnen Iterationen verändert hat:
 
