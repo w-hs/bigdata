@@ -95,76 +95,88 @@ Die Technologien, die wir neben Hive verwendet haben, werden im weiteren Verlauf
 
 
 \subsection{Data-Mining-Verfahren}
-In diesem Kapitel werden wir einen Überblick über Data-Mining-Verfahren geben, die für das Kaggle-Projekt von uns genutzt wurden. Zuerst werden wir das Prinzip des Machine Learning erläutern. Anschließend werden die beiden Daten-Mining-Konzepte Regressionsanalyse und Klassifizierung vorgestellt. Zu letzt wird eine Überblick über die benutzten Werkzeuge zum Machine Learning gegeben.
+In diesem Kapitel werden wir einen Überblick über Data-Mining-Verfahren geben, die für den Einsatz im Projekt in Betracht kommen. Nach einer Erläuterung des grundlegenden Prinzips des Machine-Learning werden zwei Daten-Mining-Konzepte, Regressionsanalyse und Klassifizierung, vorgestellt. Im Anschluss werden mögliche Werkzeuge zum Machine-Learning erläutert.
 
-\subsubsection{Machine Learning}
-Die folgende Beschreibung aus Wikipedia beschreibt relativ genau welche Funktion Machine Learning hat. “Maschinelles Lernen ist ein Oberbegriff für die ‘künstliche’ Generierung von Wissen aus Erfahrung: Ein künstliches System lernt aus Beispielen und kann nach Beendigung der Lernphase verallgemeinern.”
-
-Beim Machine Learning versucht man aus vorhanden Informationen ein Modell zu generieren, das eine Aussage über neue Informationen treffen kann. Die Informationen, die zur Erstellung des Modells genutzt werden, werden Trainingsdaten genannt. Informationen, über die eine Aussage getroffen werden soll, nennt man Testdaten.
+\subsubsection{Machine-Learning}
+\label{subsubSec:MachineLearning}
+Beim Machine-Learning wird versucht aus vorhanden Informationen ein Modell zu generieren, welches eingesetzt werden kann, um eine Aussage über neu hinzukommende Informationen zu treffen. Die zur Erstellung des Modells genutzten Informationen nennt man Trainingsdaten. Testdaten sind die Informationen, über die eine Aussage getroffen werden soll.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\linewidth]{Bilder/DataMining}
+\includegraphics[width=0.7\linewidth]{Bilder/DataMining}
 \caption{Machine Learning im Modell}
 \label{fig:MachineLearning}
 \end{figure}
 
-Beim Kaggle-Projekt setzten sich die Trainingsdaten aus den Tabellen offers, transactions, trainHistory, für die Testdaten wird die Tabelle testHistory anstatt der Tabelle trainHistory genutzt. Das Modell soll eine Aussage darüber geben, ob ein Kunde erneut kaufen wird.
+In dem Kaggle-Projekts setzen sich die Trainingsdaten in der Tabelle "`train\_history"' und die Testdaten in der Tabelle "`test\_history"'. Die Tabellen "`offers"' und "`transactions"' enthalten sowohl Trainings- als auch Testdaten. Das zu erzeugende Modell soll eine Aussage darüber treffen, ob ein Kunde erneut kaufen wird.
 
-Es gibt 3 Kategorien beim Machine Learning, das Überwachte Lernen (supervised learning), das Unüberwachte Lernen (unsupervised learning) und das Bestärkende Lernen (reinforcement learning). Das Bestärkende Lernen ist das Lernen durch Belohnung und Bestrafung. Wir werden hier aber nicht weiter auf das Bestärkende Lernen eingehen.
+Das Problem lässt sich in die Kategorie des überwachten Lernens einordnen. Bei diesem werden 
+einem Algorithmus Paare aus Eingabedaten und Funktionswerten übergeben. Der Algorithmus erstellt
+daraus ein Modell, das zu einer neuen Eingabe eine Aussage über den Funktionswert trifft. Beispiele für
+das überwachte Lernen sind Regressionsanalyse und Klassifizierung.
+ 
+Im Rahmen dieses Projekts werden wir uns deshalb vorrangig mit dem überwachten Lernen beschäftigen. 
+Denkbar sind zum einen eine Regressionsanalyse und zum anderen eine binäre Klassifizierung.
+Für dieses Projekt kann man sich eine Regressionsanalyse vereinfacht so vorstellen, dass man eine Menge
+von Eingabedaten hat und eine Funktion findet, die dafür einen Funktionswert zwischen 0 bis 1 generiert. Dieser Wert stellt die Wahrscheinlichkeit dar, dass ein Kunde erneut kauft.
+Da ein Kunde entweder erneut oder nicht kauft, kann eine binären Klassifizierung eingesetzt werden.
+Es gibt dabei die folgenden Klassen:
+\begin{description}
+	\item[0:] Der Kunde kauft nicht erneut
+	\item[1:] Der Kunde kauft erneut
+\end{description}
+Die Klassifizierung soll eine Aussage treffen, mit welcher Wahrscheinlichkeit ein Testdatensatz zur Klasse 0 bzw. 1 gehört.
 
-Beim Überwachtem Lernen übergibt man einem Algorithmus Paare aus Eingabedaten und Funktionwerten. Der Algorithmus erstellt daraus ein Modell, das zu einer neuen Eingabe eine Aussage über den Funktionswert trifft. Beispiele für das Überwachte Lernen sind Regressionsanalyse und Klassifizierung.
+Bei der Regressionsanalyse und Klassifizierung gibt es das Problem der Überanpassung (auch Overfitting genannt). Von Overfitting spricht man, wenn ein Algorithmus die Trainingsdaten auswendig gelernt hat.
+Die erzeugte Funktion passt damit nur auf die Trainingsdaten und kann nicht auf weitere
+Testdaten verallgemeinert werden. Zur Verhinderung von Overfitting übergibt man nur die wichtigen bzw. relevanten Daten an den Algorithmus zur Erstellung des Modells. Diese Einschränkung der Daten nennt man Feature-Selection.
 
-Beim Unüberwachtem Lernen erzeugt ein Algorithmus ein Modell unter Betrachtung einer Menge von Eingabedaten. Dieses Modell soll dann eine Aussage über die Eingabedaten treffen. Das typische Beispiel für Unüberwachtes Lernen ist Clustering. Hierbei wird versucht Gruppen in der Menge der Eingabedaten zu finden.
+\subsubsection{Online- und Offline-Machine-Learning}
 
-Wir werden uns für das Kaggle-Projekt vor allen Dingen mit dem Überwachten Lernen beschäftigen. Denkbar sind zum einen eine Regressionsanalyse, zum anderen eine Binäre Klassifizierung.
-
-Für das Kaggle-Projekt kann man sich eine Regressionsanalyse vereinfacht so vorstellen, dass man eine Menge von Eingabedaten hat und eine Funktion findet, die dafür einen Funktionwert zwischen 0 bis 1 generiert. Der Funktionswert soll die Wahrscheinlichkeit, dass ein Kunde erneut kauft, darstellen. Der Nachteil hierbei ist, dass bei den Trainingsdaten die Funktionswerte nur 0 oder 1 sind und keinen Wert dazwischen einnehmen kann.
-
-Daher wäre eine Binäre Klassifizierung ein anderer möglicher Ansatz. Die beiden möglichen Klassen sind hierbei 0 und 1. 0 für Kunde kauft nicht erneut und 1 für Kunde kauft erneut. Der Algorithmus soll hier ein Aussage treffen zu welcher Wahrscheinlichkeit ein Testdatensatz zur Klasse 0 oder zur Klasse 1 gehört.
-
-Bei Regressionsanalyse und Klassifizierung gibt es das Problem der Überanpassung (overfitting). Von Overfitting spricht man, wenn ein Algorithmus die Trainingsdaten auswendig gelernt hat, aber keine Funktion erstellt hat, die die Verbindungen in den Datensätzen darstellt. Zur Verhinderung von Overfitting übergibt man nur die wichtigen bzw. relevanten Daten an den Algorithmus zur Erstellung des Modells. Die Einschränkung der Daten nennt man auch feature selection.
-
-\subsubsection{Online/Offline Machine Learning}
-
-Beim Machine Learning gibt es zwei verschiedene Ansätze, zum einen das Online Machine Learning und zum anderen das Offline Machine Learning. Beim Online Machine Learning nimmt der Algorithmus schrittweise je einen Datensatz aus den Trainingsdaten. Der Algorithmus passt daraufhin das Modell an und nimmt den nächsten Datensatz. Daher ist beim Online Machine Learning das Modell erweitert werden. Dies ist zum Beispiel dann nützlich wenn man ein Modell über Trainingsdaten der letzten Jahre hat und diese um die Daten der letzten Tage erweitern will. Der Nachteil hierbei ist allerdings, dass die Reihenfolge, in der die Trainingsdaten eingelesen werden, Einfluss auf das Modell nimmt. Beim Offline Machine Learning kann man nur einmal Trainingsdaten übergeben, diese werden dann unabhängig von der Reihenfolge verarbeitet.
+Beim Machine-Learning gibt es zu den vorgestellten Kategorien noch zwei Oberkategorien, zum einen das 
+Online-Machine-Learning und zum anderen das Offline-Machine-Learning. 
+Beim Online-Machine-Learning nimmt der Algorithmus schrittweise je einen Datensatz aus den Trainingsdaten
+und passt daraufhin das Modell an.
+Daher kann bei diesem Verfahren das Modell erweitert werden. 
+Dies ist zum Beispiel dann von Vorteil, wenn man ein Modell über Trainingsdaten der letzten Jahre hat und dieses um die Daten der vergangenen Tage erweitern will. Der Nachteil ist allerdings, dass die Reihenfolge, in der die Trainingsdaten eingelesen werden, Einfluss auf das Modell hat.
+Im Gegensatz dazu können beim Offline-Machine-Learning nur einmal Trainingsdaten übergeben werden. Diese werden unabhängig von der Reihenfolge verarbeitet. Tabelle \ref{tab:MachineLearningTrainingData}
+fasst die Unterschiede der beiden Verfahren zusammen.
 
 \begin{table}[H]
 	\centering
 \begin{tabular}{l|c|c} 
-	\textbf{} & \textbf{Offline learning} & \textbf{Online learning}  \\  
+	\textbf{} & \textbf{Offline-Learning} & \textbf{Online-Learning}  \\  
 	\hline \textbf{Reihenfolge entscheidend} & nein & ja \\
 	\hline \textbf{Modell erweiterbar} & nein & ja 
 	\vspace{0.3cm} 
 \end{tabular} 
-\caption{Trainingsdaten beim Machine learning}
+\caption{Trainingsdaten beim Machine-Learning}
 \label{tab:MachineLearningTrainingData}
 \end{table}
  
-\subsubsection{Implementierungen}
-In diesem Kapitel werden wir verschiedene Implementierungen für Machine Learning, die für das Kaggle-Projekt in Frage kommen, vorstellen.
+\subsubsection{Werkzeuge}
+In diesem Kapitel stellen wir Werkzeuge für Machine-Learning vor, die für dieses Projekt in Frage kommen.
 
 \begin{description}
-\item[Vowpal Wabbit] Vowpal Wabbit ist ein Open-Source Programm für Online Machine Learning. Es wurde ursprünglich bei Yahoo! Research und zur zeit wird es bei Microsoft Research entwickelt. Es bietet die Möglichkeit Klassifizierung und Regressions Algorithmen zu nutzen. Die typische Nutzung von Vowpal Wabbit ist über die Kommandozeile.
+\item[Vowpal Wabbit] Vowpal Wabbit\footnote{\url{https://github.com/JohnLangford/vowpal_wabbit/wiki}} ist ein Open-Source-Programm für Online-Machine-Learning. Es wurde ursprünglich bei Yahoo! Research entwickelt und wird heute von Microsoft Research unterhalten. Es bietet die Möglichkeit Klassifizierungs- und Regressionsalgorithmen zu verwenden.
 
-\item[Mahout] Apache Mahout ist eine Projekt zur Implementierung von Machine Learning, das vor allen Dingen auf Collaborative Filtering, Clustering und Klassifikation fokussiert ist. Die meisten Implementierungen in Mahout setzten auf Hadoop auf und nutzen das Map/Reduce-Verfahren. Außerdem ist eine Einbindung von Mahout in AWS relative einfach.
+\item[Apache Mahout] Apache Mahout\footnote{\url{http://mahout.apache.org/}} ist eine Projekt zur Implementierung von Machine-Learning, das in erster Linie auf Collaborative-Filtering, Clustering und Klassifikation fokussiert ist. Die bekanntesten Implementierungen von Mahout setzen auf Hadoop auf und nutzen das Map/Reduce-Verfahren. Eine Einbindung von Mahout in AWS ist relativ einfach zu bewerkstelligen.
 
-\item[Glmnet] Glmnet ist ein R-Package das Lineare und Logistische Regression implementiert.
-
+\item[Glmnet] Glmnet\footnote{\url{http://cran.r-project.org/web/packages/glmnet/index.html}} ist ein R-Package, das lineare und logistische Regression implementiert.
 \end{description}
 
-In der folgenden Tabelle sollen die möglichen Anwendungsumgebungen der Implementierungen dargestellt werden.
+Die Tabelle \ref{tab:MachineLearningTools} stellt die möglichen Anwendungsumgebungen der Implementierungen dar.
 
 \begin{table}[H]
 	\centering
 \begin{tabular}{l|c|c|c} 
 	\textbf{} & \textbf{HDFS (HortonWorks)} & \textbf{AWS} & \textbf{Lokal}  \\  
-	\hline \textbf{Vowpal Wabbit} &  &  & x \\
+	\hline \textbf{Vowpal Wabbit} & - & - & x \\
 	\hline \textbf{Apache Mahout} & x & x & x \\
 	\hline \textbf{Glmnet} & x & x & x 
 	\vspace{0.3cm} 
 \end{tabular} 
-\caption{Trainingsdaten beim Machine learning}
-\label{tab:MachineLearningTrainingData}
+\caption{Anwendungsumgebungen der Machine Learning Werkzeuge}
+\label{tab:MachineLearningTools}
 \end{table}
 
