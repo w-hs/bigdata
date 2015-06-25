@@ -50,135 +50,174 @@ CREATE TABLE filtered_tx_category AS
 -- Marken-Features
 CREATE TABLE brand_features AS
 SELECT ever.id, ever.tx_count, ever.quantity, ever.cost,
-before30.tx_count AS tx_count_30, before30.quantity AS quantity_30, before30.cost AS cost_30,
-before60.tx_count AS tx_count_60, before60.quantity AS quantity_60, before60.cost AS cost_60,
-before90.tx_count AS tx_count_90, before90.quantity AS quantity_90, before90.cost AS cost_90,
-before180.tx_count AS tx_count_180, before180.quantity AS quantity_180, before180.cost AS cost_180
+  before30.tx_count AS tx_count_30,
+  before30.quantity AS quantity_30,
+  before30.cost AS cost_30,
+  before60.tx_count AS tx_count_60,
+  before60.quantity AS quantity_60,
+  before60.cost AS cost_60,
+  before90.tx_count AS tx_count_90,
+  before90.quantity AS quantity_90,
+  before90.cost AS cost_90,
+  before180.tx_count AS tx_count_180,
+  before180.quantity AS quantity_180,
+  before180.cost AS cost_180
 FROM 
-(SELECT id, COUNT(*) AS tx_count, SUM(purchasequantity) AS quantity, 
-SUM(purchaseamount) AS cost
-FROM filtered_tx_brand
-GROUP BY id
+(SELECT id, COUNT(*) AS tx_count, 
+        SUM(purchasequantity) AS quantity, 
+        SUM(purchaseamount) AS cost
+ FROM filtered_tx_brand
+ GROUP BY id
 ) ever
 LEFT JOIN
-(SELECT id, COUNT(*) AS tx_count, SUM(purchasequantity) AS quantity, 
-SUM(purchaseamount) AS cost
-FROM filtered_tx_brand
-WHERE daysbefore <= 30
-GROUP BY id
+(SELECT id, COUNT(*) AS tx_count, 
+        SUM(purchasequantity) AS quantity, 
+        SUM(purchaseamount) AS cost
+ FROM filtered_tx_brand
+ WHERE daysbefore <= 30
+ GROUP BY id
 ) before30
 ON (ever.id = before30.id)
 LEFT JOIN
-(SELECT id, COUNT(*) AS tx_count, SUM(purchasequantity) AS quantity, 
-SUM(purchaseamount) AS cost
-FROM filtered_tx_brand
-WHERE daysbefore <= 60
-GROUP BY id
+(SELECT id, COUNT(*) AS tx_count, 
+        SUM(purchasequantity) AS quantity, 
+        SUM(purchaseamount) AS cost
+ FROM filtered_tx_brand
+ WHERE daysbefore <= 60
+ GROUP BY id
 ) before60
 ON (ever.id = before60.id)
 LEFT JOIN
-(SELECT id, COUNT(*) AS tx_count, SUM(purchasequantity) AS quantity, 
-SUM(purchaseamount) AS cost
-FROM filtered_tx_brand
-WHERE daysbefore <= 90
-GROUP BY id
+(SELECT id, COUNT(*) AS tx_count, 
+        SUM(purchasequantity) AS quantity, 
+        SUM(purchaseamount) AS cost
+ FROM filtered_tx_brand
+ WHERE daysbefore <= 90
+ GROUP BY id
 ) before90
 ON (ever.id = before90.id)
 LEFT JOIN 
-(SELECT id, COUNT(*) AS tx_count, SUM(purchasequantity) AS quantity, 
-SUM(purchaseamount) AS cost
-FROM filtered_tx_brand
-WHERE daysbefore <= 180
-GROUP BY id
+(SELECT id, COUNT(*) AS tx_count,
+        SUM(purchasequantity) AS quantity, 
+        SUM(purchaseamount) AS cost
+ FROM filtered_tx_brand
+ WHERE daysbefore <= 180
+ GROUP BY id
 ) before180
 ON (ever.id = before180.id)
 
 -- Unternehmen-Features
 CREATE TABLE company_features AS
 SELECT ever.id, ever.tx_count, ever.quantity, ever.cost,
-before30.tx_count AS tx_count_30, before30.quantity AS quantity_30, before30.cost AS cost_30,
-before60.tx_count AS tx_count_60, before60.quantity AS quantity_60, before60.cost AS cost_60,
-before90.tx_count AS tx_count_90, before90.quantity AS quantity_90, before90.cost AS cost_90,
-before180.tx_count AS tx_count_180, before180.quantity AS quantity_180, before180.cost AS cost_180
+  before30.tx_count AS tx_count_30,
+  before30.quantity AS quantity_30,
+  before30.cost AS cost_30,
+  before60.tx_count AS tx_count_60,
+  before60.quantity AS quantity_60,
+  before60.cost AS cost_60,
+  before90.tx_count AS tx_count_90,
+  before90.quantity AS quantity_90,
+  before90.cost AS cost_90,
+  before180.tx_count AS tx_count_180,
+  before180.quantity AS quantity_180,
+  before180.cost AS cost_180
 FROM 
-(SELECT id, COUNT(*) AS tx_count, SUM(purchasequantity) AS quantity, 
-SUM(purchaseamount) AS cost
-FROM filtered_tx_company
-GROUP BY id
+(SELECT id, COUNT(*) AS tx_count, 
+        SUM(purchasequantity) AS quantity, 
+        SUM(purchaseamount) AS cost
+ FROM filtered_tx_company
+ GROUP BY id
 ) ever
 LEFT JOIN
-(SELECT id, COUNT(*) AS tx_count, SUM(purchasequantity) AS quantity, 
-SUM(purchaseamount) AS cost
-FROM filtered_tx_company
-WHERE daysbefore <= 30
-GROUP BY id
+(SELECT id, COUNT(*) AS tx_count, 
+        SUM(purchasequantity) AS quantity, 
+        SUM(purchaseamount) AS cost
+ FROM filtered_tx_company
+ WHERE daysbefore <= 30
+ GROUP BY id
 ) before30
 ON (ever.id = before30.id)
 LEFT JOIN
-(SELECT id, COUNT(*) AS tx_count, SUM(purchasequantity) AS quantity, 
-SUM(purchaseamount) AS cost
-FROM filtered_tx_company
-WHERE daysbefore <= 60
-GROUP BY id
+(SELECT id, COUNT(*) AS tx_count, 
+        SUM(purchasequantity) AS quantity, 
+        SUM(purchaseamount) AS cost
+ FROM filtered_tx_company
+ WHERE daysbefore <= 60
+ GROUP BY id
 ) before60
 ON (ever.id = before60.id)
 LEFT JOIN
-(SELECT id, COUNT(*) AS tx_count, SUM(purchasequantity) AS quantity, 
-SUM(purchaseamount) AS cost
-FROM filtered_tx_company
-WHERE daysbefore <= 90
-GROUP BY id
+(SELECT id, COUNT(*) AS tx_count, 
+        SUM(purchasequantity) AS quantity, 
+        SUM(purchaseamount) AS cost
+ FROM filtered_tx_company
+ WHERE daysbefore <= 90
+ GROUP BY id
 ) before90
 ON (ever.id = before90.id)
 LEFT JOIN 
-(SELECT id, COUNT(*) AS tx_count, SUM(purchasequantity) AS quantity, 
-SUM(purchaseamount) AS cost
-FROM filtered_tx_company
-WHERE daysbefore <= 180
-GROUP BY id
+(SELECT id, COUNT(*) AS tx_count,
+        SUM(purchasequantity) AS quantity, 
+        SUM(purchaseamount) AS cost
+ FROM filtered_tx_company
+ WHERE daysbefore <= 180
+ GROUP BY id
 ) before180
 ON (ever.id = before180.id)
 
 -- Kategorie-Features
 CREATE TABLE category_features AS
 SELECT ever.id, ever.tx_count, ever.quantity, ever.cost,
-before30.tx_count AS tx_count_30, before30.quantity AS quantity_30, before30.cost AS cost_30,
-before60.tx_count AS tx_count_60, before60.quantity AS quantity_60, before60.cost AS cost_60,
-before90.tx_count AS tx_count_90, before90.quantity AS quantity_90, before90.cost AS cost_90,
-before180.tx_count AS tx_count_180, before180.quantity AS quantity_180, before180.cost AS cost_180
+  before30.tx_count AS tx_count_30,
+  before30.quantity AS quantity_30,
+  before30.cost AS cost_30,
+  before60.tx_count AS tx_count_60,
+  before60.quantity AS quantity_60,
+  before60.cost AS cost_60,
+  before90.tx_count AS tx_count_90,
+  before90.quantity AS quantity_90,
+  before90.cost AS cost_90,
+  before180.tx_count AS tx_count_180,
+  before180.quantity AS quantity_180,
+  before180.cost AS cost_180
 FROM 
-(SELECT id, COUNT(*) AS tx_count, SUM(purchasequantity) AS quantity, 
- SUM(purchaseamount) AS cost
+(SELECT id, COUNT(*) AS tx_count, 
+        SUM(purchasequantity) AS quantity, 
+        SUM(purchaseamount) AS cost
  FROM filtered_tx_category
  GROUP BY id
 ) ever
 LEFT JOIN
-(SELECT id, COUNT(*) AS tx_count, SUM(purchasequantity) AS quantity, 
- SUM(purchaseamount) AS cost
+(SELECT id, COUNT(*) AS tx_count, 
+        SUM(purchasequantity) AS quantity, 
+        SUM(purchaseamount) AS cost
  FROM filtered_tx_category
  WHERE daysbefore <= 30
  GROUP BY id
 ) before30
 ON (ever.id = before30.id)
 LEFT JOIN
-(SELECT id, COUNT(*) AS tx_count, SUM(purchasequantity) AS quantity, 
- SUM(purchaseamount) AS cost
+(SELECT id, COUNT(*) AS tx_count, 
+        SUM(purchasequantity) AS quantity, 
+        SUM(purchaseamount) AS cost
  FROM filtered_tx_category
  WHERE daysbefore <= 60
  GROUP BY id
 ) before60
 ON (ever.id = before60.id)
 LEFT JOIN
-(SELECT id, COUNT(*) AS tx_count, SUM(purchasequantity) AS quantity, 
- SUM(purchaseamount) AS cost
+(SELECT id, COUNT(*) AS tx_count,
+        SUM(purchasequantity) AS quantity, 
+        SUM(purchaseamount) AS cost
  FROM filtered_tx_category
  WHERE daysbefore <= 90
  GROUP BY id
 ) before90
 ON (ever.id = before90.id)
 LEFT JOIN 
-(SELECT id, COUNT(*) AS tx_count, SUM(purchasequantity) AS quantity, 
- SUM(purchaseamount) AS cost
+(SELECT id, COUNT(*) AS tx_count, 
+        SUM(purchasequantity) AS quantity, 
+        SUM(purchaseamount) AS cost
  FROM filtered_tx_category
  WHERE daysbefore <= 180
  GROUP BY id
@@ -195,23 +234,53 @@ CREATE TABLE test_features AS
     h.id, 'u' AS repeater,
     o.quantity AS o_quantity, o.offervalue,
 
-    b.tx_count AS b_tx_count, b.quantity AS b_quantity, b.cost AS b_cost,
-    b.tx_count_30 AS b_tx_count_30, b.quantity_30 AS b_quantity_30, b.cost_30 AS b_cost_30,
-    b.tx_count_60 AS b_tx_count_60, b.quantity_60 AS b_quantity_60, b.cost_60 AS b_cost_60,
-    b.tx_count_90 AS b_tx_count_90, b.quantity_90 AS b_quantity_90, b.cost_90 AS b_cost_90,
-    b.tx_count_180 AS b_tx_count_180, b.quantity_180 AS b_quantity_180, b.cost_180 AS b_cost_180,
+    b.tx_count AS b_tx_count,
+    b.quantity AS b_quantity,
+    b.cost AS b_cost,
+    b.tx_count_30 AS b_tx_count_30,
+    b.quantity_30 AS b_quantity_30,
+    b.cost_30 AS b_cost_30,
+    b.tx_count_60 AS b_tx_count_60,
+    b.quantity_60 AS b_quantity_60,
+    b.cost_60 AS b_cost_60,
+    b.tx_count_90 AS b_tx_count_90,
+    b.quantity_90 AS b_quantity_90,
+    b.cost_90 AS b_cost_90,
+    b.tx_count_180 AS b_tx_count_180,
+    b.quantity_180 AS b_quantity_180,
+    b.cost_180 AS b_cost_180,
 
-    co.tx_count AS co_tx_count, co.quantity AS co_quantity, co.cost AS co_cost,
-    co.tx_count_30 AS co_tx_count_30, co.quantity_30 AS co_quantity_30, co.cost_30 AS co_cost_30,
-    co.tx_count_60 AS co_tx_count_60, co.quantity_60 AS co_quantity_60, co.cost_60 AS co_cost_60,
-    co.tx_count_90 AS co_tx_count_90, co.quantity_90 AS co_quantity_90, co.cost_90 AS co_cost_90,
-    co.tx_count_180 AS co_tx_count_180, co.quantity_180 AS co_quantity_180, co.cost_180 AS co_cost_180,
+    co.tx_count AS co_tx_count,
+    co.quantity AS co_quantity,
+    co.cost AS co_cost,
+    co.tx_count_30 AS co_tx_count_30,
+    co.quantity_30 AS co_quantity_30,
+    co.cost_30 AS co_cost_30,
+    co.tx_count_60 AS co_tx_count_60,
+    co.quantity_60 AS co_quantity_60,
+    co.cost_60 AS co_cost_60,
+    co.tx_count_90 AS co_tx_count_90,
+    co.quantity_90 AS co_quantity_90,
+    co.cost_90 AS co_cost_90,
+    co.tx_count_180 AS co_tx_count_180,
+    co.quantity_180 AS co_quantity_180,
+    co.cost_180 AS co_cost_180,
 
-    ca.tx_count AS ca_tx_count, ca.quantity AS ca_quantity, ca.cost AS ca_cost,
-    ca.tx_count_30 AS ca_tx_count_30, ca.quantity_30 AS ca_quantity_30, ca.cost_30 AS ca_cost_30,
-    ca.tx_count_60 AS ca_tx_count_60, ca.quantity_60 AS ca_quantity_60, ca.cost_60 AS ca_cost_60,
-    ca.tx_count_90 AS ca_tx_count_90, ca.quantity_90 AS ca_quantity_90, ca.cost_90 AS ca_cost_90,
-    ca.tx_count_180 AS ca_tx_count_180, ca.quantity_180 AS ca_quantity_180, ca.cost_180 AS ca_cost_180
+    ca.tx_count AS ca_tx_count,
+    ca.quantity AS ca_quantity,
+    ca.cost AS ca_cost,
+    ca.tx_count_30 AS ca_tx_count_30,
+    ca.quantity_30 AS ca_quantity_30,
+    ca.cost_30 AS ca_cost_30,
+    ca.tx_count_60 AS ca_tx_count_60,
+    ca.quantity_60 AS ca_quantity_60,
+    ca.cost_60 AS ca_cost_60,
+    ca.tx_count_90 AS ca_tx_count_90,
+    ca.quantity_90 AS ca_quantity_90,
+    ca.cost_90 AS ca_cost_90,
+    ca.tx_count_180 AS ca_tx_count_180,
+    ca.quantity_180 AS ca_quantity_180,
+    ca.cost_180 AS ca_cost_180
 
   FROM test_history h
   INNER JOIN offers o ON (h.offer = o.offer)
@@ -225,23 +294,53 @@ CREATE TABLE train_features AS
     h.id, h.repeater,
     o.quantity AS o_quantity, o.offervalue,
 
-    b.tx_count AS b_tx_count, b.quantity AS b_quantity, b.cost AS b_cost,
-    b.tx_count_30 AS b_tx_count_30, b.quantity_30 AS b_quantity_30, b.cost_30 AS b_cost_30,
-    b.tx_count_60 AS b_tx_count_60, b.quantity_60 AS b_quantity_60, b.cost_60 AS b_cost_60,
-    b.tx_count_90 AS b_tx_count_90, b.quantity_90 AS b_quantity_90, b.cost_90 AS b_cost_90,
-    b.tx_count_180 AS b_tx_count_180, b.quantity_180 AS b_quantity_180, b.cost_180 AS b_cost_180,
+    b.tx_count AS b_tx_count,
+    b.quantity AS b_quantity,
+    b.cost AS b_cost,
+    b.tx_count_30 AS b_tx_count_30,
+    b.quantity_30 AS b_quantity_30,
+    b.cost_30 AS b_cost_30,
+    b.tx_count_60 AS b_tx_count_60,
+    b.quantity_60 AS b_quantity_60,
+    b.cost_60 AS b_cost_60,
+    b.tx_count_90 AS b_tx_count_90,
+    b.quantity_90 AS b_quantity_90,
+    b.cost_90 AS b_cost_90,
+    b.tx_count_180 AS b_tx_count_180,
+    b.quantity_180 AS b_quantity_180,
+    b.cost_180 AS b_cost_180,
 
-    co.tx_count AS co_tx_count, co.quantity AS co_quantity, co.cost AS co_cost,
-    co.tx_count_30 AS co_tx_count_30, co.quantity_30 AS co_quantity_30, co.cost_30 AS co_cost_30,
-    co.tx_count_60 AS co_tx_count_60, co.quantity_60 AS co_quantity_60, co.cost_60 AS co_cost_60,
-    co.tx_count_90 AS co_tx_count_90, co.quantity_90 AS co_quantity_90, co.cost_90 AS co_cost_90,
-    co.tx_count_180 AS co_tx_count_180, co.quantity_180 AS co_quantity_180, co.cost_180 AS co_cost_180,
+    co.tx_count AS co_tx_count,
+    co.quantity AS co_quantity,
+    co.cost AS co_cost,
+    co.tx_count_30 AS co_tx_count_30,
+    co.quantity_30 AS co_quantity_30,
+    co.cost_30 AS co_cost_30,
+    co.tx_count_60 AS co_tx_count_60,
+    co.quantity_60 AS co_quantity_60,
+    co.cost_60 AS co_cost_60,
+    co.tx_count_90 AS co_tx_count_90,
+    co.quantity_90 AS co_quantity_90,
+    co.cost_90 AS co_cost_90,
+    co.tx_count_180 AS co_tx_count_180, 
+    co.quantity_180 AS co_quantity_180,
+    co.cost_180 AS co_cost_180,
 
-    ca.tx_count AS ca_tx_count, ca.quantity AS ca_quantity, ca.cost AS ca_cost,
-    ca.tx_count_30 AS ca_tx_count_30, ca.quantity_30 AS ca_quantity_30, ca.cost_30 AS ca_cost_30,
-    ca.tx_count_60 AS ca_tx_count_60, ca.quantity_60 AS ca_quantity_60, ca.cost_60 AS ca_cost_60,
-    ca.tx_count_90 AS ca_tx_count_90, ca.quantity_90 AS ca_quantity_90, ca.cost_90 AS ca_cost_90,
-    ca.tx_count_180 AS ca_tx_count_180, ca.quantity_180 AS ca_quantity_180, ca.cost_180 AS ca_cost_180
+    ca.tx_count AS ca_tx_count,
+    ca.quantity AS ca_quantity,
+    ca.cost AS ca_cost,
+    ca.tx_count_30 AS ca_tx_count_30,
+    ca.quantity_30 AS ca_quantity_30,
+    ca.cost_30 AS ca_cost_30,
+    ca.tx_count_60 AS ca_tx_count_60,
+    ca.quantity_60 AS ca_quantity_60,
+    ca.cost_60 AS ca_cost_60,
+    ca.tx_count_90 AS ca_tx_count_90,
+    ca.quantity_90 AS ca_quantity_90,
+    ca.cost_90 AS ca_cost_90,
+    ca.tx_count_180 AS ca_tx_count_180,
+    ca.quantity_180 AS ca_quantity_180,
+    ca.cost_180 AS ca_cost_180
 
   FROM train_history h
   INNER JOIN offers o ON (h.offer = o.offer)
@@ -255,16 +354,18 @@ CREATE TABLE train_features AS
 \begin{lstlisting}[language=SQL]
 -- Test-Features um ausgewählte kombinierte Features erweitern
 SELECT f.*, 
-  CAST(b_tx_count > 0 AND co_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_co_ca,
-  CAST(b_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_ca,
-  CAST(b_tx_count > 0 AND co_tx_count > 0 AS INTEGER) AS any_b_co
+ CAST(b_tx_count > 0 AND co_tx_count > 0 AND ca_tx_count > 0 
+  AS INTEGER) AS any_b_co_ca,
+ CAST(b_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_ca,
+ CAST(b_tx_count > 0 AND co_tx_count > 0 AS INTEGER) AS any_b_co
 FROM test_features f
 
 -- Train-Features um ausgewählte kombinierte Features erweitern
 SELECT f.*, 
-  CAST(b_tx_count > 0 AND co_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_co_ca,
-  CAST(b_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_ca,
-  CAST(b_tx_count > 0 AND co_tx_count > 0 AS INTEGER) AS any_b_co
+ CAST(b_tx_count > 0 AND co_tx_count > 0 AND ca_tx_count > 0 
+  AS INTEGER) AS any_b_co_ca,
+ CAST(b_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_ca,
+ CAST(b_tx_count > 0 AND co_tx_count > 0 AS INTEGER) AS any_b_co
 FROM train_features f
 \end{lstlisting}
 
@@ -273,16 +374,19 @@ FROM train_features f
 \begin{lstlisting}[language=SQL]
 -- Erstellen der Tabelle mit den globalen Features
 CREATE TABLE totals AS
-  SELECT t.id, COUNT(*) AS total_count, SUM(t.purchaseamount) AS total_spent
+  SELECT t.id, COUNT(*) AS total_count, 
+         SUM(t.purchaseamount) AS total_spent
   FROM transactions t
   GROUP BY t.id
 
--- Join der globlen Features zu den bereits bestehenden Test-Features
+-- Join der globlen Features zu den 
+-- bereits bestehenden Test-Features
 SELECT f.*, t.*
 FROM test_features f
 INNER JOIN totals t ON (f.id = t.id)
 
--- Join der globlen Features zu den bereits bestehenden Train-Features
+-- Join der globlen Features zu den 
+-- bereits bestehenden Train-Features
 SELECT f.*, t.*
 FROM train_features f
 INNER JOIN totals t ON (f.id = t.id)
@@ -376,7 +480,7 @@ for row in input:
 
     # Spalten in Features übersetzen
     for key in row:
-    if key != 'id' and  key != 'repeater' and key != 'total_count' and key != 'total_spent' and len(row[key]) > 0:
+    if key != 'id' and  key != 'repeater' and len(row[key]) > 0:
         output += ' ' + key + ':' + row[key]
 
     # Negative Features erzeugen, wenn nichts gekauft wurde
