@@ -1,19 +1,25 @@
 \section{Realisierung}
 
 Die Implementierung erfolgt iterativ, dass heißt wir entwickeln unterschiedliche gegebenenfalls aufeinander aufbauende Lösungen
-und versuchen uns mit jedem Versuch zu verbessern. Unseren Fortschritt messen wir, indem wir in jeder Iteration ein einreichbares Ergebnis erzeugen. Die Bewertung erfolgt somit über einen internen Algorithmus von Kaggle, welches uns einen Platz in der Wettbewerbsrangliste und einen Score berechnet.
+und versuchen, uns mit jedem Versuch zu verbessern. Unseren Fortschritt messen wir, indem wir in jeder Iteration ein einreichbares Ergebnis erzeugen. Die Bewertung erfolgt somit über einen internen Algorithmus von Kaggle, welcher einen Platz in der Wettbewerbsrangliste und einen Score berechnet.
 
-Im Allgemeinen umfasst unsere Idee das Testen und Entwickeln der Skripte lokal auf dem eigenen Rechner. Anschließend werden darauf basierend Hive-Skripte erstellt und in einem Hadoop-Cluster im AWS ausgeführt.
+Das Vorgehen bei der Realisierung umfasst das Testen und Entwickeln der Skripte lokal auf 
+dem eigenen Rechner ggf. unter Verwendung einer SQL-Datenbank. 
+Anschließend werden darauf basierend Hive-Skripte erstellt und in einem Hadoop-Cluster
+im AWS ausgeführt.
 
 \subsection{Implementierung}
-Im Nachfolgenden werden alle Iterationen der Reihe nach vorgestellt. Die Ergebnisse, die wir nach jeder Iteration bei Kaggle eingereicht haben, sind im Github-Repository\footnote{\url{https://github.com/w-hs/bigdata/tree/master/submissions}} abgelegt und können dort zur nachträglichen Überprüfung eingesehen werden.
+Im Nachfolgenden werden alle Iterationen der Reihe nach vorgestellt. Die Ergebnisse, 
+die wir nach jeder Iteration bei Kaggle eingereicht haben, sind im
+Github-Repository\footnote{\url{https://github.com/w-hs/bigdata/tree/master/submissions}}
+abgelegt und können dort zur nachträglichen Überprüfung eingesehen werden.
 
 \subsubsection{Iteration 0}
 \label{sec:iteration0}
 
 Als Erstes wollen wir eine Grundlage zur Bewertung folgender Versuche schaffen und das Einreichen einer
-Lösung bei Kaggle üben. Dazu erzeugen wir eine Datei, die jedem Kunden die Kaufwahrscheinlichkeit 0\%
-zuordnet. Hierzu verwenden wir eine rudimentäre SQL-Abfrage.
+Lösung bei Kaggle üben. Dazu erzeugen wir eine Datei, die jedem Kunden die Kaufwahrscheinlichkeit 0
+zuordnet. Hierzu verwenden wir eine rudimentäre SQL-Abfrage:
 
 \begin{lstlisting}[language=SQL]
 SELECT DISTINCT(h.id), 0.0 AS repeatProbability 
@@ -28,25 +34,25 @@ Die Bewertung von Kaggle resultierte in folgender Platzierung:
 	\hline 
 \end{tabular}
 
-Mit dieser einfachen Methode erreichen wir bereits ein durchschnittliches Ergebnis.
-
 \subsubsection{Iteration 1}
 
-Im nächsten Schritt wollen wir den ersten "`Prior Category Benchmark"' von Kaggle implementieren.
-Dieser Benchmark ordnet Kunden, die bereits ein Produkt der Gutscheinkategorie gekauft haben, die
-Wiederkaufwahrscheinlichkeit 1 zu. Allen anderen Kunden wird die Wahrscheinlichkeit 0 zugeordnet.
+Im nächsten Schritt wollen wir den ersten "`Prior Category Benchmark"'\footnote{Die Benchmarks befinden sich auf dem Leaderboard unter \\
+\url{https://www.kaggle.com/c/acquire-valued-shoppers-challenge/leaderboard}} von Kaggle implementieren.
+Dieser Benchmark ordnet Kunden, die bereits ein Produkt der Gutscheinkategorie gekauft haben, 
+die Wiederkaufwahrscheinlichkeit 1 zu. Allen anderen Kunden wird die Wahrscheinlichkeit 0 zugeordnet.
 
 Wir bestimmen die Kunden mit einer Wahrscheinlichkeit von 1 über folgende SQL-Abfrage:
 \begin{lstlisting}[language=SQL]
 SELECT DISTINCT h.id, 1.0 AS repeatProbability
-FROM test_history h INNER JOIN offers o ON (h.offer = o.offer)
+FROM test_history h 
+INNER JOIN offers o ON (h.offer = o.offer)
 INNER JOIN transactions t ON (t.id = h.id)
 WHERE t.category = o.category
 \end{lstlisting}
 
 Um das Ergebnis bei Kaggle einzureichen, fehlen noch die Kunden mit einer Wahrscheinlichkeit von 0.
 Um diese hinzuzufügen wurde ein Python-Skript entwickelt, das eine unvollständige Einreichung
-um die fehlenden Einträge erweitert. Für diese Kunden wird eine Wahrscheinlichkeit von 0 eingetragen.
+um die fehlenden Einträge erweitert. Für die Kunden ohne Einträge wird eine Wahrscheinlichkeit von 0 eingetragen.
 Dieses Skript (s. Anhang \ref{code:complete-submission}) kann in weiteren Iterationen verwendet werden,
 um sicher zu stellen, dass das Ergebnis vollständig ist und die Überprüfung von Kaggle übersteht. 
 
@@ -58,14 +64,13 @@ Die Bewertung von Kaggle ergibt wie erwartet:
 	\hline 
 \end{tabular}
 
-Das eingereichte Resultat zeigt nur eine marginale Verbesserung, obwohl wir dieses Mal angegeben haben, welche Kunden noch einmal kaufen werden.
-
 \subsubsection{Iteration 2}
 
 In Iteration 1 haben wir den Benchmark mit der niedrigsten Bewertung implementiert. Jetzt wollen wir 
 den besten Benchmark umsetzen. Der "`Prior (Brand \& Company \& Category) Benchmark"' ist sehr ähnlich
 zu dem ersten Benchmark. Wir ordnen jedem Kunden, der schon einmal ein Produkt der Gutscheinmarke,
 des Gutscheinunternehmens und der Gutscheinkategorie gekauft hat, eine 1 zu. 
+Das wird über folgendes SQL-Skript erreicht:
 
 \begin{lstlisting}[language=SQL]
 SELECT DISTINCT h.id, 1.0 AS repeatProbability
@@ -89,10 +94,11 @@ Mit dieser Änderung konnten wir unsere Platzierung erneut spürbar verbessern.
 
 \subsubsection{Iteration 3}
 
-Nachdem wir in den vorherigen Iterationen die vorgegeben Benchmarks von Kaggle implementiert haben,
+Nachdem wir in den vorherigen Iterationen die vorgegebenen Benchmarks von Kaggle implementiert haben,
 wollen wir jetzt ein richtiges Data-Mining-Verfahren verwenden. Dazu ermitteln wir im ersten Schritt
 auf Basis der Transaktionsdaten Features für jeden Kunden. Bei der Wahl der Features orientieren
-wir uns an den Ergebnissen von einem Kaggle-Nutzer\footnote{Siehe \url{http://mlwave.com/predicting-repeat-buyers-vowpal-wabbit/}}.
+wir uns an den Ergebnissen von einem 
+Kaggle-Nutzer\footnote{\url{http://mlwave.com/predicting-repeat-buyers-vowpal-wabbit/}}.
 
 Folgende Merkmale werden jeweils für die Marke (brand), das Unternehmen (company) und die Kategorie (category)
 des Gutscheins (offer) ermittelt:
@@ -108,7 +114,8 @@ weitere Iterationen nutzen zu können, legen wir Tabellen mit den Ergebnissen an
 einen strukturierten Aufbau der Merkmale.
 
 Da die Kunden-Daten verteilt über die \texttt{train\_history} und die \texttt{test\_history} sind, 
-bilden wir zuerst die Vereinigung der Kunden-Daten:
+bilden wir zuerst die Vereinigung der Kunden-Daten. Hier kann "`UNION ALL"' verwendet werden, da die 
+Mengen der Kunden-IDs in den Trainings- und Testdaten disjunkt sind.
 
 \begin{lstlisting}[language=SQL]
 CREATE TABLE customers AS 
@@ -120,13 +127,14 @@ CREATE TABLE customers AS
 \end{lstlisting}
 
 Danach ermitteln wir die Transaktionsdaten, die sich jeweils auf die Marke, das Unternehmen oder 
-die Kategorie des Gutscheins für den Kunden beziehen. Dabei ermitteln wir zusätzlich, wie viele
+die Kategorie des Gutscheins für den Kunden beziehen. Dabei bestimmen wir zusätzlich, wie viele
 Tage vor dem Gutschein die Transaktion durchgeführt wurde. Beispielhaft ist hier die Abfrage
 für die Marke dargestellt. Die anderen Anfragen werden analog erstellt und sind im Anhang
 \ref{sql:filtered_tx} hinterlegt.
 \begin{lstlisting}[language=SQL]
 CREATE TABLE filtered_tx_brand AS
-  SELECT t.id, t.purchasequantity, t.purchaseamount, (c.offerdate - t.date) AS daysbefore 
+  SELECT t.id, t.purchasequantity, t.purchaseamount, 
+         (c.offerdate - t.date) AS daysbefore 
   FROM transactions t 
   INNER JOIN customers c ON (t.id = c.id)
   INNER JOIN offers o ON (c.offer = o.offer)
@@ -140,22 +148,32 @@ Abfrage für die Marken-Features dargestellt:
 \begin{lstlisting}[language=SQL]
 CREATE TABLE category_features AS
 SELECT ever.id, ever.tx_count, ever.quantity, ever.cost,
-before30.tx_count AS tx_count_30, before30.quantity AS quantity_30, before30.cost AS cost_30,
-before60.tx_count AS tx_count_60, before60.quantity AS quantity_60, before60.cost AS cost_60,
-before90.tx_count AS tx_count_90, before90.quantity AS quantity_90, before90.cost AS cost_90,
-before180.tx_count AS tx_count_180, before180.quantity AS quantity_180, before180.cost AS cost_180
+  before30.tx_count AS tx_count_30,
+  before30.quantity AS quantity_30,
+  before30.cost AS cost_30,
+  before60.tx_count AS tx_count_60,
+  before60.quantity AS quantity_60,
+  before60.cost AS cost_60,
+  before90.tx_count AS tx_count_90,
+  before90.quantity AS quantity_90,
+  before90.cost AS cost_90,
+  before180.tx_count AS tx_count_180,
+  before180.quantity AS quantity_180,
+  before180.cost AS cost_180
 FROM 
-(SELECT id, COUNT(*) AS tx_count, SUM(purchasequantity) AS quantity, 
-SUM(purchaseamount) AS cost
-FROM filtered_tx_category
-GROUP BY id
+(SELECT id, COUNT(*) AS tx_count, 
+  SUM(purchasequantity) AS quantity, 
+  SUM(purchaseamount) AS cost
+  FROM filtered_tx_category
+  GROUP BY id
 ) ever
 LEFT JOIN
-(SELECT id, COUNT(*) AS tx_count, SUM(purchasequantity) AS quantity, 
-SUM(purchaseamount) AS cost
-FROM filtered_tx_category
-WHERE daysbefore <= 30
-GROUP BY id
+(SELECT id, COUNT(*) AS tx_count, 
+  SUM(purchasequantity) AS quantity, 
+  SUM(purchaseamount) AS cost
+  FROM filtered_tx_category
+  WHERE daysbefore <= 30
+  GROUP BY id
 ) before30
 ON (ever.id = before30.id)
 LEFT JOIN
@@ -198,6 +216,8 @@ positiven Wirkung auf das Kaufverhalten aus. Wir ergänzen diese um negative Fea
 Bei der Umwandlung der Features von CSV in das Format von Vowpal Wabbit 
 erzeugen wir Features für Kunden, die noch nie Produkte der Marke,
 des Unternehmens bzw. der Kategorie ihres Gutscheins gekauft haben.
+Dazu wird das zuständige Python-Skript erweitert (die angepasste Version ist in Anhang 
+\ref{code:features-to-vw-4}).
 \begin{lstlisting}[language=Python]
 # Negative Features erzeugen, wenn nichts gekauft wurde
 if len(row['b_tx_count']) == 0:
@@ -226,15 +246,17 @@ gekauft hat.
 
 \begin{lstlisting}[language=SQL]
 SELECT f.*, 
-  CAST(b_tx_count > 0 AND co_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_co_ca,
-  CAST(b_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_ca,
-  CAST(b_tx_count > 0 AND co_tx_count > 0 AS INTEGER) AS any_b_co
+ CAST(b_tx_count > 0 AND co_tx_count > 0 AND ca_tx_count > 0 
+  AS INTEGER) AS any_b_co_ca,
+ CAST(b_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_ca,
+ CAST(b_tx_count > 0 AND co_tx_count > 0 AS INTEGER) AS any_b_co
 FROM test_features f
 
 SELECT f.*, 
-  CAST(b_tx_count > 0 AND co_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_co_ca,
-  CAST(b_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_ca,
-  CAST(b_tx_count > 0 AND co_tx_count > 0 AS INTEGER) AS any_b_co
+ CAST(b_tx_count > 0 AND co_tx_count > 0 AND ca_tx_count > 0 
+  AS INTEGER) AS any_b_co_ca,
+ CAST(b_tx_count > 0 AND ca_tx_count > 0 AS INTEGER) AS any_b_ca,
+ CAST(b_tx_count > 0 AND co_tx_count > 0 AS INTEGER) AS any_b_co
 FROM train_features f
 \end{lstlisting}
 
@@ -249,17 +271,21 @@ Wir verwenden wie zuvor Vowpal Wabbit, um die Vorhersage zu generieren:
 Mit diesem Verfahren erreichen wir erneut eine Verbesserung unserer Platzierung.
 
 \subsubsection{Iteration 6}
-Bisher haben wir nur einen kleinen Teil der Daten zu Features verarbeitet, da wir nur Transaktionen
-beachtet haben, die sich auf den entsprechenden Gutschein für den Kunden beziehen. Jetzt führen wir die globalen Features "`Anzahl der Transaktionen"' und "`Gesamte Umsatzsumme"' ein. Diese Features erzeugen wir in eigenen Tabellen und führen diese mit den bereits generierten Features zusammen (s. Anhang \ref{code:totals}).
+Bisher haben wir nur einen kleinen Teil der Daten zur Generierung von Features verwendet,
+da wir nur Transaktionen beachtet haben, die sich auf den entsprechenden Gutschein für 
+den Kunden beziehen. 
+Jetzt führen wir die globalen Features "`Anzahl der Transaktionen"' und "`Gesamte Umsatzsumme"' ein. Diese Features erzeugen wir in einer eigenen Tabelle und führen diese mit den bereits generierten Features zusammen (s. Anhang \ref{code:totals}).
 
 \begin{lstlisting}[language=SQL]
 CREATE TABLE totals AS
-  SELECT t.id, COUNT(*) AS total_count, SUM(t.purchaseamount) AS total_spent
+  SELECT t.id, COUNT(*) AS total_count, 
+         SUM(t.purchaseamount) AS total_spent
   FROM transactions t
   GROUP BY t.id
 \end{lstlisting}
 
 Das Ergebnis fällt enttäuschend aus und liegt leicht unter der bisherigen Bestmarke:
+
 \begin{tabular}{|c|c|}
 	\hline \textbf{Platzierung} & \textbf{Bewertung} \\ 
 	\hline 262 & 0.59228  \\ 
